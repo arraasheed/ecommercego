@@ -3,7 +3,50 @@
 **ব্যবহারবিধি:** নিচের প্রম্পটগুলো **একটি একটি করে** দেবেন। এক নম্বর শেষ হলে দুই নম্বর।
 
 **BULK মডেলের ভূমিকা:** যান্ত্রিক, পুনরাবৃত্তিমূলক bulk edit — নির্দিষ্ট recipe অনুযায়ী।
-**BULK মডেল না থাকলে** এই টাস্কগুলো যেকোনো মডেল বা Claude করতে পারবে। প্রতিটি টাস্ক self-contained।
+**BULK slot = যেকোনো একটি উপলব্ধ মডেল** (Ling 3.0 Flash / MiniMax 2.5 / Nemotron 3.5
+Light / Claude)। প্রতিটি টাস্ক self-contained, তাই মডেল বদলালে — এমনকি মাঝপথে
+বদলালেও — সমস্যা নেই।
+
+---
+
+## 🔴 প্রতিটি টাস্কে যা মানতে হবে (টোকেন লিমিট ফুরিয়ে গেলেও কাজ হারাবে না)
+
+BULK মডেলের দৈনিক টোকেন লিমিট মাঝপথে ফুরিয়ে যেতে পারে। তখন মডেল রিসেট হয়ে সব
+ভুলে যায়। তাই দুইটি নিয়ম **বাধ্যতামূলক**:
+
+### নিয়ম ১ — শুরুতে নিজের অবস্থান খুঁজে নাও
+
+```
+১. পড়ো:  .ai/PROJECT_CONTEXT.md
+২. পড়ো:  .ai/PROGRESS.md
+৩. চালাও: git log --oneline -20
+৪. চালাও: git status --short
+```
+
+PROGRESS.md-এ তোমার টাস্ক যদি **🟨 IN PROGRESS** থাকে → এর মানে আগের সেশনে কাজ
+অসম্পূর্ণ রেখে থেমে গিয়েছিলে। তখন সেই টাস্কের `.ai/reports/` ফাইলটি পড়ো, কোন
+ফাইল পর্যন্ত শেষ হয়েছে দেখো, **তার পরের ফাইল থেকে শুরু করো**।
+
+⛔ আগে শেষ হওয়া ফাইল আবার করবে না। একই script দুইবার wrap করলে
+`window.onTurboLoad(window.onTurboLoad(...))` হয়ে কোড ভেঙে যাবে।
+
+### নিয়ম ২ — প্রতি ৫টি ফাইলে checkpoint commit
+
+টাস্ক শেষ হওয়ার জন্য অপেক্ষা করবে না। **প্রতি ৫টি ফাইল শেষ করার সাথে সাথে:**
+
+```
+১. .ai/reports/<এই টাস্কের রিপোর্ট>.md এ ওই ৫টি ফাইলের সারি যোগ করো
+২. .ai/PROGRESS.md এ অবস্থা 🟨 IN PROGRESS রাখো,
+   নোট কলামে লিখো: "N/মোট ফাইল শেষ"
+৩. git add -A
+   git commit -m "wip(<scope>): <কাজ> files X-Y  [BULK-<N>]"
+```
+
+উদাহরণ: `git commit -m "wip(turbo): batch 1 files 1-5  [BULK-2]"`
+
+সব ফাইল শেষ হলে তখন আসল commit করবে এবং অবস্থা ✅ DONE করবে।
+
+**কেন:** এতে সবচেয়ে খারাপ ক্ষেত্রেও সর্বোচ্চ ৪ ফাইলের কাজ হারাবে, ২০টার নয়।
 
 ---
 
@@ -50,6 +93,13 @@ git checkout -b day1/asset-pipeline
 ৪. যদি img আগে থেকেই `loading=` রাখে → স্পর্শ করবে না, তালিকায় রাখো।
 
 ৫. `<img>` যদি Blade variable দিয়ে তৈরি হয় (যেমন `{!! $html !!}`) → স্পর্শ করবে না।
+
+### 🔁 checkpoint (বাধ্যতামূলক)
+
+প্রতি ৫টি blade ফাইল শেষ করার পর:
+- `.ai/reports/img-lazy-report.md` এ ওই ৫টি ফাইলের সারি যোগ করো
+- `.ai/PROGRESS.md` এ BULK-1 → 🟨 IN PROGRESS, নোটে "N/মোট ফাইল শেষ"
+- `git add -A && git commit -m "wip(images): lazy loading files X-Y  [BULK-1]"`
 
 ### উদাহরণ
 
@@ -179,6 +229,16 @@ window.onTurboOnce(function () {
 - third-party script (analytics, pixel, payment SDK) স্পর্শ করবে না।
 - inventory-তে নেই এমন ফাইল খুলবে না।
 
+### 🔁 checkpoint (বাধ্যতামূলক — এই টাস্কে সবচেয়ে জরুরি)
+
+২০টি ফাইল একটানা করার চেষ্টা করবে না। **প্রতি ৫টি ফাইল শেষ করার পর:**
+- `.ai/reports/turbo-migration-batch1.md` এ ওই ৫টি ফাইলের সারি যোগ করো
+- `.ai/PROGRESS.md` এ BULK-2 → 🟨 IN PROGRESS, নোটে "N/২০ ফাইল শেষ"
+- `git add -A && git commit -m "wip(turbo): batch 1 files X-Y  [BULK-2]"`
+
+⛔ নতুন সেশনে শুরু করলে আগে রিপোর্ট দেখো কোন ফাইল শেষ — সেগুলো **আবার
+wrap করবে না**। দুইবার wrap হলে nested `onTurboLoad` হয়ে কোড ভাঙবে।
+
 ### সম্পন্ন করার পর
 
 ১. রিপোর্ট: `.ai/reports/turbo-migration-batch1.md`
@@ -225,6 +285,11 @@ branch: git checkout day2/turbo-drive
 - external script স্পর্শ নয়
 - inventory-র বাইরের ফাইল খোলা নয়
 
+🔁 checkpoint: প্রতি ৫ ফাইলে রিপোর্ট আপডেট + 🟨 IN PROGRESS +
+`git commit -m "wip(turbo): batch 2 files X-Y  [BULK-3]"`
+নতুন সেশনে শুরু করলে রিপোর্ট দেখে বাদ পড়া ফাইল থেকে শুরু করো — শেষ হওয়া
+ফাইল আবার wrap করবে না।
+
 সম্পন্ন করার পর:
 ১. রিপোর্ট: `.ai/reports/turbo-migration-batch2.md` (batch1 এর মতো ফরম্যাট)
 ২. `.ai/PROGRESS.md`-এ BULK-3 → ✅ DONE
@@ -262,6 +327,11 @@ branch: git checkout day2/turbo-drive
 - service worker registration → স্পর্শ করবে না (Claude আলাদাভাবে করবে)
 
 শ্রেণি C (INLINE-DATA), D (THIRD-PARTY), E (UNCLEAR) → **স্পর্শ করবে না।**
+
+🔁 checkpoint: প্রতি ৫ ফাইলে রিপোর্ট আপডেট + 🟨 IN PROGRESS +
+`git commit -m "wip(turbo): batch 3 files X-Y  [BULK-4]"`
+এই batch-এ ফাইল সংখ্যা বেশি হতে পারে, তাই checkpoint বাদ দিলে কাজ হারানোর
+ঝুঁকি সবচেয়ে বেশি।
 
 সম্পন্ন করার পর:
 ১. রিপোর্ট: `.ai/reports/turbo-migration-batch3.md`
@@ -560,5 +630,6 @@ git commit -m "feat(mobile): CSS card view for admin datatables on mobile  [BULK
 2. **রেসিপি হুবহু মানবে।** নিজের বুদ্ধিতে "আরও ভালো" করার চেষ্টা করবে না — এখানে সামঞ্জস্য বেশি জরুরি।
 3. **সন্দেহ হলে স্পর্শ করবে না।** রিপোর্টে "Claude দেখবে" লিখে রাখবে।
 4. **আটকে গেলে** `.ai/PROGRESS.md`-এর Blockers-এ লিখে থামবে।
-5. **কাজ হারিয়ে গেলে** — `.ai/PROGRESS.md` পড়ো + `git log --oneline -15` চালাও।
-6. **`app/`, `routes/`, `database/`, `vendor/`, `packages/` — এই ফোল্ডারগুলো তোমার জন্য নিষিদ্ধ।**
+5. **প্রতি ৫ ফাইলে checkpoint commit** — উপরের "🔴 প্রতিটি টাস্কে যা মানতে হবে" সেকশন দেখো। এটি বাদ দিলে টোকেন লিমিট ফুরালে কাজ হারাবে।
+6. **কাজ হারিয়ে গেলে** — `.ai/PROGRESS.md` পড়ো + `git log --oneline -20` চালাও + এই টাস্কের `.ai/reports/` ফাইল পড়ো। শেষ হওয়া ফাইল আবার করবে না।
+7. **`app/`, `routes/`, `database/`, `vendor/`, `packages/` — এই ফোল্ডারগুলো তোমার জন্য নিষিদ্ধ।**

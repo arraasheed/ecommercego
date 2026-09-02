@@ -185,12 +185,28 @@ Laravel 11 Blade (অপরিবর্তিত)
 
 ```
 master               ← স্থিতিশীল, শুধু টেস্ট পাস করা কাজ merge হবে
-  └─ tag: baseline-v0    ← WorkDo-র একদম অস্পৃশ্য অবস্থা
+  └─ tag: baseline-v0    ← WorkDo-র একদম অস্পৃশ্য অবস্থা (commit 17a47e9)
 day1/asset-pipeline
 day2/turbo-drive
 day3/pwa-workbox
 day4/mobile-polish
 ```
+
+### `.gitignore` কী বাদ দেয় (Day 0-এ যাচাই করা)
+
+| বাদ | কারণ | ফেরানোর উপায় |
+|---|---|---|
+| `.env` | ডেটাবেস পাসওয়ার্ড, API key | `.env.example` থেকে |
+| `vendor/` (177 MB) | dependency | `composer install` |
+| `node_modules/` (39 MB) | dependency | `npm install` |
+| `public/build/` | Vite output | `npm run build` |
+| `public/storage` | symlink | `php artisan storage:link` |
+| `storage/debugbar`, cache, logs | runtime junk | নিজেই তৈরি হয় |
+| uploads (`storage/app/public/uploads`) | ব্যবহারকারীর মিডিয়া, কোড নয় | — |
+| `.ai/state/` | machine-local crash journal | — |
+| `.ai/screenshots/` | বড় বাইনারি, স্থানীয় প্রমাণ | — |
+
+ট্র্যাক করা হয়েছে: **3051 ফাইল, ~156 MB** (কোড, theme, packages, public assets)।
 
 ### সব ফেরত নেওয়ার কমান্ড (emergency)
 ```powershell
@@ -198,6 +214,9 @@ cd C:\laragon\www\ecommercego
 git reset --hard baseline-v0
 git clean -fd
 ```
+
+⚠️ `git clean -fd` ignored ফাইল মুছবে **না** (`-x` দেওয়া হয়নি)। তাই `vendor/`,
+`node_modules/`, `.env`, uploads — সব অক্ষত থাকবে। এটি ইচ্ছাকৃত।
 
 ### প্রতিটি টাস্ক শেষে
 ```powershell
@@ -207,7 +226,13 @@ git commit -m "<type>(<scope>): <what>  [<MODEL>-<TASK#>]"
 ```
 উদাহরণ: `git commit -m "perf(vite): bundle 28 admin css into single file  [CLAUDE-2]"`
 
-`<type>` = `perf` | `feat` | `fix` | `refactor` | `chore` | `docs`
+`<type>` = `perf` | `feat` | `fix` | `refactor` | `chore` | `docs` | `wip`
+
+### বড় batch টাস্কে: প্রতি ৫ ফাইলে checkpoint commit
+
+BULK মডেলের টোকেন লিমিট মাঝপথে ফুরালে uncommitted কাজ হারায়। তাই BULK-1 …
+BULK-4 এ প্রতি ৫ ফাইল শেষে `wip(...)` commit + রিপোর্ট আপডেট + PROGRESS.md-এ
+🟨 IN PROGRESS বাধ্যতামূলক। বিস্তারিত `.ai/BULK_TASKS.md`-এর শুরুতে।
 
 ---
 
@@ -239,7 +264,23 @@ Claude-এর হাতে Playwright MCP + chrome-devtools MCP আছে। স
 | **Gemini** | `.ai/GEMINI_TASKS.md` | বড় context বিশ্লেষণ — asset audit, inventory তৈরি, class scan, রিপোর্ট | নিম্ন (শুধু পড়া + রিপোর্ট) |
 | **BULK মডেল** | `.ai/BULK_TASKS.md` | যান্ত্রিক bulk edit — নির্দিষ্ট recipe অনুযায়ী ১৭০টি script wrap, component generate | মধ্যম |
 
-**BULK মডেল না থাকলে** তার ফাইলের টাস্ক যেকোনো মডেল (বা Claude) করতে পারবে — টাস্কগুলো self-contained।
+### BULK slot — মডেল-নিরপেক্ষ
+
+মূল প্ল্যানে এই ভূমিকায় DeepSeek ছিল, কিন্তু সেটি অনুপলব্ধ। তাই ফাইল ও টাস্ক
+আইডি থেকে মডেলের নাম সরিয়ে দেওয়া হয়েছে: `BULK_TASKS.md`, `BULK-1` … `BULK-7`।
+
+উপলব্ধ যেকোনো একটি ব্যবহার করা যাবে — Ling 3.0 Flash (দ্রুত ও সস্তা, প্রথম
+পছন্দ), MiniMax 2.5 (বড় context), Nemotron 3.5 Light, বা Claude নিজেই।
+
+**মডেল মাঝপথে বদলালেও সমস্যা নেই।** কারণ:
+- প্রতিটি টাস্ক self-contained — আগের কনভার্সেশন লাগে না
+- অবস্থা তিন জায়গায় ডিস্কে লেখা: `git log`, `.ai/PROGRESS.md`, `.ai/reports/*.md`
+- বড় batch টাস্কে **প্রতি ৫ ফাইলে checkpoint commit** বাধ্যতামূলক, তাই টোকেন
+  লিমিট মাঝপথে ফুরালেও সর্বোচ্চ ৪ ফাইলের কাজ হারায়
+
+⚠️ **`.agents/hooks.json` auto-resume শুধু Antigravity-তে চলে।** BULK মডেল অন্য
+টুলে চলবে, তাই সেখানে ব্যবহারকারী `.ai/PROGRESS.md`-এর শুরুতে থাকা **বুট
+প্রম্পট** পেস্ট করবেন — সেটি টুল-নিরপেক্ষ।
 
 ---
 

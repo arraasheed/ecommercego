@@ -160,8 +160,10 @@ function parseProgress(md) {
 
     if (!line.startsWith('|')) continue;
 
-    // Task id: CLAUDE-3 / GEMINI-12 / DEEPSEEK-7
-    const idMatch = line.match(/\b(CLAUDE|GEMINI|DEEPSEEK)-(\d{1,3})\b/i);
+    // Task id: CLAUDE-3 / GEMINI-12 / BULK-7
+    // BULK is the model-neutral slot (Ling / MiniMax / Nemotron / any).
+    // DEEPSEEK kept for backward compatibility with older PROGRESS.md tables.
+    const idMatch = line.match(/\b(CLAUDE|GEMINI|BULK|DEEPSEEK)-(\d{1,3})\b/i);
     if (!idMatch) continue;
 
     let status = null;
@@ -306,7 +308,7 @@ function buildBrief(payload) {
       push('Left mid-flight: ' + inProg.map((t) => `${t.id} (${t.title})`).join(' · '));
     }
 
-    for (const m of ['GEMINI', 'CLAUDE', 'DEEPSEEK']) {
+    for (const m of ['GEMINI', 'CLAUDE', 'BULK', 'DEEPSEEK']) {
       const n = nextActionable(progress.tasks, m);
       if (n) push(`Next for ${m}: ${n.id} [${n.status}] ${n.title}`);
     }

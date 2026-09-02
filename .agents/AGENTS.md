@@ -20,21 +20,46 @@ Then open your own task file and work on **one numbered prompt only**:
 
 ## 1. Resuming after a crash, restart, or power loss
 
-An automatic hook injects a resume brief at the start of every session
+In Antigravity, a hook injects a resume brief at the start of every session
 (`.agents/scripts/resume-context.cjs`). It reads `.ai/PROGRESS.md`, `git log`,
 and the crash journal at `.ai/state/`.
 
-**If the user says "continue" or "resume the work", do not ask them what you
-were doing.** The brief already told you. If for any reason it did not:
+**In any other tool (OpenCode, Cursor, web chat) that hook does not run.** There,
+reconstruct the state yourself — it takes four commands:
 
 ```
-git log --oneline -15
-git status --short
+read  .ai/PROJECT_CONTEXT.md
+read  .ai/PROGRESS.md
+run   git log --oneline -20
+run   git status --short
 ```
-then read `.ai/PROGRESS.md`. That is enough to reconstruct the state.
+
+**If the user says "continue" or "resume the work", do not ask them what you
+were doing.** Find your first `⬜ PENDING` or `🟨 IN PROGRESS` task in the
+PROGRESS.md table and pick it up.
+
+If your task is `🟨 IN PROGRESS`, read its report in `.ai/reports/` to see which
+files are already done, and continue from the next one. **Never redo a finished
+file** — double-wrapping a script breaks the code.
 
 **When `git log` and `PROGRESS.md` disagree, git is correct.** Commits cannot
 lie; a markdown table can be stale. Fix the table, do not redo the work.
+
+## 1a. Checkpoint every 5 files on bulk tasks
+
+Cheap models hit daily token limits mid-task and reset with no memory. A commit
+only at the end of a 20-file task means losing 13 files of work.
+
+On BULK-1 … BULK-4, after every 5 files:
+
+```
+1. append those 5 rows to the task's report in .ai/reports/
+2. set the task to 🟨 IN PROGRESS in .ai/PROGRESS.md, note "N/total done"
+3. git add -A
+   git commit -m "wip(<scope>): <task> files X-Y  [<MODEL>-<TASK#>]"
+```
+
+Worst case then loses 4 files, not 20.
 
 ## 2. Never touch these
 

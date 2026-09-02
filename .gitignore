@@ -58,8 +58,10 @@
 # Machine-local crash journal — see .ai/PROJECT_CONTEXT.md section 2.1
 /.ai/state
 # Browser-test screenshots: large binaries, local evidence only.
-# Ignored so they are never wiped by `git clean -fd`.
-/.ai/screenshots
+# Ignored so they are never wiped by `git clean -fd`, but the folder itself is
+# kept in the repo so models always have somewhere to write.
+/.ai/screenshots/*
+!/.ai/screenshots/.gitkeep
 
 # ── Editors / OS ────────────────────────────────────────────────────────────
 /.idea

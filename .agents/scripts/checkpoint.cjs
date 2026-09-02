@@ -117,7 +117,7 @@ function declaredTask() {
     for (const raw of md.split(/\r?\n/)) {
       const line = raw.trim();
       if (!line.startsWith('|') || !line.includes('🟨')) continue;
-      const m = line.match(/\b(CLAUDE|GEMINI|DEEPSEEK)-(\d{1,3})\b/i);
+      const m = line.match(/\b(CLAUDE|GEMINI|BULK|DEEPSEEK)-(\d{1,3})\b/i);
       if (m) return `${m[1].toUpperCase()}-${m[2]}`;
     }
   } catch {

@@ -9,21 +9,71 @@
 
 ## 🚀 যেকোনো মডেলের জন্য বুট-আপ নির্দেশনা (প্রতিবার এটাই করবে)
 
-> **Antigravity-তে এটি এখন স্বয়ংক্রিয়।** `.agents/hooks.json` এর PreInvocation hook
-> প্রতি সেশনের শুরুতে নিজেই `PROGRESS.md` + `git log` + crash journal পড়ে একটি
-> resume brief inject করে। তাই ব্যবহারকারীকে আর কিছু ব্যাখ্যা করতে হবে না —
-> শুধু **"কাজ কন্টিনিউ করো"** বললেই চলবে।
-> নিচের ধাপগুলো ম্যানুয়াল fallback হিসেবে রাখা হলো।
+> **স্মৃতি মডেলের মাথায় নয় — ডিস্কে।** টোকেন লিমিট ফুরিয়ে গেলে, পিসি রিস্টার্ট
+> হলে, বা কনভার্সেশন হারিয়ে গেলে মডেল সব ভুলে যায়। কিন্তু কাজের অবস্থা তিন
+> জায়গায় লেখা থাকে, তাই কিছুই হারায় না:
+>
+> | কোথায় | কী বলে |
+> |---|---|
+> | `git log` | আসলে কী কমিট হয়েছে — **এটাই চূড়ান্ত সত্য** |
+> | `.ai/PROGRESS.md` | কোন টাস্ক ✅ DONE, কোনটা ⬜ PENDING |
+> | `.ai/reports/*.md` | কোন ফাইলে কী করা হয়েছে, সারি ধরে |
+>
+> Antigravity-তে `.agents/hooks.json` এই কাজটি স্বয়ংক্রিয়ভাবে করে।
+> **অন্য টুলে (OpenCode, Cursor, ওয়েব চ্যাট) hook চলবে না** — তখন ব্যবহারকারী
+> নিচের বুট প্রম্পটটি পেস্ট করবেন। এটি সব মডেলে, সব টুলে কাজ করে।
+
+### 📋 ব্যবহারকারীর জন্য: নতুন সেশনে প্রথমে এই প্রম্পটটি পেস্ট করুন
+
+নিচের বক্সের ভেতরের অংশ হুবহু কপি করে **যেকোনো** মডেলকে দিন (টাস্ক প্রম্পটের
+আগে)। এটি দিলে মডেল নিজেই খুঁজে নেবে কোথায় থেমেছিল।
 
 ```
-১. পড়ো:  .ai/PROJECT_CONTEXT.md      (নিয়ম ও আর্কিটেকচার)
-২. পড়ো:  .ai/PROGRESS.md             (এই ফাইল — কোথায় আছি)
-৩. চালাও: git log --oneline -15       (আসলে কী কমিট হয়েছে)
-৪. চালাও: git status --short          (অসমাপ্ত কাজ আছে কি)
-৫. খোঁজো: নিচের টেবিলে তোমার নামের প্রথম `⬜ PENDING` টাস্ক
-৬. পড়ো:  .ai/<তোমার নাম>_TASKS.md    → সেই টাস্ক নম্বরের প্রম্পট
-৭. কাজ করো → টেস্ট করো → commit করো → এই ফাইল আপডেট করো
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+১. পড়ো:  .ai/PROJECT_CONTEXT.md
+২. পড়ো:  .ai/PROGRESS.md
+৩. চালাও: git log --oneline -20
+৪. চালাও: git status --short
+
+তারপর PROGRESS.md-এর টেবিলে তোমার নামের (Claude / Gemini / BULK) প্রথম
+⬜ PENDING বা 🟨 IN PROGRESS টাস্ক খুঁজে বের করো।
+
+- 🟨 IN PROGRESS পেলে → সেই টাস্কের `.ai/reports/` ফাইলটি পড়ো, কোন ফাইল
+  পর্যন্ত শেষ হয়েছে দেখো, তার পরের ফাইল থেকে শুরু করো।
+  ⛔ আগে শেষ হওয়া ফাইল আবার করবে না — দুইবার wrap করলে কোড ভাঙবে।
+- ⬜ PENDING পেলে → তোমার টাস্ক ফাইল থেকে সেই নম্বরের প্রম্পট পড়ে শুরু করো।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোন ফাইল থেকে শুরু করছ।
 ```
+
+মডেল উত্তরে বলবে যেমন — *"আমি BULK-2 এ আছি, ৩৭ নম্বর ফাইল থেকে শুরু করছি"*।
+তখন আপনি নিশ্চিত হবেন এটি সঠিক জায়গায় আছে। ভুল বললে শুধু সংশোধন করে দিন।
+
+### 🔁 মাঝপথে লিমিট ফুরিয়ে গেলে কাজ না হারানোর নিয়ম (checkpoint commit)
+
+**সমস্যা:** commit হয় টাস্ক শেষে। ২০ ফাইলের কাজে ১৩ ফাইল করার পর লিমিট
+ফুরালে ওই ১৩ ফাইল uncommitted, রিপোর্ট লেখা হয়নি — নতুন সেশন কিছুই জানবে না।
+
+**নিয়ম (বড় batch টাস্কে বাধ্যতামূলক — BULK-1 থেকে BULK-4):**
+
+```
+প্রতি ৫টি ফাইল শেষ করার পর সাথে সাথে:
+
+১. .ai/reports/<task-report>.md এ ওই ৫টি ফাইলের সারি যোগ করো
+২. .ai/PROGRESS.md এ টাস্কের অবস্থা 🟨 IN PROGRESS রাখো,
+   নোট কলামে লিখো "N/মোট ফাইল শেষ"
+৩. git add -A
+   git commit -m "wip(<scope>): <task> files X-Y  [<MODEL>-<TASK#>]"
+```
+
+উদাহরণ: `git commit -m "wip(turbo): batch 1 files 1-5  [BULK-2]"`
+
+সব ফাইল শেষ হলে তখন আসল commit (`refactor(turbo): ... [BULK-2]`) করবে এবং
+অবস্থা ✅ DONE করবে। তাতে সবচেয়ে খারাপ ক্ষেত্রেও ৪ ফাইলের কাজ হারাবে, ২০টার নয়।
 
 **⚠️ git log এবং এই ফাইল যদি না মেলে — git log-কে সত্য ধরবে।** কমিট মিথ্যা বলে না।
 
@@ -34,16 +84,18 @@
 | বিষয় | মান |
 |---|---|
 | প্রজেক্ট পাথ | `C:\laragon\www\ecommercego` |
-| APP_URL | `http://localhost/ecommercego` |
-| Storefront URL | `http://localhost/ecommercego/{store-slug}` |
-| Admin URL | `http://localhost/ecommercego/login` |
+| APP_URL (`.env`) | `http://ecommercego.dev` |
+| Storefront URL | `http://ecommercego.dev/{store-slug}` |
+| Admin URL | `http://ecommercego.dev/login` |
+| ⚠️ URL যাচাই | Day 0-এ `ecommercego.dev`, `ecommercego.test`, `localhost/ecommercego` — **তিনটিই unreachable**। Laragon বন্ধ ছিল। প্রথম ব্রাউজার টেস্টের আগে Laragon চালু করতে হবে এবং সঠিক URL এখানে লিখতে হবে। |
 | DB | MySQL — `ecommercego` |
-| CACHE_DRIVER | `file` ⚠️ (Redis-এ বদলানো হবে — CLAUDE-9) |
+| CACHE_DRIVER / CACHE_STORE | `file` ⚠️ (Redis-এ বদলানো হবে — CLAUDE-9) |
 | SESSION_DRIVER | `file` ⚠️ |
 | Server | Laragon (Apache) |
-| Node | ইনস্টল আছে ✅ |
-| Playwright | Chromium ইনস্টল ✅ |
-| git baseline tag | `baseline-v0` |
+| Node / npm | `v26.4.0` / `11.17.0` ✅ |
+| Playwright Chromium | `chromium-1234`, `chromium-1243` ইনস্টল ✅ |
+| git branch | `master` |
+| git baseline tag | `baseline-v0` → commit `17a47e9` |
 
 ### টেস্ট ক্রেডেনশিয়াল
 ```
@@ -55,25 +107,58 @@ Slug   : (ব্যবহারকারী দেবেন)
 
 ---
 
+## 🤖 কোন মডেল কোন ফাইল ব্যবহার করবে
+
+| মডেল | টাস্ক ফাইল | ভূমিকা |
+|---|---|---|
+| Claude | `.ai/CLAUDE_TASKS.md` | আর্কিটেকচার, integration, ব্রাউজার টেস্ট, সব merge |
+| Gemini | `.ai/GEMINI_TASKS.md` | বিশ্লেষণ ও রিপোর্ট (কোনো কোড পরিবর্তন নয়) |
+| **BULK মডেল** | `.ai/BULK_TASKS.md` | যান্ত্রিক bulk edit — recipe অনুযায়ী |
+
+**BULK slot = যেকোনো একটি উপলব্ধ সস্তা/দ্রুত মডেল।** মূল প্ল্যানে DeepSeek ছিল,
+কিন্তু সেটি অনুপলব্ধ। তাই ফাইলের নাম মডেল-নিরপেক্ষ করা হয়েছে (`BULK_TASKS.md`)
+এবং টাস্ক আইডি `BULK-1` … `BULK-7`।
+
+| প্রার্থী | context | মন্তব্য |
+|---|---|---|
+| Ling 3.0 Flash | ~128K | দ্রুত ও সস্তা — প্রথম পছন্দ |
+| MiniMax 2.5 | ~200K | বড় context, ভালো বিকল্প |
+| Nemotron 3.5 Light | ~131K | instruction-following ভালো |
+
+⚠️ **BULK মডেল বদলালে কোনো সমস্যা নেই** — এমনকি মাঝপথে বদলালেও। টাস্কগুলো
+self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লেখা থাকে। নতুন মডেল
+শুধু উপরের বুট প্রম্পট পেলেই কাজ ধরতে পারবে।
+
+---
+
 ## 📊 সামগ্রিক অবস্থা
 
-**বর্তমান পর্যায়:** Day 0 — সেটআপ সম্পন্ন, Day 1 শুরুর অপেক্ষা
-**সর্বশেষ আপডেট:** সেটআপ পর্যায়
-**সর্বশেষ কমিট:** `b6a4b3e` — baseline snapshot
+**বর্তমান পর্যায়:** Day 0 সম্পন্ন — Day 1 শুরুর জন্য প্রস্তুত
+**সর্বশেষ আপডেট:** Day 0 (git + `.ai/` + `.agents/` বাস্তবে বসানো হলো)
+**সর্বশেষ কমিট:** `17a47e9` — baseline snapshot, tag `baseline-v0`
+
+**Day 1 শুরুর ক্রম:** GEMINI-1 → GEMINI-2 → *(এই দুইটি শেষ হলে)* → CLAUDE-1
+BULK-1 স্বাধীন, যেকোনো সময় চালানো যায়।
 
 ---
 
 ## ✅ সম্পন্ন হয়েছে (Day 0 — সেটআপ)
 
-| # | কাজ | কে | ফলাফল |
-|---|---|---|---|
-| 0.1 | git init + `.gitignore` + baseline commit | Claude | ✅ commit `b6a4b3e`, tag `baseline-v0` |
-| 0.2 | Playwright MCP + chrome-devtools MCP যোগ | Claude | ✅ `~/.config/opencode/opencode.jsonc` |
-| 0.3 | Chromium ব্রাউজার ডাউনলোড | Claude | ✅ `ms-playwright/chromium-1234` |
-| 0.4 | Vision model আপগ্রেড (Qwen3-VL-8B → 235B) | Claude | ✅ non-vision মডেলও স্ক্রিনশট পড়তে পারবে |
-| 0.5 | কোডবেস স্ক্যান + সমস্যা চিহ্নিতকরণ | Claude | ✅ ৮টি সমস্যা (P1-P8) — `PROJECT_CONTEXT.md` |
-| 0.6 | `.ai/` ডকুমেন্টেশন সিস্টেম তৈরি | Claude | ✅ ৫টি ফাইল |
-| 0.7 | ক্র্যাশ-প্রুফ auto-resume hook (Antigravity) | Claude | ✅ `.agents/` — PreInvocation + PostToolUse + Stop, সব failure mode টেস্ট করা |
+| # | কাজ | ফলাফল |
+|---|---|---|
+| 0.1 | git init + `.gitignore` + baseline commit + tag | ✅ commit `17a47e9`, tag `baseline-v0`, branch `master`, 3051 ফাইল / 156 MB ট্র্যাক করা |
+| 0.2 | `.gitignore` — গোপনীয়তা ও আকার | ✅ `.env`, `vendor/` (177 MB), `node_modules/` (39 MB), `storage/debugbar`, uploads বাদ। যাচাই করা: staged ফাইলে কোনো secret নেই |
+| 0.3 | Playwright MCP + chrome-devtools MCP | ✅ `~/.config/opencode/opencode.jsonc` |
+| 0.4 | Chromium ব্রাউজার | ✅ `chromium-1234` + `chromium-1243` |
+| 0.5 | Vision model আপগ্রেড (Qwen3-VL 8B → 235B) | ✅ non-vision মডেলও স্ক্রিনশট পড়তে পারবে |
+| 0.6 | কোডবেস স্ক্যান + সমস্যা চিহ্নিতকরণ | ✅ ৮টি সমস্যা (P1-P8) — `PROJECT_CONTEXT.md` |
+| 0.7 | `.ai/` ডকুমেন্টেশন সিস্টেম | ✅ ৫টি ডক + `reports/` + `screenshots/` + `state/` — প্রজেক্টের ভেতরে বসানো |
+| 0.8 | `.agents/` auto-resume hook (Antigravity) | ✅ PreInvocation + PostToolUse + Stop। ⚠️ শুধু Antigravity-তে চলে — অন্য টুলে উপরের বুট প্রম্পট ব্যবহার করতে হবে |
+| 0.9 | DeepSeek → BULK slot রূপান্তর | ✅ `DEEPSEEK_TASKS.md` → `BULK_TASKS.md`, ৩৮টি টাস্ক আইডি `BULK-N`, checkpoint commit নিয়ম যোগ |
+
+> **সংশোধনের নোট:** Day 0-এর আগের সংস্করণে দাবি করা ছিল git repo ও `.ai/`
+> তৈরি হয়ে গেছে (commit `b6a4b3e`)। বাস্তবে ফাইলগুলো Desktop-এ পড়ে ছিল, `.git`
+> ছিল না। এই সেশনে সত্যিকারভাবে বসানো হলো — তাই commit hash এখন `17a47e9`।
 
 ---
 
@@ -155,3 +240,7 @@ Slug   : (ব্যবহারকারী দেবেন)
 | Day 0 | Tailwind Play CDN অপসারণ = সর্বোচ্চ প্রাধান্য | 466 KB + runtime CSS generation = সবচেয়ে বড় performance killer |
 | Day 0 | git init বাধ্যতামূলক করা হলো | প্রতিটি ধাপে ফেরার পথ; মডেল ভুল করলে instant restore |
 | Day 0 | vision model 8B → 235B | non-vision মডেলও যাতে স্ক্রিনশট নির্ভুল পড়তে পারে |
+| Day 0 | DeepSeek slot → মডেল-নিরপেক্ষ "BULK" slot | DeepSeek অনুপলব্ধ। ফাইল/টাস্ক আইডিতে মডেলের নাম থাকলে নতুন মডেল বিভ্রান্ত হয় ("এটা আমার ফাইল না")। এখন Ling / MiniMax / Nemotron — যেকোনোটি, এমনকি মাঝপথে বদলালেও চলবে |
+| Day 0 | checkpoint commit (প্রতি ৫ ফাইল) যোগ করা হলো | সস্তা মডেলের টোকেন লিমিট মাঝপথে ফুরায়; টাস্ক-শেষে-commit নিয়মে ২০ ফাইলের কাজ হারানোর ঝুঁকি ছিল, এখন সর্বোচ্চ ৪ ফাইল |
+| Day 0 | বুট প্রম্পট PROGRESS.md-এ লেখা হলো | `.agents/hooks.json` শুধু Antigravity-তে চলে। BULK মডেল অন্য টুলে চলবে — তাই টুল-নিরপেক্ষ, কপি-পেস্ট-যোগ্য একটি প্রম্পট দরকার ছিল |
+| Day 0 | `screenshots/` ও `state/` git-ignored | বড় বাইনারি ও machine-local runtime state। ignored থাকায় `git clean -fd`-এ মুছবেও না |
