@@ -1,0 +1,34 @@
+﻿{
+  "auto-resume": {
+    "enabled": true,
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "node scripts/resume-context.cjs",
+        "timeout": 20
+      }
+    ]
+  },
+  "crash-journal": {
+    "enabled": true,
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/checkpoint.cjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "node scripts/checkpoint.cjs",
+        "timeout": 10
+      }
+    ]
+  }
+}
