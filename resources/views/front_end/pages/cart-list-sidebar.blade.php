@@ -16,7 +16,7 @@
         <div class="flex gap-3 border-b pb-4">
             <a href="{{ url($slug.'/product/'. getProductSlug($product->product_id)) }}" class="w-20 h-24 rounded-md overflow-hidden bg-gray-100 border p-3">
                 <img src="{{ get_file($product->image) }}" alt="Artisan Sourdough Bread"
-                    class="object-contain h-full w-full" />
+                    class="object-contain h-full w-full" loading="lazy" decoding="async" />
             </a>
             <div class="flex-1">
                 <div class="flex items-center justify-between gap-3 mb-1">
