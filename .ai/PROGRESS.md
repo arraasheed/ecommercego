@@ -221,7 +221,7 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 | GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/asset-inventory.md` · Claude যাচাই: সংখ্যা নির্ভুল |
 | GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | `c945b79` | রিপোর্ট → `.ai/reports/tailwind-classes.md` · ⚠️ safelist অসম্পূর্ণ — যাচাই: `.ai/reports/gemini2-verification.md`, CLAUDE-1 এ ৪টি class যোগ করতে হবে |
 | CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` → `c69e14a` | Play CDN 466KB সরানো · FCP −148ms, LCP −196ms, TBT −66% · ৫ পেজে pixel-diff = 0 · রিপোর্ট → `.ai/reports/benchmark.md` |
-| CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ⬜ PENDING | — | |
+| CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ✅ DONE | `9d4d831` | CSS requests 20→2 (−90%), CSS bytes 994→755.7 KB (−24%), LCP −80ms · 4 variants (RTL/dark) · kill-switch `LEGACY_ADMIN_CSS` · রিপোর্ট → `.ai/reports/admin-css-map.md` · benchmark updated |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ✅ DONE | `f9e6f11` | ৪৫ img: ২৬ lazy + ৯ eager(LCP) + ৮ আগে থেকে · ব্যতিক্রম ২ (FB pixel, commented) · রিপোর্ট → `.ai/reports/img-lazy-report.md` · missing dims → `.ai/reports/img-missing-dimensions.md` |
 | CLAUDE-4  Day 1 ব্রাউজার টেস্ট + Lighthouse | Claude | ⬜ PENDING | — | before/after সংখ্যা |
