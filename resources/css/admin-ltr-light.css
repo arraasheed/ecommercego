@@ -1,0 +1,25 @@
+/*
+ * Admin CSS bundle - LTR + light  (the default variant).
+ *
+ * Replaces 28 separate <link> tags in resources/views/layouts/app.blade.php.
+ * Import order below is byte-for-byte the same cascade order as the original
+ * links, which is what guarantees the design does not shift:
+ *
+ *   _admin-plugins.css        = layout lines 83-100 (above the @if block)
+ *   style.css / custom.css    = layout line  115-116 (the @else branch)
+ *   loader.css                = layout line  117
+ *   _admin-plugins-after.css  = layout lines 120-127 (below the @if block)
+ *
+ * No @tailwind directives here on purpose. The admin layout never loaded
+ * Tailwind (no @vite, no tailwind.js, verified by grep across the layout and
+ * every partision/*.blade.php). Adding @tailwind base would inject Preflight
+ * on top of a Bootstrap 5.2 design and change every heading, list and form
+ * control on all 123 admin views.
+ */
+@import url('./_admin-plugins.css');
+
+@import url('../../public/assets/css/style.css');
+@import url('../../public/css/custom.css');
+@import url('../../public/css/loader.css');
+
+@import url('./_admin-plugins-after.css');

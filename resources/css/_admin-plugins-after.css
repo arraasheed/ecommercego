@@ -1,0 +1,15 @@
+/*
+ * Admin plugin CSS that originally sat BELOW the conditional theme block in
+ * resources/views/layouts/app.blade.php (lines 120-127).
+ *
+ * These four files must keep loading after style.css / custom.css, because
+ * that is the cascade the current design depends on - e.g. summernote and
+ * flatpickr rules that override the theme would stop winning if they were
+ * merged into _admin-plugins.css. Splitting the plugin CSS into a "before"
+ * and an "after" partial is what keeps the bundle byte-for-byte equivalent
+ * in cascade order to the 28 separate <link> tags.
+ */
+@import url('../../public/assets/css/plugins/flatpickr.min.css');
+@import url('../../public/assets/css/summernote/summernote-bs4.css');
+@import url('../../public/css/emojionearea.min.css');
+@import url('../../public/css/calendar.css');

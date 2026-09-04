@@ -1,0 +1,18 @@
+/*
+ * Admin CSS bundle - LTR + dark.
+ * Mirrors resources/views/layouts/app.blade.php lines 106-109
+ * (@elseif cust_darklayout == 'on').
+ *
+ * Only the theme file differs from admin-ltr-light.css: style-dark.css instead
+ * of style.css. custom.css and loader.css are shared with the light variant -
+ * that is how the original layout did it too.
+ *
+ * See admin-ltr-light.css for why there are no @tailwind directives.
+ */
+@import url('./_admin-plugins.css');
+
+@import url('../../public/assets/css/style-dark.css');
+@import url('../../public/css/custom.css');
+@import url('../../public/css/loader.css');
+
+@import url('./_admin-plugins-after.css');

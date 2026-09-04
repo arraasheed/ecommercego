@@ -1,0 +1,18 @@
+/*
+ * Admin CSS bundle - RTL + light.
+ * Mirrors resources/views/layouts/app.blade.php lines 110-113
+ * (@elseif SITE_RTL == 'on').
+ *
+ * Theme:  style-rtl.css        (instead of style.css)
+ * Custom: rtl-custom.css       (instead of custom.css)
+ * Loader: rtl-loader.css       (instead of loader.css)
+ *
+ * See admin-ltr-light.css for why there are no @tailwind directives.
+ */
+@import url('./_admin-plugins.css');
+
+@import url('../../public/assets/css/style-rtl.css');
+@import url('../../public/css/rtl-custom.css');
+@import url('../../public/css/rtl-loader.css');
+
+@import url('./_admin-plugins-after.css');

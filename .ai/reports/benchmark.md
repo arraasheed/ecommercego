@@ -112,19 +112,67 @@ at-rule-এর **আগে** থাকতে হয়। `@config` উপরে
 
 ---
 
-## পরিবর্তিত ফাইল
+## Admin CSS Bundling (P3 — CLAUDE-2)
 
-| ফাইল | কী হলো |
-|---|---|
-| `package.json` | ৮টি dependency exact version-এ pin (`^` সরানো), `terser` যোগ |
-| `tailwind.config.js` | অপরিবর্তিত রাখা হলো admin-এর জন্য (`forms` সহ) — শুধু ব্যাখ্যা কমেন্ট |
-| `tailwind.store.config.js` 🆕 | storefront config — theme content path, hex color, safelist, **plugin ছাড়া** |
-| `resources/css/store.css` 🆕 | `@import` → `@config` → `@tailwind` |
-| `vite.config.js` | `store.css` entry যোগ |
-| `.htaccess` | rewrite whitelist-এ `build` যোগ (উপরে বাগ ১) |
-| `.env.example` | `LEGACY_TAILWIND_CDN=false` |
-| `themes/stylique/views/front_end/layouts/app.blade.php` | kill-switch: `@if (env('LEGACY_TAILWIND_CDN', false))` |
-| `themes/stylique/assets/js/custom.js` | `window.tailwind = window.tailwind \|\| {}` guard — CDN ছাড়া `tailwind.config = {...}` ReferenceError দিত |
+| মেট্রিক | BEFORE (28 links) | AFTER (4 bundles) | উন্নতি |
+|---|---|---|---|
+| **CSS requests** | 20 | 2 | −18 (−90%) |
+| **CSS bytes** | 994 KB | 755.7 KB | −238.3 KB (−24%) |
+| **FCP** | 1288 ms | 1312 ms | +24 ms (noise) |
+| **LCP** | 1444 ms | 1364 ms | −80 ms (−5.5%) |
+| **Total requests** | 60 | 42 | −18 |
+| **Variants** | N/A | 4 (LTR/RTL × light/dark) | — |
+
+**Method:** 3 runs per mode, fresh context + cache disabled, mobile viewport 412×915, median values reported.
+
+### CSS Bundling Details
+
+- `admin-ltr-light.css` (737.4 KB minified) → `/build/assets/admin-ltr-light-*.css`
+- `admin-ltr-dark.css` (749.1 KB)
+- `admin-rtl-light.css` (749.9 KB)
+- `admin-rtl-dark.css` (751.5 KB)
+
+Includes: select2, notifier, bootstrap-switch, datatable, custom-color, tabler-icons, feather, fontawesome, customizer, dropzone, flatpickr, summernote, emojionearea, calendar, plus theme + custom + loader CSS.
+
+**Removed:** material.css (unused), leaflet.css (Leaflet JS never loaded).
+
+### Kill-Switch
+
+```env
+LEGACY_ADMIN_CSS=false   # Default — use bundled variants
+LEGACY_ADMIN_CSS=true    # Fallback — restore 28 separate links
+```
+
+### Dark/RTL Toggle
+
+The brand settings page has live preview toggles for dark mode and RTL. The footer script swaps `#main-style-link` and `#main-style-custom-link` hrefs to create a preview. With bundling:
+- Bundle loads with correct variant (determined by `$adminCssVariant` in layout)
+- Two placeholder `<link>` elements with those IDs exist but have no href (no request)
+- Toggle sets their href to legacy CSS files, which cascade on top of bundle for preview
+- Form submission reloads page and correct bundle loads
+
+This preserves all functionality without modifying `footerlink.blade.php`.
+
+## পরিবর্তিত ফাইল (সব দিন)
+
+| ফাইল | কী হলো | ডে |
+|---|---|---|
+| `package.json` | ৮টি dependency exact version-এ pin (`^` সরানো), `terser` যোগ | ১ |
+| `tailwind.config.js` | অপরিবর্তিত রাখা হলো admin-এর জন্য (`forms` সহ) — শুধু ব্যাখ্যা কমেন্ট | ১ |
+| `tailwind.store.config.js` 🆕 | storefront config — theme content path, hex color, safelist, **plugin ছাড়া** | ১ |
+| `resources/css/store.css` 🆕 | `@import` → `@config` → `@tailwind` | ১ |
+| `resources/css/_admin-plugins.css` 🆕 | Admin plugins CSS before theme (select2, notifier, icon fonts, etc.) | ১ |
+| `resources/css/_admin-plugins-after.css` 🆕 | Admin plugins CSS after theme (flatpickr, summernote, calendar) | ১ |
+| `resources/css/admin-ltr-light.css` 🆕 | Admin LTR + light theme bundle entry | ১ |
+| `resources/css/admin-ltr-dark.css` 🆕 | Admin LTR + dark theme bundle entry | ১ |
+| `resources/css/admin-rtl-light.css` 🆕 | Admin RTL + light theme bundle entry | ১ |
+| `resources/css/admin-rtl-dark.css` 🆕 | Admin RTL + dark theme bundle entry | ১ |
+| `vite.config.js` | 4 admin entries added (P3 bundling) | ১ |
+| `.env.example` | `LEGACY_TAILWIND_CDN=false`, `LEGACY_ADMIN_CSS=false` | ১ |
+| `resources/views/layouts/app.blade.php` | Compute `$adminCssVariant`, add `@if LEGACY_ADMIN_CSS` kill-switch, use `@vite`, add placeholder links | ১ |
+| `.htaccess` | rewrite whitelist-এ `build` যোগ (উপরে বাগ ১) | ১ |
+| `themes/stylique/views/front_end/layouts/app.blade.php` | kill-switch: `@if (env('LEGACY_TAILWIND_CDN', false))` | ১ |
+| `themes/stylique/assets/js/custom.js` | `window.tailwind = window.tailwind \|\| {}` guard | ১ |
 
 ### বিল্ড আউটপুট
 ```

@@ -48,6 +48,22 @@
     if ($setting['currantLang'] == 'ar' || $setting['currantLang'] == 'he') {
         $setting['SITE_RTL'] = 'on';
     }
+
+    // Compute admin CSS variant based on RTL + dark layout settings (P3 optimization).
+    // The four variants are registered in vite.config.js and built from resources/css/admin-*.css.
+    // This matches the conditional block below (lines 102-118) exactly, and $adminCssVariant
+    // is used in the @vite() call to pick the correct variant bundle.
+    $isRTL = isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on';
+    $isDark = isset($setting['cust_darklayout']) && $setting['cust_darklayout'] == 'on';
+    if ($isRTL && $isDark) {
+        $adminCssVariant = 'admin-rtl-dark';
+    } elseif ($isDark) {
+        $adminCssVariant = 'admin-ltr-dark';
+    } elseif ($isRTL) {
+        $adminCssVariant = 'admin-rtl-light';
+    } else {
+        $adminCssVariant = 'admin-ltr-light';
+    }
 @endphp
 
 <!DOCTYPE html>
@@ -80,52 +96,70 @@
 
     <title>{{ isset($setting['title_text']) ? $setting['title_text'] : ( env('APP_NAME') ?? 'Ecommercego saas') }} - @yield('page-title') </title>
 
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/select2.min.css') }}">
-    <!-- Favicon icon -->
-    <link rel="icon" href="{{ isset($setting['favicon']) ? get_file($setting['favicon']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/favicon.png')) . '?timestamp=' . time() }}" type="image/x-icon" />
+    @if (env('LEGACY_ADMIN_CSS', false))
+        {{-- Kill-switch: Use legacy 28 separate CSS links instead of bundled Vite entry. --}}
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/select2.min.css') }}">
+        <!-- Favicon icon -->
+        <link rel="icon" href="{{ isset($setting['favicon']) ? get_file($setting['favicon']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/favicon.png')) . '?timestamp=' . time() }}" type="image/x-icon" />
 
-    <!-- notification css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/notifier.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/bootstrap-switch-button.min.css') }}">
-    <!-- datatable css -->
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/custom-color.css') }}">
-    <!-- Fonts -->
-    <!-- font css -->
-    <link rel="stylesheet" href="{{ asset('/assets/fonts/tabler-icons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/fonts/feather.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/fonts/fontawesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/fonts/material.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/customizer.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/assets/css/plugins/dropzone.css') }}" type="text/css" />
+        <!-- notification css -->
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/notifier.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/bootstrap-switch-button.min.css') }}">
+        <!-- datatable css -->
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/custom-color.css') }}">
+        <!-- Fonts -->
+        <!-- font css -->
+        <link rel="stylesheet" href="{{ asset('/assets/fonts/tabler-icons.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/assets/fonts/feather.css') }}">
+        <link rel="stylesheet" href="{{ asset('/assets/fonts/fontawesome.css') }}">
+        <link rel="stylesheet" href="{{ asset('/assets/fonts/material.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/customizer.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/assets/css/plugins/dropzone.css') }}" type="text/css" />
 
-    @if (isset($setting['cust_darklayout']) && isset($setting['SITE_RTL']) && $setting['cust_darklayout'] == 'on' && $setting['SITE_RTL'] == 'on')
-        <link rel="stylesheet" href="{{ asset('public/assets/css/rtl-style-dark.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}" >
-    @elseif(isset($setting['cust_darklayout']) && $setting['cust_darklayout'] == 'on')
-        <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-        <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
-    @elseif(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on')
-        <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}" >
+        @if (isset($setting['cust_darklayout']) && isset($setting['SITE_RTL']) && $setting['cust_darklayout'] == 'on' && $setting['SITE_RTL'] == 'on')
+            <link rel="stylesheet" href="{{ asset('public/assets/css/rtl-style-dark.css') }}" id="main-style-link">
+            <link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}" >
+        @elseif(isset($setting['cust_darklayout']) && $setting['cust_darklayout'] == 'on')
+            <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
+        @elseif(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on')
+            <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" id="main-style-link">
+            <link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}" >
+        @else
+            <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
+        @endif
+
+        <link rel="stylesheet" href="{{ asset('assets/css/plugins/flatpickr.min.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/summernote/summernote-bs4.css') }}">
+
+
+
+        <link rel="stylesheet" href="{{ asset('css/emojionearea.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     @else
-        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-        <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
+        {{-- New (P3): Bundle all admin CSS into 4 variants (RTL/LTR × dark/light) --}}
+        <!-- Favicon icon -->
+        <link rel="icon" href="{{ isset($setting['favicon']) ? get_file($setting['favicon']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/favicon.png')) . '?timestamp=' . time() }}" type="image/x-icon" />
+
+        @vite(['resources/css/' . $adminCssVariant . '.css'])
+
+        {{-- Placeholder links for dark/RTL toggle in footerlink.blade.php. These have no href
+             attribute (no network request) but carry the IDs that the toggle JavaScript expects
+             to find. When the user toggles dark mode on the Settings page, the JS sets the href
+             to the legacy CSS files, creating a live preview before the form submits and reloads
+             with the correct variant. The placeholder links position after @vite so the toggled
+             stylesheet cascades on top of the bundle. --}}
+        <link rel="stylesheet" id="main-style-link">
+        <link rel="stylesheet" id="main-style-custom-link">
     @endif
-
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/flatpickr.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('assets/css/summernote/summernote-bs4.css') }}">
-
-
-
-    <link rel="stylesheet" href="{{ asset('css/emojionearea.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 
     <!-- Scripts -->
