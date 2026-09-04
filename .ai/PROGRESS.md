@@ -223,7 +223,7 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 | CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` → `c69e14a` | Play CDN 466KB সরানো · FCP −148ms, LCP −196ms, TBT −66% · ৫ পেজে pixel-diff = 0 · রিপোর্ট → `.ai/reports/benchmark.md` |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ⬜ PENDING | — | |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
-| BULK-1  Image → lazy + width/height | BULK মডেল | ⬜ PENDING | — | CLS fix |
+| BULK-1  Image → lazy + width/height | BULK মডেল | 🟨 IN PROGRESS | `349d4bf` | পাইলট ৩ img ✅ · বাকি ৩৪ img / ২৩ ফাইল · অবস্থা → `.ai/reports/img-lazy-report.md` |
 | CLAUDE-4  Day 1 ব্রাউজার টেস্ট + Lighthouse | Claude | ⬜ PENDING | — | before/after সংখ্যা |
 
 ### Day 2 — Turbo Drive (branch: `day2/turbo-drive`)
