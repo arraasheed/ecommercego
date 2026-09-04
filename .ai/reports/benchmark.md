@@ -180,6 +180,118 @@ kill-switch: `LEGACY_ASSET_TIME_BUSTER=true` — তিনটি helper এক�
 `time()` আচরণে ফিরে যায়, কোনো blade ছোঁয়া লাগে না। বিস্তারিত:
 `.ai/reports/cache-buster-map.md`
 
+---
+
+# Day 1 Final — সব পরিবর্তন একসাথে (CLAUDE-4)
+
+**তারিখ:** Day 1 শেষ · **পরিমাপকারী:** Claude (Playwright + chrome-devtools MCP)
+**Viewport:** 412 × 915 (mobile, DPR 2, touch) · **throttling:** none · **runs:** ৩ (median)
+
+## পদ্ধতি — "BEFORE" মানে কী
+
+আগের তিনটি সেকশন প্রতিটি টাস্ক আলাদাভাবে মেপেছিল। এখানে **তিনটি kill-switch
+একসাথে** ঘুরিয়ে master-এর আসল অবস্থা বনাম day1 branch-এর আসল অবস্থা মাপা হলো:
+
+| মোড | `.env` |
+|---|---|
+| **BEFORE** | `LEGACY_TAILWIND_CDN=true` · `LEGACY_ADMIN_CSS=true` · `LEGACY_ASSET_TIME_BUSTER=true` |
+| **AFTER** | তিনটিই `false` (branch ডিফল্ট) |
+
+দুইটি অবস্থাই মাপা হয়েছে — **cold** (`Network.setCacheDisabled`, প্রথম ভিজিট)
+এবং **warm** (একবার লোড করে, তারপর দ্বিতীয় লোড মাপা — P5-এর লাভ এখানেই দেখা যায়)।
+
+⚠️ পরিমাপের সময় DB-তে ৩টি product, ২টি category, ১টি order ছিল (CLAUDE-4-এর
+টেস্ট ফিক্সচার)। আগের সেকশনগুলো খালি DB-তে মাপা, তাই সরাসরি তুলনীয় নয় —
+এই সেকশনের BEFORE/AFTER দুইটিই একই ডেটার উপরে।
+
+## Storefront — `/stylique/home` (mobile)
+
+| মেট্রিক | BEFORE | AFTER | পরিবর্তন |
+|---|---|---|---|
+| **FCP** (cold) | 1408 ms | **1108 ms** | −300 ms (−21%) |
+| **LCP** (cold) | 1568 ms | **1296 ms** | −272 ms (−17%) |
+| **TBT** (cold) | 175 ms | **35 ms** | −140 ms (−80%) |
+| CLS | 0.00 | 0.00 | অপরিবর্তিত |
+| **FCP** (warm) | 1028 ms | **932 ms** | −96 ms |
+| **LCP** (warm) | 1028 ms | **932 ms** | −96 ms |
+| **TBT** (warm) | 74 ms | **5 ms** | −69 ms (−93%) |
+| **মোট payload** | 4480.4 KB | **4096.1 KB** | −384.3 KB (−8.6%) |
+| **JS** | 1049.8 KB | **583.4 KB** | −466.4 KB (−44%) |
+| CSS | 154.1 KB | 236.2 KB | +82.1 KB (Play CDN-এর runtime CSS এখন স্ট্যাটিক ফাইল) |
+| CSS request | 7 | 6 | −1 |
+| ছবি | 2875.6 KB | 2875.6 KB | অপরিবর্তিত |
+| **request সংখ্যা** | 41 | **39** | −2 |
+| warm লোডে **নতুন ডাউনলোড** | 6 / 41 | **4 / 39** | ২টি কম |
+| TTFB | 944 ms | 778 ms | server noise (একই কোড পথ) |
+
+## Admin — `/dashboard` (mobile)
+
+| মেট্রিক | BEFORE | AFTER | পরিবর্তন |
+|---|---|---|---|
+| **request সংখ্যা** | 64 | **46** | −18 (−28%) |
+| **CSS request** | 20 | **2** | −18 (−90%) |
+| **CSS bytes** | 994.0 KB | **755.7 KB** | −238.3 KB (−24%) |
+| **মোট payload** | 8964.1 KB | **8724.3 KB** | −239.8 KB |
+| JS | 3085.6 KB | 3085.6 KB | অপরিবর্তিত (Day 2-এর কাজ) |
+| FCP (cold) | 1152 ms | 1092 ms | −60 ms |
+| LCP (cold) | 1220 ms | 1172 ms | −48 ms |
+| CLS | 0.00 | 0.00 | অপরিবর্তিত |
+| FCP / LCP (warm) | 972 / 1024 ms | 980 / 1020 ms | noise |
+| warm লোডে **নতুন ডাউনলোড** | 10 / 64 | **3 / 46** | ৭টি কম |
+
+Admin-এ LCP প্রায় একই থাকার কারণ: FCP/LCP এখানে **TTFB-নির্ভর** (≈765 ms,
+`APP_DEBUG=true` + file cache)। CSS request ২০ → ২ হলেও ওই ২০টি সমান্তরালে
+নামত, তাই ওয়াল-ক্লক সময়ে বড় লাফ দেয় না। আসল লাভ: −18 request, −238 KB,
+এবং mobile/3G-তে যেখানে connection সীমিত সেখানে অনেক বেশি।
+
+## chrome-devtools trace (একই viewport, আসল trace)
+
+| পেজ | LCP | CLS | TTFB | render delay |
+|---|---|---|---|---|
+| storefront home | **950 ms** | 0.00 | 747 ms | 175 ms |
+| admin dashboard | **1323 ms** | 0.00 | 743 ms | 579 ms |
+
+দুই পেজেই DevTools-এর সবচেয়ে বড় সুপারিশ **DocumentLatency** — অর্থাৎ
+সমস্যা এখন frontend asset নয়, **server response time**:
+
+| Insight | storefront | admin |
+|---|---|---|
+| DocumentLatency (FCP/LCP savings) | 645 ms | 641 ms |
+| text compression দিলে সঞ্চয় | 66 KB | 72.5 KB |
+| LegacyJavaScript (অপ্রয়োজনীয় polyfill) | 15.4 KB | 54.7 KB |
+
+**যাচাই করা হয়েছে: কোনো response-এ `Content-Encoding` নেই** — Apache-তে
+gzip/brotli বন্ধ। HTML/CSS/JS-এ এটি ~৭০% সঞ্চয় দিত। এটি CLAUDE-9 (Day 3,
+Redis + OPcache)-এর সাথে একসাথে করার কাজ, Day 1-এর স্কোপে নয়।
+
+## kill-switch — তিনটিই দুই দিকে পরীক্ষিত
+
+| ফ্ল্যাগ | `true` করলে যা ফিরে আসে | যাচাই |
+|---|---|---|
+| `LEGACY_TAILWIND_CDN` | `tailwind.js` Play CDN script উপস্থিত, `/build/` CSS অনুপস্থিত | ✅ `.flex` কাজ করে (CDN runtime), পেজ height 5007 (mobile), ৯টি add-to-cart বাটন |
+| `LEGACY_ADMIN_CSS` | ২০টি আলাদা CSS link (bundle 0) | ✅ tabler-icons ফন্ট লোড, `.btn-primary` = rgb(16,183,127), ApexChart render |
+| `LEGACY_ASSET_TIME_BUSTER` | `?v=1788553020` টাইপ URL ফিরে আসে | ✅ 4টি URL-এ time() buster, কোনো 404 নেই |
+
+তিনটি একসাথে `true` → পুরো master আচরণ, ০ console error। তারপর তিনটিই
+`false` → বর্তমান অবস্থা, ০ console error। `php artisan config:clear` ছাড়া
+কিছুই লাগে না।
+
+## Day 0 লক্ষ্যমাত্রার বিপরীতে
+
+| মাপকাঠি (PROJECT_CONTEXT §7) | লক্ষ্য | এখন | অবস্থা |
+|---|---|---|---|
+| প্রথম লোড JS (storefront) | < 400 KB | 583.4 KB | 🟨 আংশিক — ১.৫ MB `all.min.js` Day 2-এ ভাঙা হবে |
+| কোনো ফিচার ভেঙেছে? | ০ | **০** | ✅ |
+| Navigation < 300 ms | Turbo দরকার | — | Day 2 |
+| PWA installable | — | — | Day 3 |
+| Lighthouse mobile ≥ 85 / 75 | — | trace নেওয়া হয়েছে, স্কোর নয় | 🟨 Day 3-এ TTFB ঠিক করার পর অর্থবহ |
+
+Lighthouse-এর সংখ্যাসূচক স্কোর ইচ্ছাকৃতভাবে দেওয়া হলো না: `APP_DEBUG=true` +
+`CACHE_DRIVER=file`-এ TTFB ≈765 ms, যা একা Performance স্কোরকে টেনে নামায়।
+CLAUDE-9-এর পর সেটি মাপা অর্থবহ হবে। এখন Core Web Vitals সরাসরি মাপা হয়েছে।
+
+---
+
 ## পরিবর্তিত ফাইল (সব দিন)
 
 | ফাইল | কী হলো | ডে |

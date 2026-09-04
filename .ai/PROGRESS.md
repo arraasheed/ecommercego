@@ -102,14 +102,15 @@ git log আর PROGRESS.md না মিললে git-কে সত্য ধর
 | Admin URL | `http://ecommercego.dev/login` |
 | ✅ URL যাচাই | Day 1-এ Laragon চালু, `http://ecommercego.dev` কাজ করছে। টেস্টে ব্যবহৃত: `http://ecommercego.dev/stylique/home` |
 | টেস্ট store | `id=2`, slug `stylique`. ⚠️ `theme_id` ছিল `greentic` — CLAUDE-1-এ `stylique` করা হয়েছে (DB আপডেট, কোড নয়) |
-| ⚠️ DB-তে ডেটা | `products` টেবিল **খালি** (0 row), `categories` খালি। তাই cart/checkout flow টেস্ট করা যায় না |
+| ✅ DB-তে ডেটা | CLAUDE-4-এ টেস্ট ফিক্সচার বসানো হয়েছে (শুধু DB, কোনো কোড নয়): **৩ product · ২ category · ১ brand · ১ label · ৩ product image · ১ customer (`buyer@example.com` / `1234`) · ১ order (COD)**। এতে cart → checkout → order পুরো flow টেস্ট করা যায়। rollback SQL: `%TEMP%\opencode\seed-day1-test.sql`-এর নিচে |
 | DB | MySQL — `ecommercego` · CLI: `C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysql.exe -uroot ecommercego` |
 | CACHE_DRIVER / CACHE_STORE | `file` ⚠️ (Redis-এ বদলানো হবে — CLAUDE-9) |
 | SESSION_DRIVER | `file` ⚠️ |
+| ⚠️ gzip / brotli | **বন্ধ** — কোনো response-এ `Content-Encoding` নেই। DevTools: storefront 66 KB, admin 72.5 KB সঞ্চয় সম্ভব, FCP/LCP ~640 ms। CLAUDE-9-এ Apache কনফিগে ঠিক করতে হবে |
 | Server | Laragon (Apache) — **docroot প্রজেক্ট root, `public/` নয়**। root `.htaccess` whitelist দিয়ে rewrite করে |
 | Node / npm | `v26.4.0` / `11.17.0` ✅ |
 | Playwright Chromium | `chromium-1234`, `chromium-1243` ইনস্টল ✅ |
-| git branch | `day1/asset-pipeline` |
+| git branch | `master` (Day 1 merged, tag `day1-complete`) · পরের কাজ → `day2/turbo-drive` |
 | git baseline tag | `baseline-v0` → commit `17a47e9` |
 | **git remote** | `origin` → `https://github.com/arraasheed/ecommercego.git` (public) |
 
@@ -139,7 +140,9 @@ GitHub সেটিংসে ডিফল্ট `master` করতে পার�
 ```
 Super Admin : superadmin@example.com / 1234
 Store Admin : admin@example.com / 1234
+Customer    : buyer@example.com / 1234        (CLAUDE-4-এ তৈরি, store 2)
 Store slug  : stylique   (URL: http://ecommercego.dev/stylique/home)
+টেস্ট product: test-cotton-shirt · test-organic-rice · test-olive-oil
 ```
 
 ---
@@ -172,34 +175,52 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 
 ## 📊 সামগ্রিক অবস্থা
 
-**বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1, GEMINI-2, CLAUDE-1, CLAUDE-2, BULK-1, CLAUDE-3 সম্পন্ন
-**সর্বশেষ আপডেট:** Day 1 (CLAUDE-3 শেষ — cache-buster mtime-ভিত্তিক, ৩২টি resource-এর ৩১টি এখন disk cache থেকে আসে)
-**সর্বশেষ কমিট:** `78f421b` — perf(cache): replace time() cache-busters with mtime-based versioning [CLAUDE-3]
-**সক্রিয় branch:** `day1/asset-pipeline`
+**বর্তমান পর্যায়:** ✅ **Day 1 সম্পূর্ণ — Day 2 শুরুর জন্য প্রস্তুত**
+**সর্বশেষ আপডেট:** Day 1 শেষ (CLAUDE-4 — ২৩ পেজ × ২ viewport regression পাস, ০ নতুন console error, master-এ merge, tag `day1-complete`)
+**সক্রিয় branch:** `master` · পরের কাজ → `git checkout -b day2/turbo-drive`
 
-**Day 1 ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → ~~CLAUDE-1~~ → ~~CLAUDE-2~~ → ~~BULK-1~~ → ~~CLAUDE-3~~ → **CLAUDE-4 (Day 1 ব্রাউজার টেস্ট + Lighthouse) এখন চালানো যায়**
+**Day 1 ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → ~~CLAUDE-1~~ → ~~CLAUDE-2~~ → ~~BULK-1~~ → ~~CLAUDE-3~~ → ~~CLAUDE-4~~ ✅ **শেষ**
 
-⚠️ **CLAUDE-4-এর জন্য গুরুত্বপূর্ণ (CLAUDE-3 থেকে):**
-- Lighthouse/benchmark নেওয়ার আগে **cache warm করতে হবে** — প্রথম লোডে সব
-  200 আসবে, দ্বিতীয় লোড থেকেই mtime-caching-এর লাভ দেখা যাবে। "cache
-  disabled" মোডে মাপলে P5-এর উন্নতি সংখ্যায় ধরা পড়বে না।
-- Admin dashboard-এর ApexCharts radial chart (`Storage Status`) প্রতি
-  render-এ ভিন্ন animation frame-এ ধরা পড়ে। pixel-diff করলে ওই অঞ্চল
-  (`80,3390 – 340,3700` @ 407px viewport) mask করতে হবে, নাহলে ~1000 px
-  মিথ্যা diff আসবে।
-- `partision/head.blade.php:52`-এ `css/custome.css` — বানান ভুল, ফাইল নেই,
-  404 দেয়। CLAUDE-3-এ ইচ্ছাকৃতভাবে ছোঁয়া হয়নি (সংশোধন করলে হঠাৎ নতুন CSS
-  চালু হয়ে ডিজাইন বদলাতে পারে)। CLAUDE-4-এ সিদ্ধান্ত নিতে হবে।
+**Day 2 ক্রম:** **CLAUDE-5 (Turbo ইনস্টল + bootstrap) এখন চালানো যায়** → BULK-2/3/4 → CLAUDE-6 → CLAUDE-7 → CLAUDE-8
 
-⚠️ **CLAUDE-2-এর জন্য গুরুত্বপূর্ণ (CLAUDE-1 থেকে শেখা):**
-- root `.htaccess`-এর rewrite whitelist-এ `build` যোগ করা আছে। ওই লাইন
-  না থাকলে Vite-এর সব আউটপুট 404 দেয় এবং পেজ সম্পূর্ণ unstyled হয়।
-- admin bundle-এ `tailwind.config.js` (forms plugin সহ) ব্যবহার করবে;
-  storefront-এর `tailwind.store.config.js` ছোঁবে না।
-- Vite bundle-এ CSS import করার আগে দেখো ভেতরে relative `url()` আছে কি না
-  (যেমন `all.min.css`-এ `../webfonts/`) — থাকলে আলাদা `<link>`-এ রাখো।
-- বিল্ডের পর **শুধু "build সফল" দেখে থামবে না** — ব্রাউজারে computed style
-  যাচাই করো (`getComputedStyle`), না হলে ভাঙা CSS ধরা পড়বে না।
+### Day 1-এর সংক্ষিপ্ত ফলাফল (mobile, cold, median of 3)
+
+| মেট্রিক | Before | After | পরিবর্তন |
+|---|---|---|---|
+| storefront মোট payload | 4480.4 KB | 4096.1 KB | −384.3 KB (−8.6%) |
+| storefront JS | 1049.8 KB | 583.4 KB | −466.4 KB (−44%) |
+| storefront request | 41 | 39 | −2 |
+| storefront LCP | 1568 ms | 1296 ms | −272 ms (−17%) |
+| storefront TBT | 175 ms | 35 ms | −140 ms (−80%) |
+| admin request | 64 | 46 | −18 (−28%) |
+| admin CSS request | 20 | 2 | −18 (−90%) |
+| admin CSS bytes | 994.0 KB | 755.7 KB | −238.3 KB (−24%) |
+| CLS (দুইটিতেই) | 0.00 | 0.00 | অপরিবর্তিত |
+
+বিস্তারিত → `.ai/reports/benchmark.md` ("Day 1 Final") ও `.ai/reports/day1-final-test.md`
+
+---
+
+## ⚠️ Day 2-এর জন্য গুরুত্বপূর্ণ (CLAUDE-4 থেকে)
+
+- **`script-inventory.md` পুনর্নির্মাণ করা হয়েছে** (GEMINI-3-এর ভাঙা রিপোর্টের
+  বদলে)। স্ক্যানার: `.agents/scripts/scan-inline-scripts.cjs`, পুনরায় চালানো
+  নিরাপদ। ফলাফল: **199 ফাইলে 300 inline script block** —
+  A 129 / B 91 / C 19 / D 12 / E 49। মেশিন-পাঠযোগ্য: `script-inventory.json`
+- 🔴 **50টি ব্লক "mixed A+B"** — একই `<script>`-এ widget init *এবং*
+  `$(document).on()` delegation। পুরোটা `turbo:load`-এ wrap করলে প্রতি
+  navigation-এ handler ডুপ্লিকেট হবে (double add-to-cart), না করলে widget
+  হারাবে। **BULK-2/3/4-এর recipe-এ এই ৫০টি আলাদা করে দিতে হবে।**
+- re-init লাগবে যেসব widget: DataTable, select2, summernote, flatpickr, Swiper,
+  ApexCharts, Dropzone, bootstrap modal, switchButton, jquery.steps,
+  jquery.validate, choices.js, emojionearea, flipdown, leaflet, sortable
+- **DB-তে এখন টেস্ট ডেটা আছে** (৩ product, ১ order, ১ customer) — CLAUDE-8-এর
+  ২০ পেজ টেস্টে cart/checkout/order flow যাচাই করা যাবে। মুছবেন না।
+- **stylique ছাড়া অন্য থিম এখনো Play CDN-এ** (greentic, techzonix)। Day 2-এ
+  Turbo যোগ করার সময় শুধু stylique-এ যাচাই করাই যথেষ্ট, কিন্তু জানা থাকা দরকার।
+- **`partision/head.blade.php:52` → `css/custome.css` 404 — ইচ্ছাকৃতভাবে রাখা হলো।**
+  ফাইলটি নেই, master-এও একই 404, আর `custom.css`-এ বদলালে ৬০১টি নতুন rule
+  হঠাৎ চালু হয়ে ডিজাইন বদলাতে পারে। উপকার নেই, ঝুঁকি আছে।
 
 ---
 
@@ -235,20 +256,20 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ✅ DONE | `9d4d831` | CSS requests 20→2 (−90%), CSS bytes 994→755.7 KB (−24%), LCP −80ms · 4 variants (RTL/dark) · kill-switch `LEGACY_ADMIN_CSS` · রিপোর্ট → `.ai/reports/admin-css-map.md` · benchmark updated |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ✅ DONE | `78f421b` | ২১ ফাইল / ৪২ জায়গা · disk-cache 0→31 (৩২টির মধ্যে) · helper: `asset_v()`, `get_file_v()`, `asset_version()` · `.htaccess` Cache-Control · kill-switch `LEGACY_ASSET_TIME_BUSTER` · pixel-diff 0 · রিপোর্ট → `.ai/reports/cache-buster-map.md` |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ✅ DONE | `f9e6f11` | ৪৫ img: ২৬ lazy + ৯ eager(LCP) + ৮ আগে থেকে · ব্যতিক্রম ২ (FB pixel, commented) · রিপোর্ট → `.ai/reports/img-lazy-report.md` · missing dims → `.ai/reports/img-missing-dimensions.md` |
-| CLAUDE-4  Day 1 ব্রাউজার টেস্ট + Lighthouse | Claude | ⬜ PENDING | — | before/after সংখ্যা · ➕ অতিরিক্ত: `script-inventory.md` পুনর্নির্মাণ (GEMINI-3 ভাঙা) |
+| CLAUDE-4  Day 1 ব্রাউজার টেস্ট + merge | Claude | ✅ DONE | `4d3c04f` → merge `<pending>` | ২৩ পেজ × ২ viewport, ০ নতুন console error · cart→checkout→order flow পাস (টেস্ট ডেটা সিড করে) · ৩ kill-switch দুই দিকে পরীক্ষিত · JS −466 KB, admin request −18 · রিপোর্ট → `.ai/reports/day1-final-test.md` · benchmark "Day 1 Final" · ➕ `script-inventory.md` পুনর্নির্মাণ (স্ক্যানার সহ) |
 
 ### Day 2 — Turbo Drive (branch: `day2/turbo-drive`)
 
 | টাস্ক | মডেল | অবস্থা | কমিট | নোট |
 |---|---|---|---|---|
-| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ❌ REDO → Claude | `0c8033c` | ⚠️ রিপোর্ট ব্যবহারযোগ্য নয় — পূর্ণ তালিকা নেই (শুধু ২-৩টি নমুনা সারি), ১০টি লাইন রেফারেন্সের ৯টি ভুল, সংখ্যা মেলে না। যাচাই → `.ai/reports/gemini3-verification.md` · CLAUDE-4-এর পর Claude পুনর্নির্মাণ করবে |
-| CLAUDE-5  Turbo ইনস্টল + bootstrap + kill-switch | Claude | ⬜ PENDING | — | |
-| BULK-2  script → `turbo:load` (batch 1: ৬০টি) | BULK মডেল | ⬜ PENDING | — | recipe অনুসরণ |
+| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ✅ REDONE by Claude | `4d3c04f` | Gemini-র সংস্করণ ব্যবহারযোগ্য ছিল না (যাচাই → `.ai/reports/gemini3-verification.md`)। CLAUDE-4-এ স্ক্যানার দিয়ে পুনর্নির্মাণ: `.agents/scripts/scan-inline-scripts.cjs` → **199 ফাইল / 300 block**, A 129 · B 91 · C 19 · D 12 · E 49, 🔴 **mixed A+B = 50** |
+| CLAUDE-5  Turbo ইনস্টল + bootstrap + kill-switch | Claude | ⬜ PENDING | — | **এখন চালানো যায়** |
+| BULK-2  script → `turbo:load` (batch 1: ৬০টি) | BULK মডেল | ⬜ PENDING | — | recipe অনুসরণ · ⚠️ mixed A+B ব্লকগুলো আলাদা করে দিতে হবে |
 | BULK-3  script → `turbo:load` (batch 2: ৬০টি) | BULK মডেল | ⬜ PENDING | — | |
 | BULK-4  script → `turbo:load` (batch 3: বাকি) | BULK মডেল | ⬜ PENDING | — | |
 | CLAUDE-6  DataTable + modal + select2 re-init | Claude | ⬜ PENDING | — | ৭০ table, ১০১ modal |
 | CLAUDE-7  Turbo 303 redirect middleware | Claude | ⬜ PENDING | — | form/validation |
-| CLAUDE-8  Day 2 ব্রাউজার টেস্ট (২০ পেজ) | Claude | ⬜ PENDING | — | |
+| CLAUDE-8  Day 2 ব্রাউজার টেস্ট (২০ পেজ) | Claude | ⬜ PENDING | — | DB-তে টেস্ট ডেটা আছে — cart/checkout/order flow যাচাই করা যাবে |
 
 ### Day 3 — PWA + Workbox (branch: `day3/pwa-workbox`)
 
@@ -278,7 +299,14 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 
 ## 🚧 Blockers (আটকে যাওয়া কাজ)
 
-*এখনো কিছু নেই।*
+*এখনো কিছু নেই।* Day 1-এ কোনো ব্লকার তৈরি হয়নি।
+
+নিচের দুইটি **ব্লকার নয়**, কিন্তু Day 3-এ মনে রাখতে হবে:
+
+| বিষয় | কেন এখন নয় | কার কাজ |
+|---|---|---|
+| gzip / brotli বন্ধ (`Content-Encoding` নেই) | Apache কনফিগ, Day 1-এর স্কোপে নয়। DevTools: storefront 66 KB, admin 72.5 KB, FCP/LCP ~640 ms সঞ্চয় | CLAUDE-9 |
+| `all.min.js` = 1.5 MB একক ফাইল (P2) | code-split-এর জন্য Turbo/Vite entry দরকার | Day 2 |
 
 > কোনো মডেল আটকে গেলে এখানে এই ফরম্যাটে লিখবে:
 > ```
@@ -305,3 +333,7 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 | Day 0 | checkpoint commit (প্রতি ৫ ফাইল) যোগ করা হলো | সস্তা মডেলের টোকেন লিমিট মাঝপথে ফুরায়; টাস্ক-শেষে-commit নিয়মে ২০ ফাইলের কাজ হারানোর ঝুঁকি ছিল, এখন সর্বোচ্চ ৪ ফাইল |
 | Day 0 | বুট প্রম্পট PROGRESS.md-এ লেখা হলো | `.agents/hooks.json` শুধু Antigravity-তে চলে। BULK মডেল অন্য টুলে চলবে — তাই টুল-নিরপেক্ষ, কপি-পেস্ট-যোগ্য একটি প্রম্পট দরকার ছিল |
 | Day 0 | `screenshots/` ও `state/` git-ignored | বড় বাইনারি ও machine-local runtime state। ignored থাকায় `git clean -fd`-এ মুছবেও না |
+| Day 1 | CLAUDE-4-এ DB-তে টেস্ট ডেটা সিড করা হলো | খালি DB-তে product card, gallery, cart, checkout, order — কিছুই render হয় না, তাই "ফিচার ভাঙেনি" দাবি করা অর্থহীন ছিল। শুধু DB row, কোনো কোড পরিবর্তন নয়; rollback SQL রাখা আছে |
+| Day 1 | Lighthouse স্কোরের বদলে সরাসরি Core Web Vitals মাপা হলো | `APP_DEBUG=true` + file cache-এ TTFB ≈765 ms একা Performance স্কোর টেনে নামায় — সংখ্যাটি asset কাজের গুণ বোঝাত না। CLAUDE-9 (Redis + OPcache)-এর পর Lighthouse অর্থবহ হবে |
+| Day 1 | `css/custome.css` (404) সংশোধন **না** করার সিদ্ধান্ত | ফাইলটি অস্তিত্বে নেই; `custom.css`-এ বদলালে ৬০১টি নতুন CSS rule হঠাৎ চালু হয়ে ডিজাইন বদলাতে পারে। master-এও একই 404। উপকার নেই, ঝুঁকি আছে |
+| Day 1 | inline-script ইনভেন্টরি হাতে না লিখে স্ক্যানার লেখা হলো | Gemini-র হাতে-লেখা রিপোর্টে ১০টি লাইন রেফারেন্সের ৯টি ভুল ছিল। স্ক্রিপ্ট নির্ভুল, পুনরায় চালানো যায়, এবং BULK মডেলের জন্য JSON আউটপুট দেয় |
