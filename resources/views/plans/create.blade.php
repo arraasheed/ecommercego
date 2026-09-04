@@ -168,7 +168,7 @@
                                                                         <div class="p-3 border border-primary img-checkbox"
                                                                             data-checkbox="modules_{{ $module->name }}">
                                                                             <div class="theme-avtar">
-                                                                                <img src="{{ get_module_img($module->name) }}{{ '?' . time() }}"
+                                                                                <img src="{{ get_file_v(get_module_img($module->name)) }}"
                                                                                     alt="{{ $module->name }}"
                                                                                     class="img-user"
                                                                                     style="max-width: 100%">

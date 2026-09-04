@@ -123,7 +123,7 @@
     <meta property="og:description"
         content="{{ isset($setting['metadesc']) ? $setting['metadesc'] : 'Discover the efficiency of EcommerceGo, a user-friendly web application by Workdo.io.' }} ">
     <meta property="og:image"
-        content="{{ get_file(isset($setting['metaimage']) ? $setting['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png') }}{{ '?' . time() }}">
+        content="{{ get_file_v(isset($setting['metaimage']) ? $setting['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png') }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -133,15 +133,14 @@
     <meta property="twitter:description"
         content="{{ isset($setting['metadesc']) ? $setting['metadesc'] : 'Discover the efficiency of EcommerceGo, a user-friendly web application by Workdo.io.' }} ">
     <meta property="twitter:image"
-        content="{{ get_file(isset($setting['metaimage']) ? $setting['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png') }}{{ '?' . time() }}">
+        content="{{ get_file_v(isset($setting['metaimage']) ? $setting['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}-@yield('page-title')</title>
 
     <!-- Favicon icon -->
-    <link rel="icon"
-        href="{{ !empty($favicon) ? $favicon . '?timestamp=' . time() : $profile . '/logo-sm.svg' . '?timestamp=' . time() }}"
+    <link rel="icon" href="{{ !empty($favicon) ? get_file_v($favicon) : get_file_v($profile . '/logo-sm.svg') }}"
         type="image/x-icon" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -155,23 +154,23 @@
     @if ($cust_darklayout == 'on' && $SITE_RTL == 'on')
         <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
         <link rel="stylesheet" href="{{ asset('assets/css/rtl-style-dark.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/rtl-loader.css') }}">
     @elseif($cust_darklayout == 'on')
         <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}">
     @elseif($SITE_RTL == 'on')
         <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/rtl-loader.css') }}">
     @else
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}">
     @endif
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link"> --}}
 
     <!-- Scripts -->
     <link rel="stylesheet" href="{{ asset('assets/css/customizer.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}">
+    <link rel="stylesheet" href="{{ asset_v('css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom-color.css') }}">
 
     <style>
@@ -278,7 +277,7 @@
                 <div class="container-fluid">
 
                     <a class="navbar-brand p-0" href="{{ \URL::to('/') }}">
-                        <img src="{{ isset($company_logo) && !empty($company_logo) ? $company_logo . '?timestamp=' . time() : $profile . '/logo-dark.svg' . '?timestamp=' . time() }}"
+                        <img src="{{ isset($company_logo) && !empty($company_logo) ? get_file_v($company_logo) : get_file_v($profile . '/logo-dark.svg') }}"
                             alt="logo" class="brand_icon" />
                     </a>
 

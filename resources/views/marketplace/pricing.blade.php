@@ -57,7 +57,7 @@
                         <div class="package-card">
                             <div class="package-card-inner">
                                 <div class="package-itm">
-                                    <img src="{{ (!empty(admin_setting('favicon')) && check_file(admin_setting('favicon'))) ? get_file(admin_setting('favicon')) : get_file('uploads/logo/favicon.png')}}{{'?'.time()}}" alt="">
+                                    <img src="{{ (!empty(admin_setting('favicon')) && check_file(admin_setting('favicon'))) ? get_file_v(admin_setting('favicon')) : get_file_v('uploads/logo/favicon.png')}}" alt="">
                                 </div>
                                 <div class="package-content flex-grow-1  px-3">
                                     <h4>{{ __('Basic Package')}}</h4>

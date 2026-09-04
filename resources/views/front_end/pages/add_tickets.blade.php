@@ -19,7 +19,7 @@
             <div class="input-group file-select-set">
                 <input type="hidden" class="form-input p-2 rounded" readonly="" placeholder="Choose file" id="attachments">
                 <input type="file" class="form-input file-opc {{ $errors->has('attachments') ? ' is-invalid' : '' }}" name="attachments[]" id="file" aria-label="Upload" multiple=""  data-filename="multiple_file_selection" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
-                <img src="" id="blah" width="20%"/>
+                <img src="" id="blah" width="20%" loading="lazy" decoding="async"/>
                 <div class="invalid-feedback">
                     {{ $errors->first('attachments.*') }}
                 </div>

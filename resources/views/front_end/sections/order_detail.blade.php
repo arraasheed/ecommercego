@@ -370,7 +370,7 @@
                                 <a href="{{ $section->footer->section->footer_link->social_link->{$i} ?? '#' }}"
                                     target="_blank" id="social_link_{{ $i }}">
                                     <img src="{{ asset($section->footer->section->footer_link->social_icon->{$i}->image ?? 'themes/' . $currentTheme . '/assets/images/youtube.svg') }}"
-                                        class="{{ 'social_icon_' . $i . '_preview' }}" alt="icon"
+                                        class="{{ 'social_icon_' . $i . '_preview' }}" alt="icon" loading="lazy" decoding="async"
                                         id="social_icon_{{ $i }}">
                                 </a>
                             </li>

@@ -76,7 +76,7 @@
     <title>{{ __('Theme Customize') }}</title>
 
     <link rel="icon"
-        href="{{ isset($setting['favicon']) ? get_file($setting['favicon']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/favicon.png')) . '?timestamp=' . time() }}"
+        href="{{ isset($setting['favicon']) ? get_file_v($setting['favicon']) : get_file_v(asset(Storage::url('uploads/logo/favicon.png'))) }}"
         type="image/x-icon" />
 
     <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}">
@@ -101,16 +101,16 @@
             $setting['cust_darklayout'] == 'on' &&
             $setting['SITE_RTL'] == 'on')
         <link rel="stylesheet" href="{{ asset('assets/css/rtl-style-dark.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/rtl-loader.css') }}">
     @elseif(isset($setting['cust_darklayout']) && $setting['cust_darklayout'] == 'on')
         <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}">
     @elseif(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on')
         <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/rtl-loader.css') }}">
     @else
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
-        <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}">
+        <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}">
     @endif
     <!-- SweetAlert CSS -->
     <style>

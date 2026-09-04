@@ -1,0 +1,33 @@
+/*
+ * Admin plugin + icon-font CSS that is identical in all four RTL/dark variants.
+ * Imported FIRST by every admin-*.css entry.
+ *
+ * Cascade order is copied verbatim from resources/views/layouts/app.blade.php
+ * lines 83-100 (the links that sit ABOVE the conditional theme block). Order
+ * matters: these rules must stay overridable by style.css, so they cannot be
+ * moved below it. The plugin files that originally sat BELOW the theme block
+ * live in _admin-plugins-after.css instead.
+ *
+ * NOT imported on purpose:
+ *   assets/fonts/material.css - declares the "Material Icons Two Tone" font and
+ *       the .material-icons-two-tone class. A full scan of resources/views,
+ *       packages/workdo and every .php/.js/.vue/.html outside vendor found
+ *       ZERO elements using that class, so the @font-face never resolves and
+ *       material/material.woff2 (130 KB) is never fetched. style.css and
+ *       customizer.css keep their .material-icons-two-tone rules, which stay
+ *       dead either way. File is left on disk untouched.
+ *   https://unpkg.com/leaflet/dist/leaflet.css - external CDN request on every
+ *       admin page. Leaflet itself is not in the project: no leaflet.js is ever
+ *       loaded and there is no L.map(/L.marker(/L.tileLayer( call anywhere.
+ *       Dead request, dropped. See .ai/reports/admin-css-map.md.
+ */
+@import url('../../public/assets/css/plugins/select2.min.css');
+@import url('../../public/assets/css/plugins/notifier.css');
+@import url('../../public/assets/css/plugins/bootstrap-switch-button.min.css');
+@import url('../../public/assets/css/plugins/style.css');
+@import url('../../public/css/custom-color.css');
+@import url('../../public/assets/fonts/tabler-icons.min.css');
+@import url('../../public/assets/fonts/feather.css');
+@import url('../../public/assets/fonts/fontawesome.css');
+@import url('../../public/assets/css/customizer.css');
+@import url('../../public/assets/css/plugins/dropzone.css');

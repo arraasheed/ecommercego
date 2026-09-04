@@ -29,7 +29,7 @@
             @foreach($topCategories as $category)
             <div class="relative group overflow-hidden rounded-xl collection-card">
               <img src="{{ get_file($category->image_path) }}" alt="{{ $category->name }}"
-                class="w-full h-80 object-cover transition duration-500 transform group-hover:scale-105" />
+                class="w-full h-80 object-cover transition duration-500 transform group-hover:scale-105" loading="lazy" decoding="async" />
               <div
                 class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end sm:p-6 p-4 text-white">
                 <div class="transform transition duration-300 group-hover:-translate-y-2">
@@ -60,7 +60,7 @@
               <div class="relative overflow-hidden collection-card">
                 <div class="overflow-hidden">
                   <img src="{{ get_file($category->image_path) }}" alt="{{ $category->name }}"
-                    class="w-full h-60 object-cover transition duration-500 transform group-hover:scale-105" />
+                    class="w-full h-60 object-cover transition duration-500 transform group-hover:scale-105" loading="lazy" decoding="async" />
                 </div>
               </div>
               <div class="p-4 relative">

@@ -13,7 +13,7 @@
                                         <a href="{{ url($slug . '/product/' . $item->slug) }}"
                                             class="max-w-[250px] w-full block">
                                             <img src="{{ get_file($item->cover_image_path) }}"
-                                                class="object-contain h-full w-full" alt="offer-image">
+                                                class="object-contain h-full w-full" alt="offer-image" loading="eager" fetchpriority="high" decoding="async">
                                         </a>
                                     </div>
                                     <div class="flex-1 w-full sm:text-start text-center lg:p-6 p-4">

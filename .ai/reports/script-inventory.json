@@ -1,0 +1,4083 @@
+{
+ "generated": "2026-09-04T20:30:46.115Z",
+ "total": 300,
+ "rows": [
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/custom_page/create.blade.php",
+   "line": 77,
+   "lines": 18,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/custom_page/edit.blade.php",
+   "line": 77,
+   "lines": 18,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/change_blocks/index.blade.php",
+   "line": 108,
+   "lines": 22,
+   "cls": "A",
+   "widgets": [
+    "sortable"
+   ],
+   "reasons": [
+    "initialises sortable",
+    "document.ready wrapper",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/colletionmenu/create.blade.php",
+   "line": 68,
+   "lines": 16,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/colletionmenu/edit.blade.php",
+   "line": 71,
+   "lines": 22,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/details/index.blade.php",
+   "line": 357,
+   "lines": 28,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/details/topbar/index.blade.php",
+   "line": 3,
+   "lines": 57,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/homesection.blade.php",
+   "line": 16,
+   "lines": 34,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/homesection.blade.php",
+   "line": 50,
+   "lines": 20,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/menubar/create.blade.php",
+   "line": 71,
+   "lines": 16,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/menubar/edit.blade.php",
+   "line": 72,
+   "lines": 22,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/ownermenu/edit.blade.php",
+   "line": 352,
+   "lines": 93,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/ownermenu/edit.blade.php",
+   "line": 446,
+   "lines": 34,
+   "cls": "A",
+   "widgets": [
+    "sortable"
+   ],
+   "reasons": [
+    "initialises sortable"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/qr_code/QR.blade.php",
+   "line": 61,
+   "lines": 17,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/qr_code/QR.blade.php",
+   "line": 79,
+   "lines": 35,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/sections.blade.php",
+   "line": 66,
+   "lines": 32,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/dash_qr_scripts.blade.php",
+   "line": 58,
+   "lines": 17,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/dash_qr_scripts.blade.php",
+   "line": 76,
+   "lines": 35,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/landingpage.blade.php",
+   "line": 898,
+   "lines": 53,
+   "cls": "A",
+   "widgets": [
+    "Swiper"
+   ],
+   "reasons": [
+    "initialises Swiper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/marketplace.blade.php",
+   "line": 351,
+   "lines": 10,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/pricing.blade.php",
+   "line": 521,
+   "lines": 27,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/addon/create.blade.php",
+   "line": 40,
+   "lines": 30,
+   "cls": "A",
+   "widgets": [
+    "Dropzone"
+   ],
+   "reasons": [
+    "initialises Dropzone"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/AppSetting/index.blade.php",
+   "line": 667,
+   "lines": 38,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/AppSetting/mobile_content.blade.php",
+   "line": 1134,
+   "lines": 24,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/attribute_option/index.blade.php",
+   "line": 75,
+   "lines": 29,
+   "cls": "A",
+   "widgets": [
+    "sortable"
+   ],
+   "reasons": [
+    "initialises sortable",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/auth/login.blade.php",
+   "line": 113,
+   "lines": 9,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/cart/index.blade.php",
+   "line": 19,
+   "lines": 54,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/country/index.blade.php",
+   "line": 338,
+   "lines": 281,
+   "cls": "A",
+   "widgets": [
+    "DataTable"
+   ],
+   "reasons": [
+    "initialises DataTable",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/coupon/create.blade.php",
+   "line": 157,
+   "lines": 52,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/coupon/edit.blade.php",
+   "line": 125,
+   "lines": 49,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/customer/grid.blade.php",
+   "line": 140,
+   "lines": 26,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/customer/grid.blade.php",
+   "line": 179,
+   "lines": 93,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/customer/index.blade.php",
+   "line": 79,
+   "lines": 27,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/customer/index.blade.php",
+   "line": 119,
+   "lines": 93,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/dashboard.blade.php",
+   "line": 464,
+   "lines": 13,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/dashboard.blade.php",
+   "line": 478,
+   "lines": 125,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/dashboard.blade.php",
+   "line": 625,
+   "lines": 79,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/flash-sale/create.blade.php",
+   "line": 107,
+   "lines": 127,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js",
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/flash-sale/create.blade.php",
+   "line": 234,
+   "lines": 32,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/flash-sale/edit.blade.php",
+   "line": 213,
+   "lines": 106,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js",
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/flash-sale/edit.blade.php",
+   "line": 319,
+   "lines": 12,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/flash-sale/edit.blade.php",
+   "line": 331,
+   "lines": 46,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/flash-sale/index.blade.php",
+   "line": 30,
+   "lines": 30,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/common/checkout/checkout_js.blade.php",
+   "line": 9,
+   "lines": 67,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/common/product/filter.blade.php",
+   "line": 176,
+   "lines": 150,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/hooks/footer_link.blade.php",
+   "line": 229,
+   "lines": 76,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 334,
+   "lines": 24,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/add_tickets.blade.php",
+   "line": 94,
+   "lines": 7,
+   "cls": "A",
+   "widgets": [
+    "summernote"
+   ],
+   "reasons": [
+    "initialises summernote",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/address-form.blade.php",
+   "line": 103,
+   "lines": 64,
+   "cls": "A",
+   "widgets": [
+    "select2"
+   ],
+   "reasons": [
+    "initialises select2",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/address.blade.php",
+   "line": 94,
+   "lines": 175,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/checkout.blade.php",
+   "line": 273,
+   "lines": 73,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/checkout.blade.php",
+   "line": 350,
+   "lines": 69,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/order.blade.php",
+   "line": 68,
+   "lines": 47,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/product-list.blade.php",
+   "line": 146,
+   "lines": 275,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/refund_order.blade.php",
+   "line": 275,
+   "lines": 9,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/refund_order.blade.php",
+   "line": 284,
+   "lines": 67,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/reply_support_ticket.blade.php",
+   "line": 171,
+   "lines": 7,
+   "cls": "A",
+   "widgets": [
+    "summernote"
+   ],
+   "reasons": [
+    "initialises summernote",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/support_ticket_edit.blade.php",
+   "line": 128,
+   "lines": 7,
+   "cls": "A",
+   "widgets": [
+    "summernote"
+   ],
+   "reasons": [
+    "initialises summernote",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/generate.blade.php",
+   "line": 95,
+   "lines": 104,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/app.blade.php",
+   "line": 304,
+   "lines": 25,
+   "cls": "A",
+   "widgets": [
+    "select2"
+   ],
+   "reasons": [
+    "initialises select2",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/marketplace/pricing.blade.php",
+   "line": 693,
+   "lines": 29,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/menu/script.blade.php",
+   "line": 2,
+   "lines": 612,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/module/add.blade.php",
+   "line": 55,
+   "lines": 40,
+   "cls": "A",
+   "widgets": [
+    "Dropzone"
+   ],
+   "reasons": [
+    "initialises Dropzone"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/order/order_show.blade.php",
+   "line": 204,
+   "lines": 39,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/order/refund_details.blade.php",
+   "line": 213,
+   "lines": 208,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/page/create.blade.php",
+   "line": 68,
+   "lines": 15,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/page/edit.blade.php",
+   "line": 68,
+   "lines": 15,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/page/index.blade.php",
+   "line": 29,
+   "lines": 26,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/authorizenet.blade.php",
+   "line": 92,
+   "lines": 23,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/khalti.blade.php",
+   "line": 14,
+   "lines": 65,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "$.ajaxSetup()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/telegram.blade.php",
+   "line": 23,
+   "lines": 66,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/whatsapp.blade.php",
+   "line": 19,
+   "lines": 80,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/create.blade.php",
+   "line": 271,
+   "lines": 36,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "window/document addEventListener"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/cybersourcerequest.blade.php",
+   "line": 164,
+   "lines": 44,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/edit.blade.php",
+   "line": 262,
+   "lines": 36,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "window/document addEventListener"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/Powertranz-payment.blade.php",
+   "line": 103,
+   "lines": 8,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/Powertranz-planpayment.blade.php",
+   "line": 110,
+   "lines": 8,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/stripe.blade.php",
+   "line": 3049,
+   "lines": 49,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "window/document addEventListener"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/stripe.blade.php",
+   "line": 3099,
+   "lines": 109,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/pos/index.blade.php",
+   "line": 283,
+   "lines": 515,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "$.ajaxSetup()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/pos/index.blade.php",
+   "line": 804,
+   "lines": 86,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/attribute_combinations_data.blade.php",
+   "line": 230,
+   "lines": 183,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/attribute_combinations_edit.blade.php",
+   "line": 289,
+   "lines": 153,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/attribute_combinations.blade.php",
+   "line": 166,
+   "lines": 81,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/create.blade.php",
+   "line": 479,
+   "lines": 179,
+   "cls": "A",
+   "widgets": [
+    "select2"
+   ],
+   "reasons": [
+    "initialises select2",
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/create.blade.php",
+   "line": 660,
+   "lines": 137,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/create.blade.php",
+   "line": 799,
+   "lines": 179,
+   "cls": "A",
+   "widgets": [
+    "summernote",
+    "Dropzone"
+   ],
+   "reasons": [
+    "initialises summernote, Dropzone"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/edit.blade.php",
+   "line": 662,
+   "lines": 503,
+   "cls": "A",
+   "widgets": [
+    "select2",
+    "Dropzone",
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises select2, Dropzone, choices.js",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/show.blade.php",
+   "line": 633,
+   "lines": 87,
+   "cls": "A",
+   "widgets": [
+    "select2"
+   ],
+   "reasons": [
+    "initialises select2",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/show.blade.php",
+   "line": 779,
+   "lines": 21,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/bar_chart_order_report.blade.php",
+   "line": 62,
+   "lines": 194,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/bar_chart_order_report.blade.php",
+   "line": 256,
+   "lines": 45,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/index.blade.php",
+   "line": 56,
+   "lines": 168,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/index.blade.php",
+   "line": 224,
+   "lines": 33,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/order_country_Report.blade.php",
+   "line": 89,
+   "lines": 13,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/order_country_Report.blade.php",
+   "line": 103,
+   "lines": 41,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/order_country_Report.blade.php",
+   "line": 145,
+   "lines": 35,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/order_report.blade.php",
+   "line": 62,
+   "lines": 181,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/order_report.blade.php",
+   "line": 243,
+   "lines": 49,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/orderStatusReport.blade.php",
+   "line": 71,
+   "lines": 24,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/orderStatusReport.blade.php",
+   "line": 96,
+   "lines": 41,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/orderStatusReport.blade.php",
+   "line": 138,
+   "lines": 35,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/sale_by_brand.blade.php",
+   "line": 67,
+   "lines": 113,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts",
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises ApexCharts, choices.js",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/sale_by_brand.blade.php",
+   "line": 180,
+   "lines": 52,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/sale_by_category.blade.php",
+   "line": 71,
+   "lines": 99,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts",
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises ApexCharts, choices.js",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/sale_by_category.blade.php",
+   "line": 170,
+   "lines": 52,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/sale_by_product.blade.php",
+   "line": 73,
+   "lines": 103,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts",
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises ApexCharts, choices.js",
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/sale_by_product.blade.php",
+   "line": 176,
+   "lines": 45,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/stock_report.blade.php",
+   "line": 254,
+   "lines": 189,
+   "cls": "A",
+   "widgets": [
+    "DataTable"
+   ],
+   "reasons": [
+    "initialises DataTable",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/top_5_reports.blade.php",
+   "line": 73,
+   "lines": 81,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/roles/index.blade.php",
+   "line": 30,
+   "lines": 83,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/setting/email_setting.blade.php",
+   "line": 51,
+   "lines": 8,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/setting/index.blade.php",
+   "line": 196,
+   "lines": 280,
+   "cls": "A",
+   "widgets": [
+    "bootstrap modal"
+   ],
+   "reasons": [
+    "initialises bootstrap modal",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/setting/index.blade.php",
+   "line": 477,
+   "lines": 204,
+   "cls": "A",
+   "widgets": [
+    "select2",
+    "tooltip/popover",
+    "switchButton"
+   ],
+   "reasons": [
+    "initialises select2, tooltip/popover, switchButton",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/shipping_method/free_shipping.blade.php",
+   "line": 27,
+   "lines": 33,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/shopify/product.blade.php",
+   "line": 82,
+   "lines": 7,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/superadmin/dashboard.blade.php",
+   "line": 161,
+   "lines": 47,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/theme_analytic.blade.php",
+   "line": 120,
+   "lines": 106,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/theme_analytic.blade.php",
+   "line": 226,
+   "lines": 146,
+   "cls": "A",
+   "widgets": [
+    "ApexCharts"
+   ],
+   "reasons": [
+    "initialises ApexCharts",
+    "document.ready wrapper",
+    "assigns window.*",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/theme_customize/customize-script.blade.php",
+   "line": 3,
+   "lines": 326,
+   "cls": "A",
+   "widgets": [
+    "summernote"
+   ],
+   "reasons": [
+    "initialises summernote",
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/theme_customize/order.blade.php",
+   "line": 90,
+   "lines": 21,
+   "cls": "A",
+   "widgets": [
+    "sortable"
+   ],
+   "reasons": [
+    "initialises sortable",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/users/profile.blade.php",
+   "line": 198,
+   "lines": 48,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()",
+    "window/document addEventListener"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/webhook/create.blade.php",
+   "line": 43,
+   "lines": 20,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/webhook/edit.blade.php",
+   "line": 45,
+   "lines": 20,
+   "cls": "A",
+   "widgets": [
+    "choices.js"
+   ],
+   "reasons": [
+    "initialises choices.js"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/wishlist/index.blade.php",
+   "line": 50,
+   "lines": 51,
+   "cls": "A",
+   "widgets": [
+    "(DOM-bound ready block)"
+   ],
+   "reasons": [
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/woocommerce/category.blade.php",
+   "line": 80,
+   "lines": 82,
+   "cls": "A",
+   "widgets": [
+    "DataTable"
+   ],
+   "reasons": [
+    "initialises DataTable",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/woocommerce/coupon.blade.php",
+   "line": 84,
+   "lines": 126,
+   "cls": "A",
+   "widgets": [
+    "DataTable"
+   ],
+   "reasons": [
+    "initialises DataTable",
+    "document.ready wrapper",
+    "delegated $(document).on()"
+   ],
+   "mixed": true,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/woocommerce/customer.blade.php",
+   "line": 88,
+   "lines": 104,
+   "cls": "A",
+   "widgets": [
+    "DataTable"
+   ],
+   "reasons": [
+    "initialises DataTable",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/woocommerce/product.blade.php",
+   "line": 82,
+   "lines": 104,
+   "cls": "A",
+   "widgets": [
+    "DataTable"
+   ],
+   "reasons": [
+    "initialises DataTable",
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/custom/footer/section_create.blade.php",
+   "line": 52,
+   "lines": 42,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/custom/footer/section_edit.blade.php",
+   "line": 75,
+   "lines": 42,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/details/features/features_create.blade.php",
+   "line": 77,
+   "lines": 42,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/details/features/features_edit.blade.php",
+   "line": 101,
+   "lines": 43,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/qr_code/index.blade.php",
+   "line": 142,
+   "lines": 97,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/qr_code/QR.blade.php",
+   "line": 115,
+   "lines": 24,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/custompage.blade.php",
+   "line": 452,
+   "lines": 25,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/landingpage.blade.php",
+   "line": 873,
+   "lines": 25,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/pricing.blade.php",
+   "line": 548,
+   "lines": 19,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/pricing.blade.php",
+   "line": 567,
+   "lines": 132,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/pricing.blade.php",
+   "line": 699,
+   "lines": 52,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/pricing.blade.php",
+   "line": 751,
+   "lines": 36,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/pricing.blade.php",
+   "line": 787,
+   "lines": 27,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/marketplace/dedicated/create.blade.php",
+   "line": 72,
+   "lines": 42,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/marketplace/dedicated/edit.blade.php",
+   "line": 99,
+   "lines": 43,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/marketplace/whychoose/index.blade.php",
+   "line": 154,
+   "lines": 45,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/addon/apps.blade.php",
+   "line": 82,
+   "lines": 6,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/addon/index.blade.php",
+   "line": 158,
+   "lines": 6,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/AppSetting/index.blade.php",
+   "line": 651,
+   "lines": 14,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/AppSetting/mobile_content.blade.php",
+   "line": 1118,
+   "lines": 14,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/coupon/index.blade.php",
+   "line": 37,
+   "lines": 22,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/customer/grid.blade.php",
+   "line": 167,
+   "lines": 11,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/customer/index.blade.php",
+   "line": 107,
+   "lines": 11,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/dashboard.blade.php",
+   "line": 603,
+   "lines": 22,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/DPO/pay.blade.php",
+   "line": 223,
+   "lines": 27,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/email_templates/index.blade.php",
+   "line": 15,
+   "lines": 34,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/front_end/common/product/sale_counter.blade.php",
+   "line": 23,
+   "lines": 71,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 181,
+   "lines": 15,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 200,
+   "lines": 51,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 396,
+   "lines": 60,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 457,
+   "lines": 27,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/layouts/app.blade.php",
+   "line": 98,
+   "lines": 15,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/add_tickets.blade.php",
+   "line": 50,
+   "lines": 44,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/auction_order_detail.blade.php",
+   "line": 300,
+   "lines": 63,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/front_end/pages/order-detail.blade.php",
+   "line": 288,
+   "lines": 63,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/reply_support_ticket.blade.php",
+   "line": 127,
+   "lines": 44,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/support_ticket_edit.blade.php",
+   "line": 84,
+   "lines": 44,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/sections/order_detail.blade.php",
+   "line": 386,
+   "lines": 63,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/front_end/sections/order_view.blade.php",
+   "line": 287,
+   "lines": 44,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/language/index.blade.php",
+   "line": 204,
+   "lines": 26,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/app.blade.php",
+   "line": 329,
+   "lines": 105,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/cookie_consent.blade.php",
+   "line": 48,
+   "lines": 115,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/includes/alerts.blade.php",
+   "line": 27,
+   "lines": 15,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/includes/datatable-js.blade.php",
+   "line": 6,
+   "lines": 21,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/theme_layout.blade.php",
+   "line": 183,
+   "lines": 17,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/marketplace/pricing.blade.php",
+   "line": 722,
+   "lines": 24,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/marketplace/pricing.blade.php",
+   "line": 746,
+   "lines": 153,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/marketplace/pricing.blade.php",
+   "line": 899,
+   "lines": 58,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/marketplace/pricing.blade.php",
+   "line": 957,
+   "lines": 38,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/marketplace/pricing.blade.php",
+   "line": 995,
+   "lines": 22,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/midtras/order_payment.blade.php",
+   "line": 21,
+   "lines": 29,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/midtras/payment.blade.php",
+   "line": 21,
+   "lines": 29,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/module/index.blade.php",
+   "line": 573,
+   "lines": 35,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/myfatoorah/checkout.blade.php",
+   "line": 73,
+   "lines": 5,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/myfatoorah/includes/sectionCards.blade.php",
+   "line": 14,
+   "lines": 5,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/myfatoorah/includes/sectionForm.blade.php",
+   "line": 2,
+   "lines": 72,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/order/grid.blade.php",
+   "line": 128,
+   "lines": 47,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/order/index.blade.php",
+   "line": 29,
+   "lines": 47,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/order/receipt.blade.php",
+   "line": 228,
+   "lines": 9,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "assigns window.*",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/order/script.blade.php",
+   "line": 3,
+   "lines": 18,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/order/view.blade.php",
+   "line": 582,
+   "lines": 163,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/partision/add.blade.php",
+   "line": 32,
+   "lines": 20,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/partision/footerlink.blade.php",
+   "line": 60,
+   "lines": 168,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/partision/sidebar.blade.php",
+   "line": 45,
+   "lines": 17,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "window/document addEventListener",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plan-coupon/index.blade.php",
+   "line": 28,
+   "lines": 12,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/index.blade.php",
+   "line": 327,
+   "lines": 12,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/index.blade.php",
+   "line": 340,
+   "lines": 25,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/stripe.blade.php",
+   "line": 3343,
+   "lines": 51,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/stripe.blade.php",
+   "line": 3398,
+   "lines": 63,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "$.ajaxSetup()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/stripe.blade.php",
+   "line": 3462,
+   "lines": 43,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "$.ajaxSetup()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product_brand/index.blade.php",
+   "line": 38,
+   "lines": 45,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/product_label/index.blade.php",
+   "line": 38,
+   "lines": 23,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/product/show.blade.php",
+   "line": 720,
+   "lines": 57,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/order_country_Report.blade.php",
+   "line": 76,
+   "lines": 13,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/orderStatusReport.blade.php",
+   "line": 58,
+   "lines": 13,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/shippingzone/create.blade.php",
+   "line": 33,
+   "lines": 39,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/shippingzone/edit.blade.php",
+   "line": 45,
+   "lines": 39,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/store/create.blade.php",
+   "line": 103,
+   "lines": 8,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/store/index.blade.php",
+   "line": 217,
+   "lines": 37,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/store/list.blade.php",
+   "line": 38,
+   "lines": 37,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/support/edit.blade.php",
+   "line": 173,
+   "lines": 26,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/support/edit.blade.php",
+   "line": 199,
+   "lines": 30,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/taxes-method/create.blade.php",
+   "line": 57,
+   "lines": 67,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/taxes-method/edit.blade.php",
+   "line": 58,
+   "lines": 67,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/testimonial/index.blade.php",
+   "line": 30,
+   "lines": 29,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/theme_customize/index.blade.php",
+   "line": 60,
+   "lines": 8,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/users/user_info.blade.php",
+   "line": 147,
+   "lines": 64,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/wishlist/index.blade.php",
+   "line": 26,
+   "lines": 24,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "delegated $(document).on()"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/greentic/views/front_end/layouts/app.blade.php",
+   "line": 105,
+   "lines": 15,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/stylique/views/front_end/layouts/app.blade.php",
+   "line": 105,
+   "lines": 15,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/techzonix/views/front_end/layouts/app.blade.php",
+   "line": 186,
+   "lines": 15,
+   "cls": "B",
+   "widgets": [],
+   "reasons": [
+    "declares global function",
+    "function declarations only"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/landingpage.blade.php",
+   "line": 954,
+   "lines": 4,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/landingpage.blade.php",
+   "line": 961,
+   "lines": 4,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/customer/view.blade.php",
+   "line": 209,
+   "lines": 11,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/layouts/app.blade.php",
+   "line": 82,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/layouts/app.blade.php",
+   "line": 90,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/payment/nmi-payment.blade.php",
+   "line": 110,
+   "lines": 3,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/theme_layout.blade.php",
+   "line": 204,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/myfatoorah/includes/sectionApplePay.blade.php",
+   "line": 2,
+   "lines": 12,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/myfatoorah/includes/sectionGooglePay.blade.php",
+   "line": 2,
+   "lines": 13,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/nmi-payment.blade.php",
+   "line": 114,
+   "lines": 3,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/payu_request.blade.php",
+   "line": 21,
+   "lines": 4,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/pos/index.blade.php",
+   "line": 798,
+   "lines": 4,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/woocommerce/customer.blade.php",
+   "line": 193,
+   "lines": 11,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/greentic/views/front_end/layouts/app.blade.php",
+   "line": 89,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/greentic/views/front_end/layouts/app.blade.php",
+   "line": 97,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/stylique/views/front_end/layouts/app.blade.php",
+   "line": 89,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/stylique/views/front_end/layouts/app.blade.php",
+   "line": 97,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/techzonix/views/front_end/layouts/app.blade.php",
+   "line": 170,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/techzonix/views/front_end/layouts/app.blade.php",
+   "line": 178,
+   "lines": 5,
+   "cls": "C",
+   "widgets": [],
+   "reasons": [
+    "only variable assignment"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/pricing.blade.php",
+   "line": 820,
+   "lines": 12,
+   "cls": "D",
+   "widgets": [
+    "reCAPTCHA"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/auth/forgot-password.blade.php",
+   "line": 91,
+   "lines": 11,
+   "cls": "D",
+   "widgets": [
+    "reCAPTCHA"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/auth/login.blade.php",
+   "line": 100,
+   "lines": 11,
+   "cls": "D",
+   "widgets": [
+    "reCAPTCHA"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/auth/register.blade.php",
+   "line": 110,
+   "lines": 11,
+   "cls": "D",
+   "widgets": [
+    "reCAPTCHA"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/auth/reset-password.blade.php",
+   "line": 96,
+   "lines": 11,
+   "cls": "D",
+   "widgets": [
+    "reCAPTCHA"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/auth/verify-email.blade.php",
+   "line": 87,
+   "lines": 11,
+   "cls": "D",
+   "widgets": [
+    "reCAPTCHA"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/dashboard.blade.php",
+   "line": 705,
+   "lines": 9,
+   "cls": "D",
+   "widgets": [
+    "Google Tag Manager / gtag"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 254,
+   "lines": 52,
+   "cls": "D",
+   "widgets": [
+    "Google Tag Manager / gtag"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 308,
+   "lines": 22,
+   "cls": "D",
+   "widgets": [
+    "Facebook Pixel"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/marketplace/pricing.blade.php",
+   "line": 1022,
+   "lines": 11,
+   "cls": "D",
+   "widgets": [
+    "reCAPTCHA"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/razorpay.blade.php",
+   "line": 23,
+   "lines": 33,
+   "cls": "D",
+   "widgets": [
+    "Razorpay"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/stripe.blade.php",
+   "line": 3208,
+   "lines": 129,
+   "cls": "D",
+   "widgets": [
+    "Razorpay"
+   ],
+   "reasons": [
+    "third-party snippet"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/colletionmenu/create.blade.php",
+   "line": 62,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/colletionmenu/custom_index.blade.php",
+   "line": 15,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/custom/index.blade.php",
+   "line": 8,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/discover/create.blade.php",
+   "line": 30,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/discover/edit.blade.php",
+   "line": 31,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/faq/create.blade.php",
+   "line": 25,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/faq/edit.blade.php",
+   "line": 25,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/features/create.blade.php",
+   "line": 31,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/features/edit.blade.php",
+   "line": 31,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/features/features_create.blade.php",
+   "line": 39,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/features/features_edit.blade.php",
+   "line": 39,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/joinus.blade.php",
+   "line": 17,
+   "lines": 10,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/menubar/create.blade.php",
+   "line": 64,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/menubar/custom_index.blade.php",
+   "line": 19,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/menubar/index.blade.php",
+   "line": 14,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/qr_code/QR.blade.php",
+   "line": 49,
+   "lines": 11,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/landingpage/topbar.blade.php",
+   "line": 19,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/layouts/dash_qr_scripts.blade.php",
+   "line": 46,
+   "lines": 11,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/marketplace/modules.blade.php",
+   "line": 26,
+   "lines": 15,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "packages/workdo/LandingPage/src/Resources/views/marketplace/product_main/index.blade.php",
+   "line": 15,
+   "lines": 6,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/components/datatable.blade.php",
+   "line": 20,
+   "lines": 24,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": true
+  },
+  {
+   "file": "resources/views/coupon/edit.blade.php",
+   "line": 120,
+   "lines": 5,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/coupon/show.blade.php",
+   "line": 22,
+   "lines": 18,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/faq/edit.blade.php",
+   "line": 76,
+   "lines": 17,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 137,
+   "lines": 3,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 142,
+   "lines": 33,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/jQueryRoute.blade.php",
+   "line": 361,
+   "lines": 34,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "document.ready wrapper",
+    "declares global function"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/about.blade.php",
+   "line": 122,
+   "lines": 23,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/front_end/pages/order-complete.blade.php",
+   "line": 85,
+   "lines": 18,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/app.blade.php",
+   "line": 435,
+   "lines": 3,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/app.blade.php",
+   "line": 442,
+   "lines": 3,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/cookie_consent.blade.php",
+   "line": 7,
+   "lines": 41,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/includes/alerts.blade.php",
+   "line": 1,
+   "lines": 26,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/includes/alerts.blade.php",
+   "line": 42,
+   "lines": 16,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/theme_layout.blade.php",
+   "line": 172,
+   "lines": 3,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/layouts/theme_layout.blade.php",
+   "line": 177,
+   "lines": 3,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/flutterwave.blade.php",
+   "line": 8,
+   "lines": 42,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/pay_tr.blade.php",
+   "line": 3,
+   "lines": 1,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/paymentwall.blade.php",
+   "line": 14,
+   "lines": 30,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/payment/paystack.blade.php",
+   "line": 15,
+   "lines": 34,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plan-coupon/show.blade.php",
+   "line": 36,
+   "lines": 18,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/Braintreepayment.blade.php",
+   "line": 64,
+   "lines": 46,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/plans/paymentwall.blade.php",
+   "line": 13,
+   "lines": 29,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/pos/printview.blade.php",
+   "line": 100,
+   "lines": 16,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/index.blade.php",
+   "line": 53,
+   "lines": 9,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/product/list.blade.php",
+   "line": 167,
+   "lines": 9,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/reports/order_country_Report.blade.php",
+   "line": 183,
+   "lines": 19,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "resources/views/setting/email_fields.blade.php",
+   "line": 193,
+   "lines": 5,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "document.ready wrapper"
+   ],
+   "mixed": false,
+   "stackPush": false
+  },
+  {
+   "file": "themes/techzonix/views/front_end/layouts/app.blade.php",
+   "line": 43,
+   "lines": 93,
+   "cls": "E",
+   "widgets": [],
+   "reasons": [
+    "no rule matched"
+   ],
+   "mixed": false,
+   "stackPush": false
+  }
+ ]
+}

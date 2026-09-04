@@ -8,7 +8,7 @@
     <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') | @endif {{ __('EcommerceGo-SaaS') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('installer/img/favicon/favicon.png') }}" sizes="32x32"/>
     <link href="{{ asset('installer/css/style.min.css') }}" rel="stylesheet"/>
-    <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
+    <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}" >
     @yield('style')
     <script>
        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};

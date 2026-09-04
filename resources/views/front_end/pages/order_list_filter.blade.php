@@ -74,7 +74,7 @@
                 <div class="flex items-start gap-3">
                 <div class="h-20 w-20 flex-shrink-0 border bg-gray-100 rounded-lg">
                     <a href="{{ route('page.product', [$slug, getProductSlug($product['product_id'])]) }}">
-                        <img src="{{ get_file($product['image']) }}" alt="cart-image" class="h-full w-full object-contain rounded-lg">
+                        <img src="{{ get_file($product['image']) }}" alt="cart-image" class="h-full w-full object-contain rounded-lg" loading="lazy" decoding="async">
                     </a>
                 </div>
                 <div>

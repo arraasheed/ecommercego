@@ -169,7 +169,7 @@
                                         onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
                                     <label class="input-group-text file-opc bg-primary" for="attachments"><i
                                             class="ti ti-circle-plus"></i>{{ __('Browse') }}</label>
-                                    <img src="" id="blah" width="20%" />
+                                    <img src="" id="blah" width="20%" loading="lazy" decoding="async" />
 
                                 </div>
                                 <p class="multiple_file_selection mx-4"></p>

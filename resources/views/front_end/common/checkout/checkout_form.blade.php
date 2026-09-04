@@ -647,7 +647,7 @@
                                     <div class="order-paymentcol">
                                         <div class="order-paycol-inner">
                                             <p>{{ __('Payment method') }}</p>
-                                            <img src="" class="payment_img_path" alt="">
+                                            <img src="" class="payment_img_path" alt="" loading="lazy" decoding="async">
                                         </div>
                                     </div>
                                     <div class="checkout_amount order-paymentcol">

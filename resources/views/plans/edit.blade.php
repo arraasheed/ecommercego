@@ -164,7 +164,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="p-3 border border-primary img-checkbox" data-checkbox="modules_{{ $module->name }}">
                                                                     <div class="theme-avtar">
-                                                                        <img src="{{ $module->image }}{{ '?' . time() }}" alt="{{ $module->name }}" class="img-user" style="max-width: 100%">
+                                                                        <img src="{{ get_file_v($module->image) }}" alt="{{ $module->name }}" class="img-user" style="max-width: 100%">
                                                                     </div>
                                                                 </div>
                                                                 <div class="ms-3">

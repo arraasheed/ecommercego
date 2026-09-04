@@ -21,7 +21,7 @@
                                     <div class="swiper-slide">
                                         <div class="relative pt-[65%] border bg-gray-100 rounded-lg overflow-hidden">
                                         <img src="{{ get_file($item->image_path) }}" alt="Organic Vegetable Box"
-                                            class="w-full h-full absolute top-0 left-0 object-contain" />
+                                            class="w-full h-full absolute top-0 left-0 object-contain" loading="eager" fetchpriority="high" decoding="async" />
                                         </div>
                                     </div>
                                     @endforeach
@@ -29,7 +29,7 @@
                                     <div class="swiper-slide">
                                         <div class="relative pt-[65%] border bg-gray-100 rounded-lg overflow-hidden">
                                         <img src="{{ get_file($product->cover_image_path) }}" alt="Organic Vegetable Box"
-                                            class="w-full h-full absolute top-0 left-0 object-contain" />
+                                            class="w-full h-full absolute top-0 left-0 object-contain" loading="eager" fetchpriority="high" decoding="async" />
                                         </div>
                                     </div>
                                 @endif
@@ -51,7 +51,7 @@
                                         <div
                                         class="relative pt-[90%] thumb-image rounded-lg overflow-hidden border bg-gray-100 cursor-pointer">
                                         <img src="{{ get_file($item->image_path) }}" alt="Organic Vegetable Box - View 1"
-                                            class="absolute top-0 left-0 w-full h-full object-contain" />
+                                            class="absolute top-0 left-0 w-full h-full object-contain" loading="eager" fetchpriority="high" decoding="async" />
                                         </div>
                                     </div>
                                     @endforeach
@@ -59,7 +59,7 @@
                                 <div class="swiper-slide">
                                     <div class="relative pt-[90%] thumb-image rounded-lg overflow-hidden border bg-gray-100 cursor-pointer">
                                     <img src="{{ get_file($product->cover_image_path) }}" alt="Organic Vegetable Box - View 2"
-                                        class="absolute top-0 left-0 w-full h-full object-contain" />
+                                        class="absolute top-0 left-0 w-full h-full object-contain" loading="eager" fetchpriority="high" decoding="async" />
                                     </div>
                                 </div>
                                 @endif
