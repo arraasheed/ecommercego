@@ -1,3 +1,6 @@
+// Guard: initialize tailwind object if it doesn't exist (when legacy CDN is disabled)
+window.tailwind = window.tailwind || {};
+
 tailwind.config = {
   theme: {
     extend: {

@@ -1,0 +1,18 @@
+/* Store CSS - Tailwind JIT build for storefront */
+/* Replaces 466 KB Play CDN with build-time compilation */
+
+/* Theme-specific CSS files - using asset() helper path resolution */
+@import url('../../themes/stylique/assets/css/swiper-bundle.min.css');
+@import url('../../themes/stylique/assets/css/main-style.css');
+
+/* Tailwind layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Override base font to match Play CDN config */
+@layer base {
+  html {
+    @apply font-sans;
+  }
+}
