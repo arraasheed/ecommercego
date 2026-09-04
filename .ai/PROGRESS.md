@@ -174,7 +174,7 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 
 **বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1, GEMINI-2, CLAUDE-1, CLAUDE-2, BULK-1, CLAUDE-3 সম্পন্ন
 **সর্বশেষ আপডেট:** Day 1 (CLAUDE-3 শেষ — cache-buster mtime-ভিত্তিক, ৩২টি resource-এর ৩১টি এখন disk cache থেকে আসে)
-**সর্বশেষ কমিট:** `4e1ab1f` — perf(cache): replace time() cache-busters with mtime-based versioning [CLAUDE-3]
+**সর্বশেষ কমিট:** `78f421b` — perf(cache): replace time() cache-busters with mtime-based versioning [CLAUDE-3]
 **সক্রিয় branch:** `day1/asset-pipeline`
 
 **Day 1 ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → ~~CLAUDE-1~~ → ~~CLAUDE-2~~ → ~~BULK-1~~ → ~~CLAUDE-3~~ → **CLAUDE-4 (Day 1 ব্রাউজার টেস্ট + Lighthouse) এখন চালানো যায়**
@@ -233,7 +233,7 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 | GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | `c945b79` | রিপোর্ট → `.ai/reports/tailwind-classes.md` · ⚠️ safelist অসম্পূর্ণ — যাচাই: `.ai/reports/gemini2-verification.md`, CLAUDE-1 এ ৪টি class যোগ করতে হবে |
 | CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` → `c69e14a` | Play CDN 466KB সরানো · FCP −148ms, LCP −196ms, TBT −66% · ৫ পেজে pixel-diff = 0 · রিপোর্ট → `.ai/reports/benchmark.md` |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ✅ DONE | `9d4d831` | CSS requests 20→2 (−90%), CSS bytes 994→755.7 KB (−24%), LCP −80ms · 4 variants (RTL/dark) · kill-switch `LEGACY_ADMIN_CSS` · রিপোর্ট → `.ai/reports/admin-css-map.md` · benchmark updated |
-| CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ✅ DONE | `4e1ab1f` | ২১ ফাইল / ৪২ জায়গা · disk-cache 0→31 (৩২টির মধ্যে) · helper: `asset_v()`, `get_file_v()`, `asset_version()` · `.htaccess` Cache-Control · kill-switch `LEGACY_ASSET_TIME_BUSTER` · pixel-diff 0 · রিপোর্ট → `.ai/reports/cache-buster-map.md` |
+| CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ✅ DONE | `78f421b` | ২১ ফাইল / ৪২ জায়গা · disk-cache 0→31 (৩২টির মধ্যে) · helper: `asset_v()`, `get_file_v()`, `asset_version()` · `.htaccess` Cache-Control · kill-switch `LEGACY_ASSET_TIME_BUSTER` · pixel-diff 0 · রিপোর্ট → `.ai/reports/cache-buster-map.md` |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ✅ DONE | `f9e6f11` | ৪৫ img: ২৬ lazy + ৯ eager(LCP) + ৮ আগে থেকে · ব্যতিক্রম ২ (FB pixel, commented) · রিপোর্ট → `.ai/reports/img-lazy-report.md` · missing dims → `.ai/reports/img-missing-dimensions.md` |
 | CLAUDE-4  Day 1 ব্রাউজার টেস্ট + Lighthouse | Claude | ⬜ PENDING | — | before/after সংখ্যা |
 
