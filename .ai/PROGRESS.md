@@ -214,7 +214,7 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 |---|---|---|---|---|
 | GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/asset-inventory.md` · Claude যাচাই: সংখ্যা নির্ভুল |
 | GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | `c945b79` | রিপোর্ট → `.ai/reports/tailwind-classes.md` · ⚠️ safelist অসম্পূর্ণ — যাচাই: `.ai/reports/gemini2-verification.md`, CLAUDE-1 এ ৪টি class যোগ করতে হবে |
-| CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `wip: perf(vite)` | Play CDN 466KB সরানো — LCP -271ms (29.6%), CLS 0.0 ✅ |
+| CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` | Play CDN 466KB সরানো — LCP -271ms (29.6%), CLS 0.0 ✅ |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ⬜ PENDING | — | |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ⬜ PENDING | — | CLS fix |
