@@ -228,11 +228,13 @@ git commit -m "<type>(<scope>): <what>  [<MODEL>-<TASK#>]"
 
 `<type>` = `perf` | `feat` | `fix` | `refactor` | `chore` | `docs` | `wip`
 
-### বড় batch টাস্কে: প্রতি ৫ ফাইলে checkpoint commit
+### বড় batch টাস্কে: পাইলট + প্রতি ৩ ফাইলে checkpoint commit
 
 BULK মডেলের টোকেন লিমিট মাঝপথে ফুরালে uncommitted কাজ হারায়। তাই BULK-1 …
-BULK-4 এ প্রতি ৫ ফাইল শেষে `wip(...)` commit + রিপোর্ট আপডেট + PROGRESS.md-এ
-🟨 IN PROGRESS বাধ্যতামূলক। বিস্তারিত `.ai/BULK_TASKS.md`-এর শুরুতে।
+BULK-4 এ প্রতি ৩ ফাইল শেষে `wip(...)` commit + রিপোর্ট আপডেট + PROGRESS.md-এ
+🟨 IN PROGRESS বাধ্যতামূলক। এছাড়া প্রতিটি টাস্কের শুরুতে **প্রথম ২ ফাইল করে
+থামতে হবে** (পাইলট), Claude যাচাই করার পরই বাকিগুলো।
+বিস্তারিত `.ai/BULK_TASKS.md`-এর শুরুতে।
 
 ---
 
@@ -269,14 +271,17 @@ Claude-এর হাতে Playwright MCP + chrome-devtools MCP আছে। স
 মূল প্ল্যানে এই ভূমিকায় DeepSeek ছিল, কিন্তু সেটি অনুপলব্ধ। তাই ফাইল ও টাস্ক
 আইডি থেকে মডেলের নাম সরিয়ে দেওয়া হয়েছে: `BULK_TASKS.md`, `BULK-1` … `BULK-7`।
 
-উপলব্ধ যেকোনো একটি ব্যবহার করা যাবে — Ling 3.0 Flash (দ্রুত ও সস্তা, প্রথম
-পছন্দ), MiniMax 2.5 (বড় context), Nemotron 3.5 Light, বা Claude নিজেই।
+**বর্তমানে ব্যবহৃত: DeepSeek V4 Flash।** বিকল্প — GLM 5.3 Flash, MiniMax 2.5,
+Nemotron 3.5 Light, বা Claude নিজেই। মডেল বদলালে শুধু `.ai/BULK_TASKS.md`-এর
+একদম উপরের এক লাইন আপডেট করতে হবে; নিয়মগুলো Flash-শ্রেণির সব মডেলে একই।
 
 **মডেল মাঝপথে বদলালেও সমস্যা নেই।** কারণ:
 - প্রতিটি টাস্ক self-contained — আগের কনভার্সেশন লাগে না
 - অবস্থা তিন জায়গায় ডিস্কে লেখা: `git log`, `.ai/PROGRESS.md`, `.ai/reports/*.md`
-- বড় batch টাস্কে **প্রতি ৫ ফাইলে checkpoint commit** বাধ্যতামূলক, তাই টোকেন
-  লিমিট মাঝপথে ফুরালেও সর্বোচ্চ ৪ ফাইলের কাজ হারায়
+- বড় batch টাস্কে **প্রতি ৩ ফাইলে checkpoint commit** বাধ্যতামূলক, তাই টোকেন
+  লিমিট মাঝপথে ফুরালেও সর্বোচ্চ ২ ফাইলের কাজ হারায়
+- প্রতিটি টাস্কের শুরুতে **পাইলট নিয়ম**: প্রথম ২ ফাইল করে থামতে হবে, Claude
+  যাচাই করার পরই বাকিগুলো — ভুল recipe-এ ২০ ফাইল নষ্ট হওয়া ঠেকায়
 
 ⚠️ **`.agents/hooks.json` auto-resume শুধু Antigravity-তে চলে।** BULK মডেল অন্য
 টুলে চলবে, তাই সেখানে ব্যবহারকারী `.ai/PROGRESS.md`-এর শুরুতে থাকা **বুট
