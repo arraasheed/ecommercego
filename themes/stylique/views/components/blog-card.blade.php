@@ -4,7 +4,7 @@
     <div class="relative">
         <a href="{{ route('page.article', [$store->slug, $blog->slug]) }}">
             <img src="{{ get_file($blog->cover_image_path) ?? asset('assets/images/blog-image1.png') }}"
-            width="400" height="400" alt="Blog post image" class="w-full h-60 object-cover object-top"/>
+            width="400" height="400" alt="Blog post image" class="w-full h-60 object-cover object-top" loading="lazy" decoding="async"/>
         </a>
     </div>
     <div class="h-full flex flex-col">
