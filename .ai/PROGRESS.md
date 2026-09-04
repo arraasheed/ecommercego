@@ -171,12 +171,18 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 
 ## 📊 সামগ্রিক অবস্থা
 
-**বর্তমান পর্যায়:** Day 0 সম্পন্ন — Day 1 শুরুর জন্য প্রস্তুত
-**সর্বশেষ আপডেট:** Day 0 (git + `.ai/` + `.agents/` বাস্তবে বসানো হলো)
-**সর্বশেষ কমিট:** `17a47e9` — baseline snapshot, tag `baseline-v0`
+**বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1 ও GEMINI-2 সম্পন্ন
+**সর্বশেষ আপডেট:** Day 1 (Gemini-র দুইটি অডিট শেষ, Claude যাচাই করেছে)
+**সর্বশেষ কমিট:** `c945b79` — tailwind class scan [GEMINI-2]
+**সক্রিয় branch:** `day1/asset-pipeline`
 
-**Day 1 শুরুর ক্রম:** GEMINI-1 → GEMINI-2 → *(এই দুইটি শেষ হলে)* → CLAUDE-1
+**Day 1 শুরুর ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → **CLAUDE-1 এখন চালানো যায়**
 BULK-1 স্বাধীন, যেকোনো সময় চালানো যায়।
+
+⚠️ **CLAUDE-1 শুরুর আগে ব্যবহারকারীর কাছ থেকে দরকার:**
+- Laragon চালু (Day 0-এ তিনটি URL unreachable ছিল)
+- Admin login (email + password) ও একটি store slug
+এগুলো ছাড়া before/after বেঞ্চমার্ক নেওয়া যাবে না।
 
 ---
 
@@ -206,8 +212,8 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 
 | টাস্ক | মডেল | অবস্থা | কমিট | নোট |
 |---|---|---|---|---|
-| GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/asset-inventory.md` |
-| GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/tailwind-classes.md` |
+| GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/asset-inventory.md` · Claude যাচাই: সংখ্যা নির্ভুল |
+| GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | `c945b79` | রিপোর্ট → `.ai/reports/tailwind-classes.md` · ⚠️ safelist অসম্পূর্ণ — যাচাই: `.ai/reports/gemini2-verification.md`, CLAUDE-1 এ ৪টি class যোগ করতে হবে |
 | CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ⬜ PENDING | — | Play CDN 466KB সরানো |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ⬜ PENDING | — | |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
