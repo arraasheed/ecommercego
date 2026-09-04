@@ -17,7 +17,7 @@
                     <div class="flex items-center gap-4">
                         <div class="h-20 w-20 flex-shrink-0 border bg-gray-100 rounded-lg">
                             <img src="{{ get_file($wishlist->ProductData->cover_image_path ?? '') }}" alt="wishlist-image"
-                                class="h-full w-full object-contain rounded-md" />
+                                class="h-full w-full object-contain rounded-md" loading="lazy" decoding="async" />
                         </div>
                         <div>
                             <h3 class="font-medium mb-1">
