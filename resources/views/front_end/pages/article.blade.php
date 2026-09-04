@@ -31,7 +31,7 @@
                 <div class="flex items-center gap-3">
                   <img
                     src="{{ asset('avatar.png') }}"
-                    alt="Emma Wilson" class="w-10 h-10 rounded-full" />
+                    alt="Emma Wilson" class="w-10 h-10 rounded-full" loading="lazy" decoding="async" />
                   <span>{{ ucwords($user->name ?? 'Emma Wilson') }}</span>
                 </div>
                 <div class="flex flex-wrap items-center sm:gap-5 gap-3">
@@ -53,7 +53,7 @@
                 <img
                   src="{{get_file($blog->cover_image_path) ?? 'assets/images/article-banner-1.png' }}"
                   alt="article-banner"
-                  class="w-full h-full object-cover" />
+                  class="w-full h-full object-cover" loading="lazy" decoding="async" />
               </div>
             </div>
   
@@ -123,7 +123,7 @@
                @foreach ($blogs as $blog)
                <a href="{{ route('page.article', [$store->slug, $blog->slug]) }}" class="group">
                  <div class="mb-3 overflow-hidden rounded-lg">
-                   <img src="{{ get_file($blog->cover_image_path ?? 'assets/images/article-1.png') }}" alt="article-image" class="w-full h-48 object-cover transition duration-300 transform group-hover:scale-105">
+                   <img src="{{ get_file($blog->cover_image_path ?? 'assets/images/article-1.png') }}" alt="article-image" class="w-full h-48 object-cover transition duration-300 transform group-hover:scale-105" loading="lazy" decoding="async">
                  </div>
                  <span class="text-sm text-primary font-medium">{{$blog->title ?? 'Food Storage'}}</span>
                  <h3 class="font-semibold text-lg mt-2">{!! $blog->short_description ?? 'Beginner\'s Guide to Keeping Fruits and Veggies Fresh' !!}</h3>

@@ -33,13 +33,13 @@
                         </div>
                         <div class="rounded-lg overflow-hidden relative pt-[60%] w-full">
                             <img src="{{ get_file($themeSettings['abouts_us_full_image'] ?? '') }}"
-                                alt="about-image" class="w-full h-full object-cover absolute inset-0" />
+                                alt="about-image" class="w-full h-full object-cover absolute inset-0" loading="lazy" decoding="async" />
                         </div>
                     </div>
                     <div class="lg:grid lg:grid-cols-2 lg:gap-12 gap-6 items-center lg:pb-20 pb-5">
                         <div class="rounded-lg overflow-hidden relative pt-[60%] w-full">
                             <img src="{{ get_file($themeSettings['abouts_us_full_image_second'] ?? '') }}" alt="about-image"
-                                class="w-full h-full object-cover absolute inset-0" />
+                                class="w-full h-full object-cover absolute inset-0" loading="lazy" decoding="async" />
                         </div>
                         <div class="mt-6 lg:mt-0">
                             <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">{{ $themeSettings['abouts_us_full_title_second'] ?? __('Driven by Innovation, Guided by Purpose') }}</h2>
@@ -94,7 +94,7 @@
                                                 <div class="text-center h-full">
                                                     <img src="{{ asset($abouts_counter->image) }}" 
                                                         alt="{{ $abouts_counter->big_text }}"
-                                                        class="w-48 h-48 rounded-full mx-auto mb-4 object-cover" />
+                                                        class="w-48 h-48 rounded-full mx-auto mb-4 object-cover" loading="eager" fetchpriority="high" decoding="async" />
                                                     <h3 class="font-heading font-semibold text-xl mb-1">{{ $abouts_counter->big_text }}</h3>
                                                     <p class="text-primary font-medium mb-3">{{ $abouts_counter->small_text }}</p>
                                                     <p class="text-gray-600 text-sm line-clamp-2">{!! $abouts_counter->content !!}</p>
