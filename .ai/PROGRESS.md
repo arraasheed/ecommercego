@@ -256,13 +256,13 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ✅ DONE | `9d4d831` | CSS requests 20→2 (−90%), CSS bytes 994→755.7 KB (−24%), LCP −80ms · 4 variants (RTL/dark) · kill-switch `LEGACY_ADMIN_CSS` · রিপোর্ট → `.ai/reports/admin-css-map.md` · benchmark updated |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ✅ DONE | `78f421b` | ২১ ফাইল / ৪২ জায়গা · disk-cache 0→31 (৩২টির মধ্যে) · helper: `asset_v()`, `get_file_v()`, `asset_version()` · `.htaccess` Cache-Control · kill-switch `LEGACY_ASSET_TIME_BUSTER` · pixel-diff 0 · রিপোর্ট → `.ai/reports/cache-buster-map.md` |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ✅ DONE | `f9e6f11` | ৪৫ img: ২৬ lazy + ৯ eager(LCP) + ৮ আগে থেকে · ব্যতিক্রম ২ (FB pixel, commented) · রিপোর্ট → `.ai/reports/img-lazy-report.md` · missing dims → `.ai/reports/img-missing-dimensions.md` |
-| CLAUDE-4  Day 1 ব্রাউজার টেস্ট + merge | Claude | ✅ DONE | `4d3c04f` → merge `<pending>` | ২৩ পেজ × ২ viewport, ০ নতুন console error · cart→checkout→order flow পাস (টেস্ট ডেটা সিড করে) · ৩ kill-switch দুই দিকে পরীক্ষিত · JS −466 KB, admin request −18 · রিপোর্ট → `.ai/reports/day1-final-test.md` · benchmark "Day 1 Final" · ➕ `script-inventory.md` পুনর্নির্মাণ (স্ক্যানার সহ) |
+| CLAUDE-4  Day 1 ব্রাউজার টেস্ট + merge | Claude | ✅ DONE | `d4f2c70` · merge `cdf7f05` · tag `day1-complete` | ২৩ পেজ × ২ viewport, ০ নতুন console error · cart→checkout→order flow পাস (টেস্ট ডেটা সিড করে) · ৩ kill-switch দুই দিকে পরীক্ষিত · JS −466 KB, admin request −18 · merge-পরবর্তী master-এও যাচাই করা হয়েছে · রিপোর্ট → `.ai/reports/day1-final-test.md` · benchmark "Day 1 Final" · ➕ `script-inventory.md` পুনর্নির্মাণ (স্ক্যানার সহ) |
 
 ### Day 2 — Turbo Drive (branch: `day2/turbo-drive`)
 
 | টাস্ক | মডেল | অবস্থা | কমিট | নোট |
 |---|---|---|---|---|
-| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ✅ REDONE by Claude | `4d3c04f` | Gemini-র সংস্করণ ব্যবহারযোগ্য ছিল না (যাচাই → `.ai/reports/gemini3-verification.md`)। CLAUDE-4-এ স্ক্যানার দিয়ে পুনর্নির্মাণ: `.agents/scripts/scan-inline-scripts.cjs` → **199 ফাইল / 300 block**, A 129 · B 91 · C 19 · D 12 · E 49, 🔴 **mixed A+B = 50** |
+| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ✅ REDONE by Claude | `d4f2c70` | Gemini-র সংস্করণ ব্যবহারযোগ্য ছিল না (যাচাই → `.ai/reports/gemini3-verification.md`)। CLAUDE-4-এ স্ক্যানার দিয়ে পুনর্নির্মাণ: `.agents/scripts/scan-inline-scripts.cjs` → **199 ফাইল / 300 block**, A 129 · B 91 · C 19 · D 12 · E 49, 🔴 **mixed A+B = 50** |
 | CLAUDE-5  Turbo ইনস্টল + bootstrap + kill-switch | Claude | ⬜ PENDING | — | **এখন চালানো যায়** |
 | BULK-2  script → `turbo:load` (batch 1: ৬০টি) | BULK মডেল | ⬜ PENDING | — | recipe অনুসরণ · ⚠️ mixed A+B ব্লকগুলো আলাদা করে দিতে হবে |
 | BULK-3  script → `turbo:load` (batch 2: ৬০টি) | BULK মডেল | ⬜ PENDING | — | |
