@@ -230,7 +230,7 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 
 | টাস্ক | মডেল | অবস্থা | কমিট | নোট |
 |---|---|---|---|---|
-| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ⬜ PENDING | — | রিপোর্ট → `.ai/reports/script-inventory.md` |
+| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/script-inventory.md` |
 | CLAUDE-5  Turbo ইনস্টল + bootstrap + kill-switch | Claude | ⬜ PENDING | — | |
 | BULK-2  script → `turbo:load` (batch 1: ৬০টি) | BULK মডেল | ⬜ PENDING | — | recipe অনুসরণ |
 | BULK-3  script → `turbo:load` (batch 2: ৬০টি) | BULK মডেল | ⬜ PENDING | — | |
