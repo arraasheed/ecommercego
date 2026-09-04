@@ -81,7 +81,7 @@
                                             width="150"
                                             height="150"
                                             alt="{{ $logo->alt_text ?? 'Partner Logo' }}"
-                                            class="h-12 object-contain"
+                                            class="h-12 object-contain" loading="eager" fetchpriority="high" decoding="async"
                                         />
                                     </div>
                                 </div>
@@ -315,7 +315,7 @@
                                             <img
                                             src="{{ get_file($review->avatar) }}"
                                                 alt="Customer"
-                                                class="w-12 h-12 rounded-full object-cover"
+                                                class="w-12 h-12 rounded-full object-cover" loading="lazy" decoding="async"
                                             />
                                             <div>
                                                 <h4 class="font-medium">
