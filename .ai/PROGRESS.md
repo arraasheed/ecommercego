@@ -207,13 +207,37 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
   বদলে)। স্ক্যানার: `.agents/scripts/scan-inline-scripts.cjs`, পুনরায় চালানো
   নিরাপদ। ফলাফল: **199 ফাইলে 300 inline script block** —
   A 129 / B 91 / C 19 / D 12 / E 49। মেশিন-পাঠযোগ্য: `script-inventory.json`
-- 🔴 **50টি ব্লক "mixed A+B"** — একই `<script>`-এ widget init *এবং*
+  · ✅ Claude ৩০০টি লাইন রেফারেন্স যাচাই করেছে — **৩০০/৩০০ সঠিক**
+- 🔴 **BULK কতটুকু ছুঁতে পারবে — ৩০০ নয়, ২৪০:**
+
+  | কোথায় | block | BULK ছুঁতে পারবে? |
+  |---|---|---|
+  | `resources/views/**` | 230 | ✅ |
+  | `themes/**` | 10 | ✅ |
+  | `packages/workdo/LandingPage/**` | **60** | ⛔ **নিষিদ্ধ ফোল্ডার** |
+
+  BULK-2/3/4 শুধু `resources/` + `themes/` এর **২৪০ block / ১৫৭ ফাইলে** কাজ করবে
+  (A 108 · B 75 · C 17 · D 11 · E 29)। `packages/workdo/` লাইসেন্সকৃত upstream
+  module — PROJECT_CONTEXT নিয়ম ১ অনুযায়ী নিষিদ্ধ। LandingPage marketing সাইট
+  render করে, storefront/admin নয়, তাই Day 2-এর স্কোপেও নেই।
+- 🔴 **mixed A+B — ৫০ নয়, আসলে ৪৫:** একই `<script>`-এ widget init *এবং*
   `$(document).on()` delegation। পুরোটা `turbo:load`-এ wrap করলে প্রতি
   navigation-এ handler ডুপ্লিকেট হবে (double add-to-cart), না করলে widget
-  হারাবে। **BULK-2/3/4-এর recipe-এ এই ৫০টি আলাদা করে দিতে হবে।**
+  হারাবে। **BULK-2/3/4-এর recipe-এ এগুলো আলাদা করে দিতে হবে।**
+  বাকি ৫টি false-positive — স্ক্যানার `document.addEventListener('DOMContentLoaded')`
+  কে global listener গুনেছে, কিন্তু সেটি page-init wrapper, delegation নয়।
+  Claude প্রতিটি block body পড়ে যাচাই করেছে।
 - re-init লাগবে যেসব widget: DataTable, select2, summernote, flatpickr, Swiper,
   ApexCharts, Dropzone, bootstrap modal, switchButton, jquery.steps,
   jquery.validate, choices.js, emojionearea, flipdown, leaflet, sortable
+- 🟠 **gzip/brotli সম্পূর্ণ বন্ধ** — কোনো response-এ `Content-Encoding` নেই।
+  storefront ৬৬ KB + admin ৭২.৫ KB সঞ্চয় এবং FCP/LCP ~৬৪০ ms উন্নতি পাওয়া যেত।
+  Apache কনফিগের বিষয়, CLAUDE-9-এ `.htaccess` `mod_deflate` দিয়ে করতে হবে।
+- 🟠 **`@foreach` লুপে `fetchpriority="high"`** — `product-detail.blade.php:24,54`
+  ও `about.blade.php:97` এ gallery/thumbnail/team ছবি লুপের ভেতরে eager হয়েছে
+  (BULK-1)। একটি product-এ ১০ ছবি থাকলে ১০টিই "সর্বোচ্চ প্রাধান্য" পাবে —
+  প্রাধান্যের অর্থ হারায়। `$loop->first` দিয়ে শুধু প্রথমটিকে eager রাখা উচিত।
+  এখন ৩টি product-এ ধরা পড়েনি; আসল ক্যাটালগে LCP খারাপ হতে পারে।
 - **DB-তে এখন টেস্ট ডেটা আছে** (৩ product, ১ order, ১ customer) — CLAUDE-8-এর
   ২০ পেজ টেস্টে cart/checkout/order flow যাচাই করা যাবে। মুছবেন না।
 - **stylique ছাড়া অন্য থিম এখনো Play CDN-এ** (greentic, techzonix)। Day 2-এ
@@ -221,6 +245,10 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 - **`partision/head.blade.php:52` → `css/custome.css` 404 — ইচ্ছাকৃতভাবে রাখা হলো।**
   ফাইলটি নেই, master-এও একই 404, আর `custom.css`-এ বদলালে ৬০১টি নতুন rule
   হঠাৎ চালু হয়ে ডিজাইন বদলাতে পারে। উপকার নেই, ঝুঁকি আছে।
+- ⚠️ **CLAUDE-2 এর admin স্ক্রিনশট নেওয়া হয়নি** — চারটি variant (LTR/RTL ×
+  light/dark) চোখে যাচাই হয়নি। CLAUDE-4-এ dark ও RTL toggle কাজ করা যাচাই
+  হয়েছে, কিন্তু ৭৪০ KB bundle-এ cascade order নিয়ে সন্দেহ থাকলে CLAUDE-8-এ
+  চারটি variant-এর স্ক্রিনশট নেওয়া উচিত।
 
 ---
 

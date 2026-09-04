@@ -9,6 +9,40 @@ ones Turbo Drive stops re-executing after a page swap.
 
 ---
 
+## 0. 🔴 Scope — which of these 300 blocks BULK may touch
+
+The scanner reports every inline block it finds, including ones inside folders the
+BULK model is forbidden to edit. Read this before slicing work out of the tables below.
+
+| Location | Blocks | BULK may edit? |
+|---|---|---|
+| `resources/views/**` | 230 | ✅ yes |
+| `themes/**` | 10 | ✅ yes |
+| `packages/workdo/LandingPage/**` | 60 | ⛔ **no — forbidden folder** |
+
+**BULK-2/3/4 work only on the 240 blocks under `resources/` and `themes/`**
+(157 files): A 108 · B 75 · C 17 · D 11 · E 29, of which **48 are mixed A+B**.
+
+`packages/workdo/` is a licensed upstream module (see `.ai/PROJECT_CONTEXT.md`
+rule 1). Its 60 blocks stay untouched — the LandingPage module renders the
+marketing site, not the storefront or admin, so Turbo navigation there is out of
+scope for Day 2. Claude decides later whether it needs its own treatment.
+
+### False positives in the mixed list
+
+Of the 50 blocks flagged `mixed A+B`, **45 genuinely contain jQuery delegation**
+(`$(document).on(...)`). The other 5 were flagged because the scanner counts
+`document.addEventListener('DOMContentLoaded', ...)` as a global listener —
+that is a page-init wrapper, not a delegated handler, so those 5 need no split.
+Verified by re-reading each block body; example:
+`packages/workdo/LandingPage/.../change_blocks/index.blade.php:108` is a plain
+`DOMContentLoaded` + Sortable init (and is in the forbidden folder anyway).
+
+**Real split work for BULK: 45 blocks, minus any inside `packages/` → check the
+table in section 2.**
+
+---
+
 ## 1. Summary
 
 | Class | Meaning | Files | Script blocks |
