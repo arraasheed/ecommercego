@@ -1,0 +1,156 @@
+################################################################
+#  ফাইল: 26-CLAUDE-15.txt
+#  টাস্ক: CLAUDE-15
+#  প্রম্পট ১৫ — Vue 3 island: cart drawer + variant selector (Day 4)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. routes/api.php   ← ১৬১টি রেডি endpoint, এখান থেকে ডেটা নেবে
+
+branch: git checkout day4/mobile-polish
+
+### প্রেক্ষাপট
+
+এখন পর্যন্ত সব কাজ Blade + Turbo দিয়ে হয়েছে। কিন্তু চারটি জায়গায় সত্যিকারের
+reactive UI দরকার, যেখানে server round-trip ছাড়া তাৎক্ষণিক প্রতিক্রিয়া চাই:
+
+1. **Cart drawer** — item যোগ/বাদ, quantity বদল → সাথে সাথে total আপডেট
+2. **Variant selector** — size/color বাছলে দাম, ছবি, stock সাথে সাথে বদলাবে
+3. **Search suggest** — টাইপ করতে করতে suggestion
+4. **Quantity + price calc** — কোনো reload নয়
+
+এগুলোতেই ব্যবহারকারী সবচেয়ে বেশি "app কি না" বিচার করে।
+
+⚠️ এটি **island** — পুরো পেজ Vue নয়, শুধু এই ছোট অংশগুলো। বাকি সব Blade।
+
+### তোমার কাজ (CLAUDE-15)
+
+**ধাপ ১: API endpoint ম্যাপ করো**
+
+`routes/api.php` পড়ে বের করো কোন endpoint কী দেয়:
+- `{slug}/add-cart`, `{slug}/cart-list`, `{slug}/cart-qty`, `{slug}/cart-check`
+- `{slug}/check-variant-stock`
+- `{slug}/search`, `{slug}/search-guest`
+- `{slug}/wishlist`
+
+প্রতিটির request/response আকার `.ai/reports/api-contract.md`-এ নথিভুক্ত করো।
+**অনুমান করবে না** — controller (`app/Http/Controllers/Api/ApiController.php`)
+পড়ে আসল আকার দেখো।
+
+⚠️ auth: এই endpoint গুলো `custom.auth` middleware ব্যবহার করে (Sanctum token)।
+কিন্তু storefront-এ ব্যবহারকারী **session**-এ login করা। এই দুইটি কীভাবে
+মেলাবে সেটিই মূল প্রশ্ন। বিকল্প:
+- session থেকে একটি Sanctum token তৈরি করে Blade-এ inject করা
+- অথবা web guard-এ কাজ করে এমন বিদ্যমান ajax endpoint খুঁজে বের করা
+  (`routes/customer.php`-তে ৯৮টি route আছে, সেখানে দেখো)
+
+**পরের পথটি সম্ভবত ভালো** — কারণ session-ভিত্তিক, নতুন auth লজিক লাগে না।
+`routes/customer.php` এবং `routes/web.php`-এ storefront-এর বিদ্যমান ajax
+route খুঁজে সেগুলোই ব্যবহার করো। সিদ্ধান্ত রিপোর্টে লিখো।
+
+**ধাপ ২: Island registry**
+
+`resources/js/island-registry.js`:
+```js
+// একটি ছোট registry যা:
+// - data-island="cart-drawer" attribute দেখে component mount করে
+// - turbo:load এ নতুন island খুঁজে mount করে
+// - turbo:before-cache এ সব unmount করে (memory leak রোধ)
+// - একই element-এ দুইবার mount করে না
+// - component না থাকলে চুপচাপ ছেড়ে দেয় (blade fallback দেখাবে)
+```
+
+⚠️ Gemini সঠিকভাবে সতর্ক করেছে — mount/unmount lifecycle ছাড়া memory leak হবে।
+এই registry-ই সেই সমস্যার কেন্দ্রীয় সমাধান, প্রতিটি island-এ হাতে লেখা নয়।
+
+**ধাপ ৩: Component তৈরি করো**
+
+`resources/js/islands/CartDrawer.vue`
+`resources/js/islands/VariantSelector.vue`
+
+শর্ত:
+- **progressive enhancement**: Blade ইতিমধ্যে যা render করে সেটিই থাকবে;
+  Vue শুধু তার উপরে বসবে। JS ব্যর্থ হলে পুরনো jQuery আচরণ কাজ করবে।
+- ডিজাইন **হুবহু** বর্তমান মতো — নতুন কিছু নয়। বর্তমান cart drawer-এর
+  HTML/CSS পড়ে সেটিই Vue template-এ আনো।
+- optimistic UI: quantity বদলালে সাথে সাথে দেখাবে, তারপর server নিশ্চিত করবে;
+  ব্যর্থ হলে আগের অবস্থায় ফিরবে + বার্তা
+- loading ও error অবস্থা থাকবে
+- CSRF token পাঠাবে (`meta[name="csrf-token"]`)
+
+**ধাপ ৪: Blade-এ যোগ করো**
+
+বর্তমান cart drawer-এর HTML-এ `data-island="cart-drawer"` যোগ করো।
+পুরনো jQuery কোড **মুছবে না** — kill-switch হিসেবে রাখো:
+```blade
+@if (config('app.spa.vue_islands', true))
+    <div data-island="cart-drawer" ...>
+@endif
+```
+
+### 🔴 ভেরিফিকেশন
+
+Playwright দিয়ে মোবাইল viewport-এ:
+1. product → add to cart → drawer খোলে, item দেখায়
+2. quantity + → total সাথে সাথে বদলায়, কোনো reload নেই
+3. item remove → সাথে সাথে চলে যায়
+4. variant বাছো → দাম, ছবি, stock বদলায়
+5. out of stock variant → add to cart বন্ধ থাকে
+6. cart badge সংখ্যা ঠিক
+7. পেজ reload → cart অবস্থা টিকে আছে (server-এ সংরক্ষিত)
+8. Turbo navigate → back → drawer একটাই (duplicate mount নেই)
+9. ১০ বার navigate → memory বাড়ছে কি (heap snapshot দিয়ে যাচাই করো)
+10. kill-switch `vue_islands=false` → পুরনো jQuery আচরণ কাজ করে
+11. network বন্ধ করে quantity বদলাও → স্পষ্ট error, নীরব ব্যর্থতা নয়
+12. checkout পর্যন্ত পুরো ক্রয় প্রবাহ কাজ করে
+
+⛔ ৭ ও ১২ নম্বর সবচেয়ে গুরুত্বপূর্ণ — cart ভাঙা মানে বিক্রি বন্ধ।
+সমস্যা হলে `vue_islands=false` করে Blockers-এ লিখো।
+
+### সম্পন্ন করার পর
+
+১. `.ai/reports/api-contract.md`
+২. `.ai/PROGRESS.md`-এ CLAUDE-15 → ✅ DONE
+৩. commit:
+git add -A
+git commit -m "feat(vue): cart drawer and variant selector as Vue islands  [CLAUDE-15]"
+৪. বাংলায় রিপোর্ট: কোন endpoint ব্যবহার করেছ, memory leak নেই তো,
+   ক্রয় প্রবাহ অক্ষত কি

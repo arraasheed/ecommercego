@@ -1,0 +1,125 @@
+################################################################
+#  ফাইল: 24-CLAUDE-13.txt
+#  টাস্ক: CLAUDE-13
+#  প্রম্পট ১৩ — Skeleton loader + instant navigation feel (Day 4)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/mobile-audit.md   ← Gemini (GEMINI-4), থাকলে
+
+⚠️ যাচাই করো `git tag -l` এ `day3-complete` আছে কি।
+
+branch:
+cd C:\laragon\www\ecommercego
+git checkout -b day4/mobile-polish
+
+### প্রেক্ষাপট
+
+Turbo বসানোর পর navigation দ্রুত, কিন্তু এখনো "app-এর মতো" লাগে না। কারণ:
+- Turbo cache থাকলে instant, কিন্তু cache না থাকলে ৩০০-৮০০ms ফাঁকা অপেক্ষা
+- সেই সময় ব্যবহারকারী কিছুই দেখে না → মনে হয় আটকে গেছে
+- native app-এ এই সময় skeleton বা placeholder দেখায়
+
+### তোমার কাজ (CLAUDE-13)
+
+**ধাপ ১: Turbo progress bar কাস্টমাইজ**
+
+Turbo-র ডিফল্ট progress bar ৫০০ms পরে দেখায়। মোবাইলে সেটি কমাও (~১৫০ms)
+এবং স্টাইল করো — পাতলা, উপরে, ব্র্যান্ড রঙে। CSS: `.turbo-progress-bar`
+
+**ধাপ ২: Skeleton overlay**
+
+`resources/js/skeleton.js` + `resources/css/skeleton.css`
+
+আচরণ:
+- `turbo:visit` এ skeleton দেখাও, কিন্তু **সাথে সাথে নয়** — ১৫০ms পরে।
+  কারণ navigation ১০০ms-এ শেষ হলে skeleton ঝলক দিলে বিরক্তিকর লাগে।
+- `turbo:load` এ সরাও
+- Turbo preview (cached) দেখানো হলে skeleton দেখাবে না
+  (`document.documentElement.hasAttribute('data-turbo-preview')` চেক)
+- pulse animation, কিন্তু `prefers-reduced-motion` সম্মান করবে
+
+⚠️ skeleton overlay হবে, layout shift তৈরি করবে না (CLS বাড়ালে উল্টো ক্ষতি)।
+
+**ধাপ ৩: Link tap-এ তাৎক্ষণিক প্রতিক্রিয়া**
+
+tap করা link/button-এ সাথে সাথে `:active` স্টাইল (scale বা opacity)।
+CSS-এ করবে, JS নয় — JS দিয়ে করলে দেরি হবে।
+
+**ধাপ ৪: Turbo prefetch (সতর্কতার সাথে)**
+
+Turbo 8-এ `data-turbo-prefetch` আছে, যা navigation প্রায় instant করে।
+
+⚠️ ঝুঁকি: ৫০টি product link থাকা listing পেজে সব prefetch হলে server-এ চাপ।
+
+তাই:
+- শুধু: main nav, bottom nav, pagination
+- product card-এ চালু করবে **না**
+- POST/delete link-এ কখনো নয়
+- সিদ্ধান্ত ও কারণ `.ai/reports/prefetch-policy.md`-এ লিখো
+
+**ধাপ ৫: Scroll অবস্থা**
+
+listing পেজে নিচে scroll → product-এ যাও → back → একই জায়গায় ফিরেছে কি
+যাচাই করো। না হলে ঠিক করো।
+
+### 🔴 ভেরিফিকেশন
+
+Playwright দিয়ে মোবাইল viewport-এ:
+1. cached navigation → skeleton দেখা যায় না (instant)
+2. uncached navigation → skeleton দেখা যায়, তারপর content
+3. খুব দ্রুত navigation-এ skeleton ঝলক দেয় না
+4. CLS মাপো — skeleton যোগ করার পরেও ০.১-এর নিচে?
+5. listing → detail → back → scroll অবস্থান ঠিক
+6. prefetch যেখানে চাইছি সেখানেই হচ্ছে (network দেখে যাচাই)
+7. tap করলে সাথে সাথে ভিজ্যুয়াল প্রতিক্রিয়া
+8. Lighthouse — CLS ও TBT খারাপ হয়নি
+
+স্ক্রিনশট: `.ai/screenshots/day4-skeleton/`
+
+### সম্পন্ন করার পর
+
+১. `.ai/reports/prefetch-policy.md`
+২. `.ai/PROGRESS.md`-এ CLAUDE-13 → ✅ DONE
+৩. commit:
+git add -A
+git commit -m "feat(ux): skeleton loader, progress bar, selective prefetch  [CLAUDE-13]"
+৪. বাংলায় রিপোর্ট: navigation এখন কত ms, CLS বাড়েনি তো

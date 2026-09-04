@@ -1,0 +1,141 @@
+################################################################
+#  ফাইল: 14-CLAUDE-7.txt
+#  টাস্ক: CLAUDE-7
+#  প্রম্পট ৭ — Form redirect ও validation (Turbo 303) (Day 2)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো: .ai/PROJECT_CONTEXT.md এবং .ai/PROGRESS.md
+
+branch: git checkout day2/turbo-drive
+
+### সমস্যা
+
+Turbo ফর্ম সাবমিশন intercept করে। কিন্তু Turbo দাবি করে POST-এর পর redirect
+হতে হবে **303 See Other** স্ট্যাটাসে। Laravel ডিফল্টে **302 Found** পাঠায়।
+
+ফলে: ফর্ম সাবমিট করলে Turbo redirect অনুসরণ করবে কিন্তু আবার POST করার
+চেষ্টা করতে পারে, অথবা পেজ আপডেট হবে না।
+
+আরও একটি সমস্যা: validation error-এ Laravel `back()` করে 302 দিয়ে —
+Turbo এটি সঠিকভাবে render করতে পারে না, error message দেখাবে না।
+
+⛔ **কিন্তু আমরা ১৩৩টি controller পরিবর্তন করব না।** সেটি upstream update
+নষ্ট করবে। সমাধান হতে হবে কেন্দ্রীয়, middleware-ভিত্তিক।
+
+### তোমার কাজ (CLAUDE-7)
+
+**ধাপ ১: Middleware তৈরি করো**
+
+`app/Http/Middleware/TurboResponseMiddleware.php`
+
+⚠️ এটি `app/` এ একটি নতুন ফাইল — নতুন ফাইল যোগ করা অনুমোদিত, বিদ্যমান
+controller/model পরিবর্তন নয়।
+
+যা করবে:
+- request-এ Turbo header আছে কি চেক (`Accept: text/vnd.turbo-stream.html` বা
+  `Turbo-Frame`, অথবা আমাদের নিজের যোগ করা header)
+- response redirect (30x) এবং request method POST/PUT/PATCH/DELETE হলে
+  → status 303-এ বদলাও
+- GET redirect-এ হাত দেবে না (302 ঠিক আছে)
+
+**ধাপ ২: নিবন্ধন**
+
+Laravel 11-এ middleware `bootstrap/app.php` এ নিবন্ধিত হয়।
+সেই ফাইলটি পড়ো এবং `web` group-এ যোগ করো।
+
+⚠️ `bootstrap/app.php` পরিবর্তন করবে — এটি ছোট ফাইল, merge conflict সহজে
+সমাধানযোগ্য। PROJECT_CONTEXT-এ এটি অনুমোদিত ব্যতিক্রম হিসেবে যোগ করো।
+
+**ধাপ ৩: validation error handling**
+
+Turbo-তে validation error দেখানোর দুইটি পথ:
+(ক) 422 status পাঠানো — কিন্তু এতে controller বদলাতে হবে ❌
+(খ) `turbo-bootstrap.js` এ `turbo:submit-end` ইভেন্ট ধরে, redirect হলে
+    পরের পেজে flash message/error আছে কি দেখা ✅
+
+(খ) পথে যাও। `turbo-bootstrap.js` এ যোগ করো:
+- `turbo:submit-start` — submit বোতাম disable + loading অবস্থা
+- `turbo:submit-end` — বোতাম আবার সক্রিয়
+- ব্যর্থ হলে (network error) ব্যবহারকারীকে জানানো
+
+প্রজেক্টে flash message দেখানোর যে system আছে (`show_toastr` function,
+`resources/views/layouts/includes/alerts.blade.php`) সেটি Turbo navigation-এর
+পরেও কাজ করছে কি যাচাই করো।
+
+**ধাপ ৪: ফাইল upload ফর্ম**
+
+Turbo `multipart/form-data` ফর্ম সমর্থন করে, কিন্তু progress দেখায় না।
+প্রজেক্টে dropzone ও সাধারণ file input দুইটাই আছে।
+
+যেসব ফর্মে ফাইল upload আছে সেগুলো খুঁজে বের করো। যদি সমস্যা হয়,
+সেই ফর্মে `data-turbo="false"` দাও — traditional submit হবে, নিরাপদ।
+
+### 🔴 ভেরিফিকেশন
+
+Playwright দিয়ে **প্রকৃত ফর্ম সাবমিশন** টেস্ট করো:
+
+1. Admin login ফর্ম — সঠিক credential
+2. Admin login — ভুল credential → error message দেখাচ্ছে?
+3. Product create — সব ঠিক → save → redirect + success message?
+4. Product create — required field ফাঁকা → validation error দেখাচ্ছে?
+5. Product edit → update → পরিবর্তন সংরক্ষিত?
+6. Coupon create (modal থেকে) → save → list আপডেট?
+7. Product create image সহ (file upload) → কাজ করছে?
+8. Delete confirmation → item মুছেছে + list আপডেট?
+9. Settings save → মান সংরক্ষিত?
+10. Storefront: register ফর্ম → validation error → তারপর সফল
+11. Storefront: add to cart → cart আপডেট
+12. Storefront: checkout address ফর্ম
+
+প্রতিটিতে দেখো: URL ঠিক বদলেছে? message দেখাচ্ছে? ডেটা সংরক্ষিত হয়েছে?
+console error নেই?
+
+⛔ ফর্ম ভাঙা মানে সম্পূর্ণ ব্লকার। ফর্ম কাজ না করলে প্রজেক্ট অচল।
+সমাধান না হলে Turbo-কে শুধু GET navigation-এ সীমাবদ্ধ করার কথা ভাবো
+(`turbo.session.drive` কনফিগার) — ব্যবহারকারীকে জানাও।
+
+### সম্পন্ন করার পর
+
+১. `.ai/PROGRESS.md`-এ CLAUDE-7 → ✅ DONE
+২. PROJECT_CONTEXT.md-এর অনুমোদিত ফাইল তালিকায় `bootstrap/app.php` এবং
+   `app/Http/Middleware/TurboResponseMiddleware.php` যোগ করো
+৩. commit:
+git add -A
+git commit -m "fix(turbo): 303 redirect middleware and form submit lifecycle  [CLAUDE-7]"
+৪. বাংলায় রিপোর্ট: ১২টি ফর্ম টেস্টের ফলাফল টেবিলে

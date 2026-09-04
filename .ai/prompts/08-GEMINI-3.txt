@@ -1,0 +1,121 @@
+################################################################
+#  ফাইল: 08-GEMINI-3.txt
+#  টাস্ক: GEMINI-3
+#  প্রম্পট ৩ — Inline Script Inventory (Day 2)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো: .ai/PROJECT_CONTEXT.md এবং .ai/PROGRESS.md
+
+⛔ এই টাস্কেও তুমি কোনো blade ফাইল পরিবর্তন করবে না। শুধু রিপোর্ট।
+
+প্রেক্ষাপট: আমরা Hotwired Turbo Drive বসাচ্ছি। Turbo পেজ reload না করে body swap করে,
+তাই `$(document).ready()` শুধু প্রথম লোডে চলে — পরের পেজে আর চলে না। প্রজেক্টে ১৭০টি
+blade ফাইলে inline `<script>` আছে, ৭২টিতে `$(document).ready`। এগুলো `turbo:load`
+ইভেন্টে সরাতে হবে।
+
+কিন্তু সব script একইভাবে সরানো যায় না। কিছু script একবারই চলা উচিত (যেমন global config,
+event delegation), কিছু প্রতি পেজে চলা উচিত (যেমন DataTable init, select2 init)।
+ভুল ভাগে ফেললে হয় duplicate binding হবে, নয়তো ফিচার কাজ করবে না।
+
+তোমার কাজ (GEMINI-3): সব inline script শ্রেণিবিন্যাস করা।
+
+স্ক্যান করবে:
+- resources/views/**/*.blade.php
+- themes/*/views/**/*.blade.php
+
+প্রতিটি inline `<script>` block-কে এই ৫ শ্রেণিতে ফেলো:
+
+A. REINIT-NEEDED → প্রতি Turbo navigation-এ আবার চালাতে হবে
+   লক্ষণ: DataTable(), select2(), summernote(), flatpickr(), ApexCharts,
+   Swiper(), dropzone, নতুন DOM element খুঁজে init করা
+
+B. ONCE-ONLY → শুধু একবার চলবে, বারবার চললে সমস্যা
+   লক্ষণ: `$(document).on('click', 'selector', ...)` (event delegation),
+   global variable declaration, `window.X = ...`, service worker register,
+   একবারের setup
+
+C. INLINE-DATA → শুধু PHP থেকে JS variable পাস করছে, কোনো লজিক নেই
+   লক্ষণ: `var x = "{{ $y }}";` ধরনের লাইন মাত্র
+
+D. THIRD-PARTY → বাইরের স্ক্রিপ্ট (analytics, chat widget, pixel, payment SDK)
+   লক্ষণ: googletagmanager, facebook pixel, tawk, stripe.js, razorpay ইত্যাদি
+
+E. UNCLEAR → নিশ্চিত নও, Claude-কে দেখাতে হবে
+
+ফলাফল লিখবে: `.ai/reports/script-inventory.md`
+
+ফরম্যাট:
+# Inline Script Inventory
+
+## ১. সারসংক্ষেপ
+| শ্রেণি | ফাইল সংখ্যা | script block সংখ্যা |
+| A REINIT-NEEDED | | |
+| B ONCE-ONLY | | |
+| C INLINE-DATA | | |
+| D THIRD-PARTY | | |
+| E UNCLEAR | | |
+
+## ২. A — REINIT-NEEDED
+| ফাইল | লাইন | কী init করছে | নির্ভরশীল library |
+
+## ৩. B — ONCE-ONLY
+| ফাইল | লাইন | কী করছে | বারবার চললে কী সমস্যা |
+
+## ৪. C — INLINE-DATA
+| ফাইল | লাইন |
+
+## ৫. D — THIRD-PARTY
+| ফাইল | লাইন | কোন সেবা |
+
+## ৬. E — UNCLEAR (Claude সিদ্ধান্ত নেবে)
+| ফাইল | লাইন | কোড (সংক্ষেপে) | কেন অনিশ্চিত |
+
+## ৭. 🔴 বিশেষ ঝুঁকি
+এমন script যেগুলোতে A এবং B **একই block-এ মিশে আছে** —
+এগুলো ভাগ করতে হবে, তাই আলাদা তালিকা দাও:
+| ফাইল | লাইন | কোন অংশ A, কোন অংশ B |
+
+শেষ হলে `.ai/PROGRESS.md`-এ GEMINI-3 → ✅ DONE করো।
+
+git commit:
+cd C:\laragon\www\ecommercego
+git add .ai/
+git commit -m "docs(audit): inline script inventory for Turbo migration  [GEMINI-3]"
+
+আমাকে বাংলায় জানাও: কতটি script প্রতিটি শ্রেণিতে পড়ল, এবং সবচেয়ে ঝুঁকিপূর্ণ কোনগুলো।

@@ -1,0 +1,183 @@
+################################################################
+#  ফাইল: 16-CLAUDE-9.txt
+#  টাস্ক: CLAUDE-9
+#  প্রম্পট ৯ — Redis + OPcache + backend tuning (Day 3)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+
+⚠️ যাচাই করো: `git tag -l` এ `day2-complete` আছে কি? না থাকলে থামো।
+
+branch:
+cd C:\laragon\www\ecommercego
+git checkout -b day3/pwa-workbox
+
+### প্রেক্ষাপট
+
+`.env`-এ বর্তমানে:
+```
+CACHE_DRIVER=file
+CACHE_STORE=file
+SESSION_DRIVER=file
+REDIS_HOST=127.0.0.1
+```
+
+file-based cache মানে প্রতিটি cache read/write ডিস্কে যায়। multi-store SaaS-এ
+প্রতি রিকোয়েস্টে store setting, theme setting, plan, currency — সব cache থেকে
+আসে। file driver-এ এটি বড় বাধা।
+
+প্রজেক্টে `genealabs/laravel-model-caching` আছে — অর্থাৎ model-level caching-এর
+ভিত্তি তৈরি, কিন্তু file driver-এ তার সুবিধা কম।
+
+### তোমার কাজ (CLAUDE-9)
+
+**ধাপ ১: Redis আছে কি যাচাই করো**
+
+Laragon-এ Redis থাকতে পারে বা নাও থাকতে পারে। যাচাই করো:
+- Redis service চলছে কি (port 6379)
+- PHP-তে `phpredis` extension বা `predis` আছে কি
+  (`php -m` দেখো, এবং `composer show | grep predis`)
+
+⚠️ Redis না থাকলে **install করার চেষ্টা করবে না** — সেটি ব্যবহারকারীর সিস্টেমে
+বড় পরিবর্তন। পরিবর্তে:
+- Blockers-এ লিখো Redis নেই
+- বিকল্প হিসেবে `CACHE_STORE=database` ব্যবহার করো (file-এর চেয়ে ভালো,
+  Redis-এর চেয়ে খারাপ) — কিন্তু আগে `cache` table আছে কি দেখো
+- ব্যবহারকারীকে জানাও Redis install করলে আরও কত লাভ হবে
+
+**ধাপ ২: before বেঞ্চমার্ক**
+
+chrome-devtools MCP দিয়ে **server response time (TTFB)** মাপো:
+- storefront হোমপেজ
+- admin dashboard
+- product list (DataTable ajax call)
+
+`.ai/reports/benchmark.md`-এ লিখো।
+
+এছাড়া query count জানতে চাইলে `barryvdh/laravel-debugbar` আছে —
+`.env`-এ `DEBUGBAR_ENABLED=true` করে একটি পেজে query সংখ্যা দেখো, তারপর বন্ধ করো।
+
+**ধাপ ৩: `.env` কনফিগার**
+
+Redis থাকলে:
+```
+CACHE_DRIVER=redis
+CACHE_STORE=redis
+SESSION_DRIVER=redis
+QUEUE_CONNECTION=redis
+REDIS_CLIENT=phpredis   (বা predis, যেটি আছে)
+```
+
+⚠️ `SESSION_DRIVER` বদলালে বর্তমান সব login session বাতিল হবে — এটি স্বাভাবিক,
+ব্যবহারকারীকে জানাও যে আবার login করতে হবে।
+
+`.env.example`-এও একই পরিবর্তন করো।
+
+**ধাপ ৪: OPcache**
+
+`php --ini` দিয়ে php.ini পাথ বের করো। OPcache সক্রিয় কি দেখো (`php -i | findstr opcache`)।
+
+⚠️ php.ini হলো সিস্টেম ফাইল, প্রজেক্টের বাইরে। **নিজে থেকে পরিবর্তন করবে না।**
+পরিবর্তে:
+- বর্তমান অবস্থা রিপোর্ট করো
+- প্রস্তাবিত সেটিং `.ai/reports/server-tuning.md`-এ লিখো
+  (opcache.enable, memory_consumption, max_accelerated_files,
+   validate_timestamps, jit)
+- ব্যবহারকারীকে জিজ্ঞেস করো তিনি চান কি না আমি php.ini পরিবর্তন করি
+
+**ধাপ ৫: Laravel optimize**
+
+```
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan event:cache
+```
+
+⚠️ সতর্কতা: `config:cache` চালু থাকলে `env()` function কাজ করা বন্ধ করে।
+আমরা `env('TURBO_ENABLED')` ইত্যাদি blade-এ ব্যবহার করেছি — **এটি ভেঙে যাবে!**
+
+তাই প্রথমে ঠিক করতে হবে: সব `env()` কে `config()` এ সরাতে হবে।
+`config/app.php` এ একটি নতুন সেকশন যোগ করো:
+
+```php
+'spa' => [
+    'turbo_enabled'       => env('TURBO_ENABLED', true),
+    'legacy_tailwind_cdn' => env('LEGACY_TAILWIND_CDN', false),
+    'legacy_admin_css'    => env('LEGACY_ADMIN_CSS', false),
+    'pwa_enabled'         => env('PWA_ENABLED', true),
+],
+```
+
+তারপর সব blade-এ `env('TURBO_ENABLED', true)` →
+`config('app.spa.turbo_enabled')` এ বদলাও।
+
+⚠️ এটি অত্যন্ত গুরুত্বপূর্ণ — না করলে production-এ `config:cache` করার সাথে
+সাথে সব kill-switch অচল হয়ে যাবে এবং কেউ বুঝবে না কেন।
+
+`.htaccess`-এ gzip/brotli সক্রিয় কি দেখো (`mod_deflate`)। না থাকলে যোগ করো।
+
+**ধাপ ৬: view cache ও Turbo**
+
+`view:cache` চালানোর পর যাচাই করো blade পরিবর্তন এখনো কাজ করছে কি।
+development-এ `view:cache` বিরক্তিকর হতে পারে — `.ai/reports/server-tuning.md`-এ
+লিখো development vs production-এ কী চালানো উচিত।
+
+### 🔴 ভেরিফিকেশন
+
+1. TTFB আবার মাপো — before/after তুলনা
+2. login কাজ করছে? (session driver বদলেছে)
+3. cart persist হচ্ছে? (session-নির্ভর)
+4. সব kill-switch এখনো কাজ করছে? — `config('app.spa.turbo_enabled')` টেস্ট করো:
+   `.env`-এ `TURBO_ENABLED=false` → `php artisan config:clear` → যাচাই
+5. ১০টি পেজ ঘুরে দেখো কিছু ভেঙেছে কি
+6. DataTable ajax কাজ করছে?
+7. file upload কাজ করছে?
+
+### সম্পন্ন করার পর
+
+১. `.ai/reports/server-tuning.md` — বর্তমান অবস্থা, প্রস্তাব, before/after TTFB
+২. `.ai/PROGRESS.md`-এ CLAUDE-9 → ✅ DONE
+৩. commit:
+git add -A
+git commit -m "perf(backend): move kill-switches to config, enable cache drivers  [CLAUDE-9]"
+৪. বাংলায় রিপোর্ট: TTFB কত থেকে কত, Redis পাওয়া গেছে কি,
+   php.ini নিয়ে ব্যবহারকারীর সিদ্ধান্ত দরকার কি

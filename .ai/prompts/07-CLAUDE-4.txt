@@ -1,0 +1,124 @@
+################################################################
+#  ফাইল: 07-CLAUDE-4.txt
+#  টাস্ক: CLAUDE-4
+#  প্রম্পট ৪ — Day 1 চূড়ান্ত টেস্ট ও merge (Day 1)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/benchmark.md
+
+branch: git checkout day1/asset-pipeline
+
+### তোমার কাজ (CLAUDE-4): Day 1-এর সব কাজ যাচাই করে master-এ merge
+
+**ধাপ ১: সব কাজ হয়েছে কি যাচাই করো**
+
+`.ai/PROGRESS.md`-এ Day 1-এর সব টাস্ক (GEMINI-1, GEMINI-2, CLAUDE-1, CLAUDE-2,
+CLAUDE-3, BULK-1) ✅ DONE কি? না হলে কোনটা বাকি সেটা জানাও এবং merge করবে না।
+
+**ধাপ ২: পূর্ণ regression টেস্ট**
+
+Playwright MCP দিয়ে মোবাইল (412×915) ও ডেস্কটপ (1440×900) — দুই viewport-এ:
+
+**Storefront (stylique theme):**
+1. হোমপেজ — banner/slider ঘুরছে কি (Swiper কাজ করছে?)
+2. category listing — filter, sort কাজ করছে কি
+3. product detail — image gallery, variant select, quantity
+4. add to cart → cart drawer/page
+5. wishlist যোগ ও অপসারণ
+6. search — suggestion আসছে কি
+7. login → account dashboard
+8. checkout ধাপগুলো (payment ধাপ পর্যন্ত, আসল payment নয়)
+
+**Admin:**
+9. login
+10. dashboard — chart render হচ্ছে কি
+11. product list — DataTable pagination, search, sort
+12. product create — summernote editor, select2, image upload widget
+13. order list → order detail
+14. একটি modal খোলা (`data-ajax-popup`)
+15. settings পেজ
+16. dark mode toggle
+17. RTL toggle (তারপর আবার LTR-এ ফেরাও)
+
+প্রতিটি ধাপে console error আছে কি দেখো। **যেকোনো নতুন console error = ব্লকার।**
+
+স্ক্রিনশট: `.ai/screenshots/day1-final/`
+
+**ধাপ ৩: Lighthouse**
+
+chrome-devtools MCP দিয়ে performance trace নাও:
+- storefront হোমপেজ (mobile)
+- admin dashboard (mobile)
+
+`.ai/reports/benchmark.md`-এ "Day 1 Final" সেকশনে লিখো, baseline-এর সাথে তুলনা।
+
+**ধাপ ৪: সিদ্ধান্ত**
+
+✅ যদি সব ঠিক থাকে:
+```
+git checkout master
+git merge day1/asset-pipeline --no-ff -m "merge: Day 1 asset pipeline optimization"
+git tag -a day1-complete -m "Day 1: Vite pipeline, Tailwind build, CSS bundling, cache fix"
+```
+
+❌ যদি কিছু ভাঙা থাকে:
+- merge করবে না
+- `.ai/PROGRESS.md`-এর Blockers-এ বিস্তারিত লিখো
+- ব্যবহারকারীকে জানাও কী ভেঙেছে এবং কী দরকার
+
+**ধাপ ৫: Day 2-এর প্রস্তুতি**
+
+`.ai/PROGRESS.md`-এ "বর্তমান পর্যায়" আপডেট করো → "Day 2 শুরুর জন্য প্রস্তুত"
+
+### রিপোর্ট
+
+ব্যবহারকারীকে বাংলায় একটি স্পষ্ট টেবিল দাও:
+
+| মেট্রিক | Before | After | পরিবর্তন |
+| storefront total KB | | | |
+| storefront JS KB | | | |
+| storefront request | | | |
+| storefront LCP | | | |
+| admin request | | | |
+| admin CSS KB | | | |
+
+এবং বলো: কোনো ফিচার ভেঙেছে কি না, Day 2-তে যাওয়া নিরাপদ কি না।

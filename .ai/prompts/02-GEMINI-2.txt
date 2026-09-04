@@ -1,0 +1,116 @@
+################################################################
+#  ফাইল: 02-GEMINI-2.txt
+#  টাস্ক: GEMINI-2
+#  প্রম্পট ২ — Tailwind Class Scan (Day 1)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো: .ai/PROJECT_CONTEXT.md এবং .ai/PROGRESS.md
+
+⛔ এই টাস্কেও তুমি কোনো ফাইল পরিবর্তন করবে না। শুধু রিপোর্ট তৈরি করবে।
+
+প্রেক্ষাপট: এই প্রজেক্টের storefront theme-গুলো ব্রাউজারে **Tailwind Play CDN** চালাচ্ছে —
+`themes/stylique/assets/js/tailwind.js` (466 KB)। এটি runtime-এ CSS তৈরি করে, যা পারফরম্যান্সের
+সবচেয়ে বড় সমস্যা। আমরা এটিকে সরিয়ে Vite দিয়ে প্রকৃত Tailwind build করব।
+
+কিন্তু Play CDN সরালে যদি কোনো class বাদ পড়ে, ডিজাইন ভেঙে যাবে। তাই আগে জানতে হবে
+কোন কোন Tailwind class আসলে ব্যবহৃত হচ্ছে — বিশেষ করে যেগুলো Tailwind-এর স্বাভাবিক
+scanner ধরতে পারবে না।
+
+তোমার কাজ (GEMINI-2):
+
+1. এই ফাইলগুলোতে Tailwind class খোঁজো:
+   - themes/stylique/views/**/*.blade.php   (~50 ফাইল)
+   - themes/greentic/views/**/*.blade.php
+   - themes/techzonix/views/**/*.blade.php
+   - themes/*/assets/js/custom.js
+   - resources/views/front_end/**/*.blade.php
+
+2. বিশেষভাবে খুঁজে বের করো **dynamic / ঝুঁকিপূর্ণ** class ব্যবহার, কারণ Tailwind
+   build-time scanner এগুলো ধরতে পারে না:
+   - PHP দিয়ে তৈরি class: `class="bg-{{ $color }}"` বা `class="{{ $cls }}"`
+   - JS দিয়ে যোগ করা class: `classList.add('...')`, `addClass('...')`, `className = '...'`
+   - শর্তসাপেক্ষ: `@if` / ternary-এর ভেতরে class
+   - Alpine.js: `:class="..."`, `x-bind:class`
+   - কোনো config বা database থেকে আসা class
+
+3. `themes/stylique/views/**` এ ব্যবহৃত সব unique Tailwind class-এর একটি তালিকা তৈরি করো
+   (যেটা safelist-এ লাগতে পারে)।
+
+4. Tailwind-এর কোন কোন প্লাগইন-নির্ভর ফিচার ব্যবহৃত হয়েছে দেখো:
+   forms, typography, aspect-ratio, line-clamp, container queries।
+
+5. `tailwind.config.js` ফাইলটি পড়ো এবং বলো এর `content` path বর্তমানে theme ফোল্ডার
+   cover করে কি না।
+
+ফলাফল লিখবে: `.ai/reports/tailwind-classes.md`
+
+ফরম্যাট:
+# Tailwind Class Scan Report
+
+## ১. সারসংক্ষেপ
+- মোট unique class পাওয়া গেছে
+- ঝুঁকিপূর্ণ dynamic class কতটি
+- Play CDN সরানো কি নিরাপদ? (হ্যাঁ / সতর্কতার সাথে / না) — কারণ সহ
+
+## ২. 🔴 Dynamic Class (safelist-এ যোগ করতে হবে)
+| ফাইল:লাইন | কোড | কেন ঝুঁকি |
+
+## ৩. JS থেকে যোগ হওয়া class
+| ফাইল:লাইন | class |
+
+## ৪. প্রস্তাবিত tailwind.config.js content path
+(কোড ব্লকে লিখবে — শুধু প্রস্তাব, ফাইল বদলাবে না)
+
+## ৫. প্রস্তাবিত safelist
+(কোড ব্লকে লিখবে)
+
+## ৬. ব্যবহৃত Tailwind প্লাগইন
+| প্লাগইন | প্রমাণ (কোন class) |
+
+## ৭. ব্যবহৃত সব unique class (stylique theme)
+(কোড ব্লকে, বর্ণানুক্রমে)
+
+শেষ হলে `.ai/PROGRESS.md`-এ GEMINI-2 → ✅ DONE করো।
+
+git commit করো:
+cd C:\laragon\www\ecommercego
+git add .ai/
+git commit -m "docs(audit): tailwind class scan for Play CDN removal  [GEMINI-2]"
+
+আমাকে বাংলায় সংক্ষেপে জানাও: Play CDN সরানো নিরাপদ কি না, এবং কতটি dynamic class safelist করতে হবে।

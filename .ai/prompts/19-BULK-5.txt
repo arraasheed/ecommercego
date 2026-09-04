@@ -1,0 +1,199 @@
+################################################################
+#  ফাইল: 19-BULK-5.txt
+#  টাস্ক: BULK-5
+#  প্রম্পট ৫ — Offline page + Install prompt UI (Day 3)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ৩টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ৩ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ৩ — কাজের নিয়ম (এগুলো ভাঙা যাবে না)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তোমার কাজ = দেওয়া recipe হুবহু প্রয়োগ করা। নতুন কিছু ডিজাইন করা নয়,
+সিদ্ধান্ত নেওয়া নয়।
+
+▎নিয়ম ১ — "আরও ভালো করে দিই" ⛔ নিষিদ্ধ
+
+  indentation বদলাবে না। variable-এর নাম বদলাবে না। let → const করবে না।
+  অপ্রয়োজনীয় মনে হওয়া কোড মুছবে না।
+
+  এটি একটি লাইসেন্সকৃত স্ক্রিপ্ট (WorkDo)। ব্যবহারকারীকে পরে upstream
+  আপডেট merge করতে হবে। তুমি যত লাইন বদলাবে, তত merge conflict।
+
+    আগে:                           পরে:
+    $(document).ready(function(){   window.onTurboLoad(function(){
+        $('.select2').select2();        $('.select2').select2();  ← হুবহু একই
+    });                             });
+
+  কোনো লাইন খারাপ মনে হলে রিপোর্টে লিখবে, ঠিক করবে না।
+
+▎নিয়ম ২ — সন্দেহ হলে স্পর্শ করবে না
+
+  নিশ্চিত না হলে ফাইলটি বাদ দাও, রিপোর্টে লিখো "Claude দেখবে"।
+  একটি ফাইল বাদ দেওয়া নিরাপদ; ভুলভাবে বদলানো নয়।
+
+  এগুলো পেলে থামবে, নিজে সিদ্ধান্ত নেবে না:
+    • একই <script>-এ $(document).ready আর $(document).on(...) দুইটাই আছে
+    • Blade কোড (@if, {{ }}) script-এর মধ্যে জড়ানো
+    • ভেতরে nested function যার ভূমিকা অস্পষ্ট
+    • ফাইলটি তালিকায় নেই
+
+▎নিয়ম ৩ — পাইলট: প্রথমে ২টি ফাইল করে থামবে
+
+  ১. শুধু ২টি ফাইল করো
+  ২. git add -A
+     git commit -m "wip(<scope>): pilot 2 files  [<টাস্ক আইডি>]"
+  ৩. ব্যবহারকারীকে দেখাও ওই ২ ফাইলে হুবহু কী বদলেছ (before/after)
+  ৪. থামো। অনুমতি ছাড়া ৩ নম্বর ফাইলে যাবে না।
+
+  কারণ: ভুল recipe-এ ২০ ফাইল নষ্ট করার চেয়ে ২ ফাইলে ধরা পড়া ভালো।
+
+▎নিয়ম ৪ — এরপর প্রতি ৩টি ফাইলে commit
+
+  পাইলট পাস করার পর, প্রতি ৩টি ফাইল শেষ করার সাথে সাথে:
+    ১. .ai/reports/<এই টাস্কের রিপোর্ট>.md এ ওই ৩টি ফাইলের সারি যোগ করো
+    ২. .ai/PROGRESS.md এ অবস্থা 🟨 IN PROGRESS, নোটে "N/মোট ফাইল শেষ"
+    ৩. git add -A
+       git commit -m "wip(<scope>): files X-Y  [<টাস্ক আইডি>]"
+
+  কারণ: টোকেন লিমিট মাঝপথে ফুরালে সর্বোচ্চ ২ ফাইলের কাজ হারাবে, ২০টার নয়।
+
+▎নিয়ম ৫ — রিপোর্টে সৎ থাকবে
+
+  তিনটি সংখ্যা আলাদা করে লিখতে হবে:
+    পরিবর্তন করেছি        : N ফাইল
+    স্পর্শ করিনি (কারণ সহ)  : N ফাইল
+    সন্দেহ — Claude দেখবে   : N ফাইল
+
+  "সব ঠিক আছে" লিখলে Claude যাচাই করবে, না মিললে কাজ বাতিল হবে।
+  বাদ দেওয়া ফাইল স্বীকার করা ব্যর্থতা নয় — সেটাই সঠিক আচরণ।
+
+▎নিয়ম ৬ — যা কখনো করবে না
+
+  ❌ app/  routes/  database/  vendor/  packages/  — নিষিদ্ধ ফোল্ডার
+  ❌ git reset --hard, git checkout <file>, git clean — কখনো নয়
+  ❌ npm install / composer install — কখনো নয়
+  ❌ .env ফাইল পড়বে না, লিখবে না
+  ❌ একই ফাইল দুইবার পরিবর্তন করবে না
+  ❌ টাস্ক নম্বরের বাইরে কোনো কাজ নয় — "পাশে একটা bug দেখলাম" = রিপোর্টে লিখো
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ৩ / ৩ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+
+branch:
+cd C:\laragon\www\ecommercego
+git checkout day3/pwa-workbox
+(না থাকলে: git checkout -b day3/pwa-workbox)
+
+### প্রেক্ষাপট
+
+Claude ইতিমধ্যে Workbox দিয়ে service worker বসিয়েছে। এখন দুইটি UI দরকার:
+(ক) ইন্টারনেট না থাকলে যে পেজ দেখাবে
+(খ) "অ্যাপ ইনস্টল করুন" এর সুন্দর banner
+
+বর্তমানে `resources/views/front_end/jQueryRoute.blade.php:199-260` এ একটি
+install prompt আছে, কিন্তু তা কাঁচা। তুমি এটি প্রতিস্থাপন করবে না — নতুন
+component বানাবে, Claude পরে পুরনোটি সরাবে।
+
+### তোমার কাজ (BULK-5)
+
+**অংশ ১: Offline পেজ**
+
+নতুন ফাইল তৈরি করো: `resources/views/front_end/offline.blade.php`
+
+শর্ত:
+- সম্পূর্ণ standalone HTML (কোনো layout extend করবে না, কারণ offline-এ layout
+  লোড হবে না)
+- সব CSS **inline `<style>` ট্যাগে**, কোনো external file নয়
+- সব image inline SVG, কোনো external image নয়
+- কোনো JS library নয়, শুধু vanilla JS
+- মোবাইল-first, viewport meta সহ
+- Dark mode support (`prefers-color-scheme`)
+- Bangla + English দুইভাষী টেক্সট
+- একটি "আবার চেষ্টা করুন / Retry" বোতাম যা `location.reload()` করবে
+- `navigator.onLine` দেখে অটো-রিলোড: online হলে নিজে থেকে reload হবে
+  (`window.addEventListener('online', () => location.reload())`)
+- দেখতে পরিষ্কার ও প্রফেশনাল লাগবে — কোনো emoji নয়, একটি সাধারণ SVG icon
+
+**অংশ ২: PWA Install banner**
+
+নতুন ফাইল তৈরি করো: `resources/views/front_end/partison/pwa-install.blade.php`
+
+শর্ত:
+- মোবাইলে নিচে থেকে উঠে আসা bottom-sheet (CSS transform + transition, JS animation নয়)
+- ডেস্কটপে ডান-নিচের কোণে ছোট card
+- CSS সব `<style>` ট্যাগে scoped রাখো (class prefix `pwa-`)
+- vanilla JS, jQuery নয়
+- `beforeinstallprompt` ধরে রাখবে, তারপর banner দেখাবে
+- ব্যবহারকারী "পরে" চাপলে `localStorage`-এ ৭ দিনের জন্য মনে রাখবে
+  (key: `pwa-dismissed-until`, মান = timestamp)
+- ইতিমধ্যে ইনস্টল থাকলে দেখাবে না:
+  `window.matchMedia('(display-mode: standalone)').matches` চেক করবে
+- iOS Safari-তে `beforeinstallprompt` কাজ করে না — সেখানে আলাদা নির্দেশনা দেখাবে
+  ("Share বোতাম → Add to Home Screen"), iOS detect করবে
+  `/iphone|ipad|ipod/i.test(navigator.userAgent)` দিয়ে
+- `safe-area-inset-bottom` সম্মান করবে (iPhone notch)
+- Bangla + English টেক্সট
+- store-এর নাম ও logo Blade variable থেকে নেবে, কিন্তু **নিরাপদভাবে**:
+  `{{ $store->name ?? config('app.name') }}` — variable না থাকলেও ভাঙবে না
+
+### 🔴 কঠোর নিষেধাজ্ঞা
+
+- এই দুইটি নতুন ফাইল ছাড়া **আর কোনো ফাইল স্পর্শ করবে না**
+- কোনো layout ফাইলে include যোগ করবে না — Claude করবে
+- `serviceWorker.js` বা `public/sw.js` স্পর্শ করবে না
+- routes/ এ কিছু যোগ করবে না
+- CSS framework (Tailwind/Bootstrap) class ব্যবহার করবে না — কারণ offline পেজে
+  CSS লোড হবে না। সব নিজের `<style>`-এ লিখবে।
+
+### সম্পন্ন করার পর
+
+১. রিপোর্ট: `.ai/reports/pwa-ui.md`
+   - দুইটি ফাইলের পাথ
+   - Claude-কে কী করতে হবে (কোন layout-এ কোথায় include করতে হবে, কোন route লাগবে)
+   - কোন ব্রাউজারে কী behavior আশা করা যায়
+
+২. `.ai/PROGRESS.md`-এ BULK-5 → ✅ DONE
+
+৩. commit:
+git add -A
+git commit -m "feat(pwa): add offline page and install prompt UI  [BULK-5]"
+
+৪. বাংলায় জানাও কী বানিয়েছ।

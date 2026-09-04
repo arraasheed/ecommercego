@@ -1,0 +1,144 @@
+################################################################
+#  ফাইল: 25-CLAUDE-14.txt
+#  টাস্ক: CLAUDE-14
+#  প্রম্পট ১৪ — মোবাইল টাচ ও ভিউপোর্ট পলিশ (Day 4)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/mobile-audit.md   ← Gemini-র তালিকা, এটিই কাজের ভিত্তি
+
+branch: git checkout day4/mobile-polish
+
+### প্রেক্ষাপট — প্রজেক্টের সর্বোচ্চ প্রাধান্য
+
+ব্যবহারকারীর স্পষ্ট দাবি: মোবাইল ব্রাউজারে যেন **native app-এর মতো** লাগে।
+কারণ (ক) দোকানদাররা মোবাইল থেকে admin চালাবেন, (খ) ক্রেতারা প্রায় সবাই মোবাইল।
+
+এগুলো ছোট ছোট বিষয়, কিন্তু একসাথে "ওয়েবসাইট" আর "অ্যাপ"-এর অনুভূতিগত
+পার্থক্য গড়ে দেয়।
+
+### তোমার কাজ (CLAUDE-14)
+
+`resources/css/mobile-app-feel.css` তৈরি করো (প্রয়োজনে ছোট JS)।
+
+**১. Viewport ও zoom**
+
+`resources/views/layouts/app.blade.php:57` এ বর্তমানে `user-scalable=0`।
+এটি accessibility লঙ্ঘন এবং Lighthouse-এ পয়েন্ট কাটে।
+
+সমাধান: `user-scalable=0` সরাও, কিন্তু iOS input auto-zoom সমস্যা অন্যভাবে
+ঠিক করো — মোবাইলে সব input/select/textarea-এ `font-size: 16px`।
+
+⚠️ শুধু `max-width: 767px`-এ প্রয়োগ করো এবং স্ক্রিনশটে যাচাই করো ফর্ম ঠিক দেখাচ্ছে।
+
+**২. উচ্চতা (`100vh` সমস্যা)**
+
+iOS Safari-তে `100vh` কাটা পড়ে। সব `100vh` → `100dvh` (fallback সহ):
+```css
+height: 100vh;   /* পুরনো ব্রাউজার */
+height: 100dvh;  /* আধুনিক */
+```
+
+**৩. Safe area (iPhone notch ও home indicator)**
+- fixed header → `padding-top: env(safe-area-inset-top)`
+- fixed bottom nav → `padding-bottom: env(safe-area-inset-bottom)`
+- viewport meta-তে `viewport-fit=cover` লাগবে
+
+**৪. স্ক্রল আচরণ**
+- `overscroll-behavior-y: contain` — rubber-band বন্ধ
+- `-webkit-overflow-scrolling: touch`
+- modal খোলা থাকলে body scroll lock — বিদ্যমান modal এটি করে কি যাচাই করো
+
+**৫. টাচ প্রতিক্রিয়া**
+- `-webkit-tap-highlight-color: transparent`, কিন্তু বিকল্প `:active` প্রতিক্রিয়া দাও
+- `touch-action: manipulation` — ৩০০ms double-tap-zoom দেরি সরায়
+- Gemini-র রিপোর্টে পাওয়া ৪৪×৪৪px-এর ছোট touch target বড় করো
+
+**৬. টেক্সট নির্বাচন**
+- button/nav-এ `user-select: none`
+- কিন্তু content, price, product name-এ select চালু রাখো
+
+**৭. ফর্ম keyboard**
+- ফোন → `type="tel"` + `inputmode="numeric"`
+- ইমেইল → `type="email"`
+- সংখ্যা → `inputmode="decimal"`
+- সার্চ → `type="search"` + `enterkeyhint="search"`
+
+⚠️ শুধু **সবচেয়ে বেশি ব্যবহৃত ১০টি ফর্মে** করো — সব করতে গেলে সময় শেষ, লাভ কম।
+
+**৮. Address bar রঙ**
+`<meta name="theme-color">` — store-এর ব্র্যান্ড রঙে। dark mode-এ আলাদা
+(`media` attribute সহ)।
+
+**৯. স্থিতিশীল sidebar (admin)**
+Turbo navigation-এর পর sidebar বন্ধ অবস্থায় ফিরবে, কিন্তু scroll অবস্থান
+মনে রাখবে। যাচাই ও ঠিক করো।
+
+### 🔴 ভেরিফিকেশন
+
+Playwright দিয়ে **একাধিক ডিভাইস আকারে**:
+- 360×640 (ছোট Android)
+- 412×915 (সাধারণ Android)
+- 390×844 (iPhone 14)
+- 768×1024 (tablet)
+
+প্রতিটিতে ১০টি পেজ (৫ storefront, ৫ admin):
+1. কোনো horizontal scroll নেই
+   (`document.documentElement.scrollWidth > window.innerWidth` যাচাই)
+2. fixed element কনটেন্ট ঢাকছে না
+3. সব বোতাম tap করার মতো বড়
+4. ফর্মে সঠিক keyboard
+5. modal পুরো স্ক্রিন ব্যবহার করে
+6. কোনো টেক্সট কাটা পড়েনি
+7. zoom করা যায় (accessibility)
+8. input-এ tap করলে auto-zoom হয় না
+
+Lighthouse accessibility ও best-practices স্কোরও দেখো।
+
+স্ক্রিনশট: `.ai/screenshots/day4-devices/`
+
+### সম্পন্ন করার পর
+
+১. `.ai/PROGRESS.md`-এ CLAUDE-14 → ✅ DONE
+২. commit:
+git add -A
+git commit -m "feat(mobile): app-like touch, viewport, safe-area polish  [CLAUDE-14]"
+৩. বাংলায় রিপোর্ট: কোন ডিভাইসে কী ঠিক হয়েছে, accessibility স্কোর কত বেড়েছে

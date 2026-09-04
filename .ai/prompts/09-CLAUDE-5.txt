@@ -1,0 +1,151 @@
+################################################################
+#  ফাইল: 09-CLAUDE-5.txt
+#  টাস্ক: CLAUDE-5
+#  প্রম্পট ৫ — Turbo Drive ইনস্টল + bootstrap (Day 2)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো (বাধ্যতামূলক):
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/script-inventory.md   ← Gemini তৈরি করেছে (GEMINI-3)
+
+⚠️ যদি script-inventory.md না থাকে → থামো। GEMINI-3 আগে শেষ করতে হবে।
+কোন script কোন শ্রেণির তা না জেনে Turbo বসালে ১৭০টি জায়গায় অন্ধভাবে কাজ করতে হবে।
+
+⚠️ যাচাই করো Day 1 merge হয়েছে: `git tag -l` এ `day1-complete` আছে কি?
+না থাকলে থামো — CLAUDE-4 আগে শেষ করতে হবে।
+
+branch:
+cd C:\laragon\www\ecommercego
+git checkout -b day2/turbo-drive
+
+### লক্ষ্য
+
+Hotwired Turbo Drive বসানো — যাতে পেজ navigation-এ full reload না হয়।
+এটিই "SPA feel"-এর মূল অংশ।
+
+কিন্তু এটিই সবচেয়ে ঝুঁকিপূর্ণ ধাপ। তাই ধাপে ধাপে, kill-switch সহ, এবং
+**প্রথমে শুধু storefront-এ**, admin-এ পরে।
+
+### তোমার কাজ (CLAUDE-5)
+
+**ধাপ ১: Turbo যোগ করো**
+
+`package.json`-এ `@hotwired/turbo` — নির্দিষ্ট version pin করো (৮.x)।
+`npm install` চালাও।
+
+**ধাপ ২: `resources/js/turbo-bootstrap.js` তৈরি করো**
+
+এই ফাইলটি BULK মডেলের সব batch কাজের ভিত্তি, তাই এটি নিখুঁত হতে হবে।
+এতে থাকবে:
+
+```js
+// ── Turbo Drive bootstrap ────────────────────────────────────────────
+// Kill-switch: window.__TURBO_DISABLED__ = true হলে Turbo চালু হবে না।
+// এই flag layout থেকে .env দিয়ে সেট হয়।
+
+// ১. Turbo import ও conditional start
+// ২. window.onTurboLoad(fn)
+//      - প্রতি turbo:load এ চলবে
+//      - প্রথম লোডেও চলবে (DOMContentLoaded আগে হয়ে গেলেও)
+//      - Turbo বন্ধ থাকলে $(document).ready-র মতো আচরণ করবে (fallback)
+// ৩. window.onTurboOnce(fn)
+//      - শুধু একবার চলবে, কখনো দুইবার নয়
+//      - Turbo বন্ধ থাকলেও একবার চলবে
+// ৪. Vue island registry-র জন্য mount/unmount hook (CLAUDE-15 ব্যবহার করবে)
+//      - turbo:before-cache এ সব island unmount হবে (memory leak রোধ)
+// ৫. Turbo progress bar কনফিগার
+// ৬. turbo:before-fetch-request এ CSRF token যোগ (Laravel-এর জন্য জরুরি)
+```
+
+কঠোর শর্ত:
+- `onTurboLoad` এ নিবন্ধিত function একই পেজে **দুইবার চলবে না**
+- Turbo বন্ধ থাকলে (kill-switch) সব helper তবুও কাজ করবে — নয়তো
+  kill-switch চালু করলেই সব ভেঙে যাবে
+- কোনো jQuery নির্ভরতা থাকবে না (jQuery হয়তো পরে load হয়)
+- কিন্তু jQuery থাকলে `$(document).ready` fallback-ও সমর্থন করবে
+
+**ধাপ ৩: `resources/js/store.js` ও `resources/js/admin.js` entry**
+
+দুইটি আলাদা entry — storefront ও admin আলাদা bundle পাবে।
+দুইটিতেই `turbo-bootstrap.js` import করবে।
+`vite.config.js`-এ এই entry যোগ করো।
+
+**ধাপ ৪: শুধু storefront layout-এ যোগ করো**
+
+`themes/stylique/views/front_end/layouts/app.blade.php` এর `<head>`-এ:
+
+```blade
+<script>window.__TURBO_DISABLED__ = {{ env('TURBO_ENABLED', true) ? 'false' : 'true' }};</script>
+@vite(['resources/js/store.js'])
+```
+
+`.env.example`-এ `TURBO_ENABLED=true` যোগ করো।
+
+**ধাপ ৫: Turbo-র জন্য layout প্রস্তুত করো**
+
+storefront layout-এ:
+- header ও footer-এ `data-turbo-permanent` **যোগ করবে না এখনই** — আগে দেখো
+  Turbo এমনিতেই ঠিকভাবে কাজ করে কি না। permanent element জটিলতা বাড়ায়।
+- যেসব link Turbo-র বাইরে রাখা দরকার সেগুলোতে `data-turbo="false"`:
+  - payment gateway redirect link
+  - file download link
+  - external link
+  - PDF/invoice link
+  এগুলো খুঁজে বের করো এবং চিহ্নিত করো।
+
+**ধাপ ৬: প্রাথমিক টেস্ট (BULK মডেলকে দেওয়ার আগে)**
+
+Playwright দিয়ে storefront-এ ৫টি পেজে navigate করো এবং দেখো:
+- পেজ পরিবর্তনে full reload হচ্ছে না (network-এ document request-এর ধরন দেখো)
+- console-এ error নেই
+- Swiper/slider দ্বিতীয় পেজে কাজ করছে কি না — **সম্ভবত ভাঙবে**, এটিই প্রমাণ
+  করবে কেন BULK মডেলের script migration দরকার
+
+`.ai/reports/turbo-initial-test.md`-এ লিখো কী কী ভেঙেছে। এই তালিকা BULK মডেলের
+কাজ যাচাই করতে ব্যবহৃত হবে।
+
+### সম্পন্ন করার পর
+
+১. `.ai/PROGRESS.md`-এ CLAUDE-5 → ✅ DONE
+২. commit:
+git add -A
+git commit -m "feat(turbo): install Turbo Drive with kill-switch and lifecycle helpers  [CLAUDE-5]"
+৩. ব্যবহারকারীকে বাংলায় জানাও: Turbo বসেছে, কী কী ভেঙেছে (স্বাভাবিক),
+   এবং এখন BULK মডেলকে প্রম্পট ২ দিতে হবে।

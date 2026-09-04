@@ -1,0 +1,174 @@
+################################################################
+#  ফাইল: 27-CLAUDE-16.txt
+#  টাস্ক: CLAUDE-16
+#  প্রম্পট ১৬ — চূড়ান্ত টেস্ট, merge, হস্তান্তর (Day 4)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/benchmark.md
+4. `.ai/reports/` ফোল্ডারের সব রিপোর্ট
+
+branch: git checkout day4/mobile-polish
+
+### তোমার কাজ (CLAUDE-16): সম্পূর্ণ প্রজেক্ট যাচাই ও হস্তান্তর
+
+**ধাপ ১: সব টাস্ক ✅ কি যাচাই করো**
+
+`.ai/PROGRESS.md`-এর সব ৩২টি টাস্ক দেখো। যেগুলো ⬜ বা ❌ সেগুলো তালিকা করো
+এবং ব্যবহারকারীকে জানাও — merge করার আগে সিদ্ধান্ত দরকার।
+
+**ধাপ ২: সম্পূর্ণ regression — পুরো অ্যাপ**
+
+চারটি ডিভাইস আকারে (360×640, 412×915, 390×844, 1440×900):
+
+**Storefront — সম্পূর্ণ ক্রয় প্রবাহ (৩ বার, ৩টি আলাদা store-এ)**
+1. হোমপেজ → slider, banner, featured product
+2. category browse → filter, sort, pagination
+3. search → suggestion → ফলাফল
+4. product detail → variant → gallery → review
+5. add to cart → drawer → quantity বদল
+6. wishlist যোগ/বাদ
+7. register → email verify (যদি থাকে)
+8. login → account dashboard
+9. address যোগ
+10. checkout → shipping → payment পদ্ধতি বাছাই (আসল payment নয়)
+11. order history → order detail
+12. coupon প্রয়োগ
+
+**Admin — দোকানদারের দৈনন্দিন কাজ (মোবাইল থেকে, কারণ এটিই আসল ব্যবহার)**
+13. login → dashboard
+14. product যোগ (image, variant, price, stock সহ)
+15. product সম্পাদনা
+16. category ব্যবস্থাপনা
+17. order দেখা → status বদল → invoice
+18. customer তালিকা → detail
+19. coupon তৈরি
+20. shipping/tax setting
+21. report ও chart
+22. theme customize
+23. store setting
+24. POS (যদি থাকে)
+
+**Superadmin**
+25. plan ব্যবস্থাপনা
+26. store তালিকা → impersonate
+27. setting
+
+প্রতিটিতে: console error শূন্য, ভিজ্যুয়াল ঠিক, কাজ সম্পন্ন হয়।
+
+**ধাপ ৩: চারটি kill-switch পৃথকভাবে টেস্ট**
+
+একটি একটি করে false করো, `php artisan config:clear`, ৫টি পেজ যাচাই, আবার true:
+- `TURBO_ENABLED=false`
+- `PWA_ENABLED=false`
+- `LEGACY_TAILWIND_CDN=true`
+- `LEGACY_ADMIN_CSS=true`
+- `vue_islands=false`
+
+এগুলো কাজ করা মানে ব্যবহারকারীর হাতে সবসময় ফেরার পথ আছে।
+
+**ধাপ ৪: চূড়ান্ত পরিমাপ**
+
+`.ai/reports/benchmark.md`-এ "Final" সেকশন — baseline-এর সাথে তুলনা:
+
+| মেট্রিক | baseline | final | লক্ষ্য | পাস? |
+| storefront Lighthouse mobile | | | ≥85 | |
+| admin Lighthouse mobile | | | ≥75 | |
+| storefront প্রথম লোড KB | | | <400 | |
+| storefront JS KB | | | | |
+| request সংখ্যা | | | | |
+| LCP mobile | | | <2.5s | |
+| CLS | | | <0.1 | |
+| TBT | | | <300ms | |
+| Turbo navigation (cached) | | | <300ms | |
+| TTFB | | | | |
+| PWA installable | | | ✅ | |
+
+**ধাপ ৫: merge**
+
+✅ সব পাস:
+```
+git checkout master
+git merge day4/mobile-polish --no-ff -m "merge: Day 4 mobile app-feel and Vue islands"
+git tag -a v1.0-spa-pwa -m "SPA-like performance + PWA complete"
+```
+
+**ধাপ ৬: হস্তান্তর নথি লেখো**
+
+`.ai/HANDOVER.md` তৈরি করো — এটি ব্যবহারকারীর দীর্ঘমেয়াদি রেফারেন্স:
+
+1. **কী করা হয়েছে** — সরল ভাষায়, ব্যবসায়িক দৃষ্টিতে
+2. **আগে vs পরে** — সংখ্যা সহ টেবিল
+3. **কীভাবে চালাবে**
+   - development: `npm run dev`
+   - production: `npm run build` + `php artisan optimize`
+   - deploy checklist
+4. **সমস্যা হলে কী করবে**
+   - প্রতিটি kill-switch কী করে, কখন ব্যবহার করবে
+   - সম্পূর্ণ ফেরত: `git reset --hard baseline-v0`
+   - প্রতিটি দিনে ফেরা: `git reset --hard day1-complete` ইত্যাদি
+5. **WorkDo আপডেট এলে কী করবে** — ধাপে ধাপে
+   - কোন ~১৫টি ফাইল আমরা বদলেছি (তালিকা)
+   - কীভাবে diff নিয়ে আবার প্রয়োগ করবে
+6. **নতুন ফিচার যোগ করার পদ্ধতি** — `packages/workdo/` module প্যাটার্ন,
+   `PwaManifest` module-কে উদাহরণ ধরে (ব্যবহারকারীর ২০-২৫টি ফিচারের জন্য)
+7. **যা করা হয়নি / ভবিষ্যতের সুযোগ**
+   - বাকি দুই theme (greentic, techzonix) — একই প্যাটার্ন প্রয়োগ করতে হবে
+   - বাকি Vue island (search suggest, checkout step)
+   - SSR/SEO যদি পরে দরকার হয়
+   - Redis/OPcache যদি এখনো না বসে
+8. **পরিচিত সীমাবদ্ধতা** — সৎভাবে
+
+**ধাপ ৭: PROGRESS.md চূড়ান্ত করো**
+
+"বর্তমান পর্যায়" → "সম্পন্ন — v1.0-spa-pwa"
+
+### চূড়ান্ত রিপোর্ট
+
+ব্যবহারকারীকে বাংলায় দাও:
+1. উপরের পূর্ণ মেট্রিক টেবিল
+2. ৯০-৯৫% SPA লক্ষ্য পূরণ হয়েছে কি — সৎ উত্তর, অতিরঞ্জন নয়
+3. মোবাইলে app-এর মতো লাগছে কি — স্ক্রিনশট রেফারেন্স সহ
+4. কী কী এখনো বাকি বা ঝুঁকিপূর্ণ
+5. মার্কেটে ডেমো দেখানোর জন্য প্রস্তুত কি না
+
+⛔ যদি লক্ষ্য পূরণ না হয়ে থাকে, স্পষ্টভাবে বলো কোনটা হয়নি এবং কেন।
+মিথ্যা আশ্বাস দিলে ব্যবহারকারী মার্কেটে গিয়ে বিপদে পড়বেন।

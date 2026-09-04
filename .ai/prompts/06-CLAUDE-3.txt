@@ -1,0 +1,121 @@
+################################################################
+#  ফাইল: 06-CLAUDE-3.txt
+#  টাস্ক: CLAUDE-3
+#  প্রম্পট ৩ — Cache-buster ঠিক করা (Day 1)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো: .ai/PROJECT_CONTEXT.md এবং .ai/PROGRESS.md
+
+branch: git checkout day1/asset-pipeline
+
+### সমস্যা (P5)
+
+৭টি blade ফাইলে `?v=' . time()` বা অনুরূপ cache-buster আছে। উদাহরণ:
+`resources/views/layouts/app.blade.php:104,108,112,116`
+
+`time()` মানে প্রতি সেকেন্ডে নতুন URL — ব্রাউজার কখনো cache করতে পারে না।
+এটি শুধু performance নষ্ট করে না, PWA-র Workbox caching-ও সম্পূর্ণ অকার্যকর
+করে দেবে (Day 3-এ যা বসাবো)।
+
+### তোমার কাজ (CLAUDE-3)
+
+**ধাপ ১: সব খুঁজে বের করো**
+
+`resources/views/` এবং `themes/` এ `time()`, `rand()`, `uniqid()` দিয়ে তৈরি
+কোনো asset URL খুঁজে তালিকা করো।
+
+**ধাপ ২: প্রতিস্থাপন কৌশল**
+
+যে ফাইলগুলো Vite bundle-এ চলে গেছে (CLAUDE-1, CLAUDE-2 এ) → `?v=time()`
+এমনিতেই চলে গেছে, কারণ Vite নিজেই hash দেয়। যাচাই করো।
+
+যেগুলো এখনো Vite-এর বাইরে (যেমন `css/custom.css`, `css/loader.css` — এগুলো
+runtime-এ ব্যবহারকারীর setting থেকে তৈরি হতে পারে):
+- `time()` এর বদলে **ফাইলের mtime** ব্যবহার করো:
+  `?v={{ file_exists(public_path('css/custom.css')) ? filemtime(public_path('css/custom.css')) : '1' }}`
+- ফাইল বদলালে URL বদলাবে, না বদলালে cache কাজ করবে
+
+⚠️ কিন্তু blade-এ এত লম্বা expression বারবার লেখা খারাপ। তাই একটি helper বানাও।
+
+**ধাপ ৩: Helper**
+
+`app/Helper/helper.php` ফাইলটি ইতিমধ্যে `composer.json`-এর autoload files-এ আছে।
+সেখানে একটি নতুন function যোগ করো:
+
+```php
+if (!function_exists('asset_v')) {
+    /**
+     * Asset URL with a stable cache-busting version based on file mtime.
+     * Unlike time(), this only changes when the file actually changes.
+     */
+    function asset_v($path) { ... }
+}
+```
+
+⚠️ এটি `app/` ফোল্ডারে একটি ব্যতিক্রম — PROJECT_CONTEXT-এ `app/` নিষিদ্ধ বলা হয়েছে,
+কিন্তু `app/Helper/helper.php`-এ **শুধু নতুন function যোগ করা** নিরাপদ ও অনুমোদিত।
+বিদ্যমান কোনো function পরিবর্তন করবে না।
+
+**ধাপ ৪: blade-এ প্রতিস্থাপন**
+
+`{{ asset('css/custom.css') }}{{ '?v=' . time() }}` → `{{ asset_v('css/custom.css') }}`
+
+**ধাপ ৫: `.htaccess`-এ cache header**
+
+`C:\laragon\www\ecommercego\.htaccess` পড়ো। যদি `mod_expires` / `Cache-Control`
+নিয়ম না থাকে, যোগ করো:
+- CSS/JS/font/image → `max-age=31536000, immutable` (এখন URL versioned, তাই নিরাপদ)
+- HTML → `no-cache`
+
+⚠️ `.htaccess` পরিবর্তনের আগে একটি ব্যাকআপ কমেন্ট রাখো যাতে ফেরানো সহজ হয়।
+
+### 🔴 ভেরিফিকেশন
+
+Playwright/chrome-devtools দিয়ে:
+1. একটি পেজ দুইবার লোড করো
+2. দ্বিতীয়বার CSS/JS `200` না এসে `304` বা `(from disk cache)` আসছে কি নিশ্চিত করো
+3. স্ক্রিনশট দিয়ে ডিজাইন অপরিবর্তিত যাচাই করো
+
+### সম্পন্ন করার পর
+
+১. `.ai/PROGRESS.md`-এ CLAUDE-3 → ✅ DONE
+২. commit:
+git add -A
+git commit -m "perf(cache): replace time() cache-busters with mtime-based versioning  [CLAUDE-3]"
+৩. বাংলায় রিপোর্ট

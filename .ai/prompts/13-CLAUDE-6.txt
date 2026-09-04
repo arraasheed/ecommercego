@@ -1,0 +1,149 @@
+################################################################
+#  ফাইল: 13-CLAUDE-6.txt
+#  টাস্ক: CLAUDE-6
+#  প্রম্পট ৬ — DataTable, modal, plugin re-init (Day 2)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/script-inventory.md
+4. .ai/reports/turbo-initial-test.md
+5. .ai/reports/turbo-migration-batch1.md, batch2.md, batch3.md  ← BULK মডেলের কাজ
+
+⚠️ যাচাই করো BULK-2, 3, 4 সব ✅ DONE কি না। না হলে থামো।
+
+branch: git checkout day2/turbo-drive
+
+### প্রেক্ষাপট — এটিই Day 2-এর আসল চ্যালেঞ্জ
+
+BULK মডেল ব্যক্তিগত blade ফাইলের script migrate করেছে। কিন্তু কিছু জিনিস
+কেন্দ্রীয়ভাবে ঠিক করতে হবে, কারণ সেগুলো shared component-এ আছে:
+
+**ক. DataTable (৭০ পেজ)**
+`resources/views/components/datatable.blade.php:21` এ `$(document).ready` আছে।
+আরও গুরুত্বপূর্ণ: yajra datatables নিজে `$dataTable->scripts()` দিয়ে JS তৈরি করে,
+যা `$(document).ready`-তে DataTable init করে। এটি vendor-generated, আমরা সরাসরি
+বদলাতে পারি না।
+
+সমস্যা: Turbo navigation-এ ফিরে এলে DataTable আবার init হবে →
+"Cannot reinitialise DataTable" error।
+
+সমাধানের পথ (তুমি সেরা বাছবে):
+- `turbo:before-cache` এ `$.fn.dataTable.tables()` খুঁজে `.destroy()` করা
+- অথবা DataTable ধারণকারী element-এ `data-turbo-cache="false"` দেওয়া
+- অথবা init করার আগে `$.fn.dataTable.isDataTable()` চেক করা
+
+⚠️ `datatable.blade.php` একটি shared component — এটি পরিবর্তন করা অনুমোদিত,
+কিন্তু ন্যূনতম পরিবর্তন করবে।
+
+**খ. Modal (১০১টি `data-ajax-popup`)**
+`resources/views/front_end/jQueryRoute.blade.php:397` এবং
+`resources/views/layouts/app.blade.php:244` (`#commonModal`)।
+
+modal event delegation `$(document).on(...)` দিয়ে হয় — এটি ONCE-ONLY, তাই
+Turbo-তে টিকে থাকবে। কিন্তু:
+- Bootstrap modal backdrop DOM-এ থেকে যেতে পারে → Turbo navigate করলে
+  ধূসর overlay আটকে থাকবে
+- `turbo:before-cache` এ খোলা modal বন্ধ করতে হবে এবং backdrop সরাতে হবে
+
+**গ. select2 (২৫ পেজ), summernote (১৯), flatpickr, dropzone, ApexCharts (২০)**
+এগুলো BULK মডেল migrate করেছে, কিন্তু **destroy করা হয়নি**। Turbo cache-এ
+পেজ সংরক্ষিত হলে DOM-এ পুরনো widget থেকে যাবে, ফিরে এলে duplicate হবে।
+
+`turbo:before-cache` এ সব widget destroy করতে হবে।
+
+### তোমার কাজ (CLAUDE-6)
+
+`resources/js/turbo-cleanup.js` তৈরি করো যা `turbo:before-cache` এ:
+1. সব DataTable destroy
+2. সব খোলা modal বন্ধ + backdrop অপসারণ + `body.modal-open` class অপসারণ
+3. select2 destroy
+4. summernote destroy
+5. flatpickr destroy
+6. dropzone destroy
+7. ApexCharts destroy
+8. Swiper destroy
+9. tooltip/popover অপসারণ
+
+প্রতিটির জন্য **নিরাপদ চেক** — library আছে কি না দেখে তারপর চালাবে
+(`if (window.jQuery && $.fn.select2) { ... }`)। কোনো library অনুপস্থিত থাকলে
+error হবে না।
+
+তারপর:
+- `admin.js` ও `store.js` — দুইটিতেই `turbo-cleanup.js` import করো
+- `resources/views/components/datatable.blade.php` এ ন্যূনতম সংশোধন
+- admin layout-এ Turbo চালু করো (storefront-এর মতোই, kill-switch সহ):
+  `resources/views/layouts/app.blade.php`
+
+### 🔴 ভেরিফিকেশন — খুব যত্নে
+
+Playwright দিয়ে **navigation চক্র** টেস্ট করো — শুধু পেজ খোলা নয়,
+বারবার আসা-যাওয়া করতে হবে, কারণ Turbo cache-এর সমস্যা দ্বিতীয়বার ফিরে
+এলে ধরা পড়ে:
+
+Admin-এ:
+1. Product list → Order list → **back** → Product list → DataTable কাজ করছে?
+2. Product create → select2 খোলো → অন্য পেজ → back → select2 কাজ করছে?
+3. summernote-এ লেখো → অন্য পেজ → back → editor একটাই আছে (duplicate নয়)?
+4. modal খোলো → বন্ধ করো → navigate → backdrop আটকে নেই?
+5. modal খোলা রেখেই navigate → পরের পেজে overlay নেই?
+6. Report পেজ → chart দেখো → navigate → back → chart একটাই?
+7. DataTable-এ search → পেজ ২ → navigate → back → অবস্থা কী?
+8. ১০ বার এলোমেলো navigation → console-এ কোনো error জমছে কি?
+
+Storefront-এ:
+9. হোম → product → cart → back → back → slider কাজ করছে?
+10. add to cart → cart badge আপডেট হচ্ছে?
+11. search suggestion → navigate → back → আবার কাজ করছে?
+
+মোবাইল viewport-এও একই টেস্ট।
+
+স্ক্রিনশট: `.ai/screenshots/day2/`
+console error লগ: `.ai/reports/turbo-console-errors.md`
+
+⛔ কোনো error থাকলে merge করবে না। সমাধান করো বা Blockers-এ লিখো।
+
+### সম্পন্ন করার পর
+
+১. `.ai/PROGRESS.md`-এ CLAUDE-6 → ✅ DONE
+২. commit:
+git add -A
+git commit -m "fix(turbo): destroy jQuery plugins and modals before Turbo cache  [CLAUDE-6]"
+৩. বাংলায় রিপোর্ট: কী কী ভেঙেছিল, কী ঠিক করেছ, কী এখনো বাকি

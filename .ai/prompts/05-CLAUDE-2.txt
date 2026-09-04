@@ -1,0 +1,144 @@
+################################################################
+#  ফাইল: 05-CLAUDE-2.txt
+#  টাস্ক: CLAUDE-2
+#  প্রম্পট ২ — Admin ২৮ CSS bundle (Day 1)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/asset-inventory.md
+4. .ai/reports/benchmark.md
+
+branch: git checkout day1/asset-pipeline
+
+### সমস্যা (P3)
+
+`resources/views/layouts/app.blade.php:83-128` এ **২৮টি আলাদা CSS link** আছে।
+মোবাইল নেটওয়ার্কে ২৮টি আলাদা HTTP request = বিশাল দেরি। এগুলো একটি bundle হতে হবে।
+
+জটিলতা: এই CSS গুলো শর্তসাপেক্ষে load হয় — RTL/LTR এবং dark/light অনুযায়ী
+আলাদা ফাইল (`style.css`, `style-dark.css`, `style-rtl.css`, `rtl-style-dark.css`)।
+তাই একটি bundle নয়, **চারটি variant** দরকার।
+
+### তোমার কাজ (CLAUDE-2)
+
+**ধাপ ১: before বেঞ্চমার্ক** — admin dashboard-এ (login করে), মোবাইল viewport।
+request সংখ্যা, CSS bytes, FCP/LCP নোট করো।
+
+**ধাপ ২: layout ফাইলটি পড়ে শর্তগুলো ম্যাপ করো**
+
+`resources/views/layouts/app.blade.php:100-128` এর `@if`/`@else` গঠন বুঝে নাও।
+কোন শর্তে কোন ফাইল load হয় — একটি টেবিল বানাও `.ai/reports/admin-css-map.md`-এ।
+
+**ধাপ ৩: চারটি entry CSS তৈরি করো**
+
+```
+resources/css/admin-ltr-light.css
+resources/css/admin-ltr-dark.css
+resources/css/admin-rtl-light.css
+resources/css/admin-rtl-dark.css
+```
+
+প্রতিটিতে `@import` দিয়ে সংশ্লিষ্ট CSS ফাইলগুলো আনবে। plugin CSS (select2,
+notifier, bootstrap-switch, dropzone, flatpickr, summernote, emojionearea,
+calendar) সব variant-এ common — একটি `resources/css/_admin-plugins.css` বানিয়ে
+সেটি চারটিতেই import করো।
+
+**ফন্ট CSS আলাদা রাখো।** `tabler-icons`, `feather`, `fontawesome`, `material` —
+এগুলো মোট কত KB দেখো। যদি বড় হয়:
+- Gemini-র inventory দেখে কোন icon set আসলে ব্যবহৃত হয় বের করো
+- অব্যবহৃতগুলো bundle থেকে বাদ দাও, কিন্তু ফাইল মুছবে না
+- ব্যবহৃতগুলো `<link rel="preload" as="font">` দিয়ে দাও
+
+**leaflet CSS** (`https://unpkg.com/leaflet/...`) — external CDN। এটি কোন পেজে
+লাগে খুঁজে বের করো। যদি শুধু ১-২ পেজে লাগে, সেই পেজের `@push('css')`-এ সরাও,
+global layout থেকে বাদ দাও।
+
+**ধাপ ৪: layout-এ প্রতিস্থাপন — kill-switch সহ**
+
+```blade
+@if (env('LEGACY_ADMIN_CSS', false))
+    {{-- পুরনো ২৮টি link, হুবহু অপরিবর্তিত রাখো --}}
+    ... (বর্তমান কোড) ...
+@else
+    @vite(['resources/css/' . $adminCssVariant . '.css'])
+@endif
+```
+
+`$adminCssVariant` নির্ধারণ করবে layout-এর শুরুর `@php` ব্লকে, বিদ্যমান
+`$setting['SITE_RTL']` ও `$setting['cust_darklayout']` variable ব্যবহার করে।
+
+`.env.example`-এ `LEGACY_ADMIN_CSS=false` যোগ করো।
+
+**ধাপ ৫: build ও টেস্ট**
+
+### 🔴 ভেরিফিকেশন — বাধ্যতামূলক
+
+Playwright দিয়ে admin-এ login করে এই ১০টি পেজ মোবাইল ও ডেস্কটপ viewport-এ
+স্ক্রিনশট নাও, ডিজাইন অপরিবর্তিত কি না চোখে যাচাই করো:
+1. Dashboard
+2. Product list (DataTable)
+3. Product create (form + summernote + select2 + dropzone)
+4. Order list
+5. Order detail
+6. Coupon list
+7. Customer list
+8. Settings
+9. Report (ApexCharts)
+10. যেকোনো একটি modal খোলা অবস্থায়
+
+চারটি variant-ই টেস্ট করতে হবে:
+- LTR + light
+- LTR + dark
+- RTL + light (settings থেকে RTL চালু করে)
+- RTL + dark
+
+স্ক্রিনশট: `.ai/screenshots/day1-admin/`
+
+⛔ কিছু ভাঙলে: `.env`-এ `LEGACY_ADMIN_CSS=true` করে ফিরে যাও, Blockers-এ লিখো।
+
+### সম্পন্ন করার পর
+
+১. `.ai/reports/benchmark.md`-এ admin before/after যোগ করো
+২. `.ai/PROGRESS.md`-এ CLAUDE-2 → ✅ DONE
+৩. commit:
+git add -A
+git commit -m "perf(vite): bundle 28 admin stylesheets into 4 conditional variants  [CLAUDE-2]"
+৪. বাংলায় রিপোর্ট: request কত থেকে কত, CSS KB কত কমেছে

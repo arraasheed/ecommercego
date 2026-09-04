@@ -1,0 +1,156 @@
+################################################################
+#  ফাইল: 04-CLAUDE-1.txt
+#  টাস্ক: CLAUDE-1
+#  প্রম্পট ১ — Vite pipeline + Tailwind Play CDN অপসারণ (Day 1)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো (বাধ্যতামূলক):
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/tailwind-classes.md   ← Gemini তৈরি করেছে
+4. .ai/reports/asset-inventory.md    ← Gemini তৈরি করেছে
+
+⚠️ যদি ৩ বা ৪ নম্বর ফাইল না থাকে → থামো, ব্যবহারকারীকে জানাও যে GEMINI-1 ও
+GEMINI-2 আগে শেষ করতে হবে। Play CDN সরানোর আগে class inventory ছাড়া কাজ
+করা মানে ডিজাইন ভাঙার ঝুঁকি নেওয়া।
+
+branch:
+cd C:\laragon\www\ecommercego
+git checkout -b day1/asset-pipeline
+(থাকলে: git checkout day1/asset-pipeline)
+
+### সমস্যা (P1, P7) — প্রজেক্টের সবচেয়ে বড় performance killer
+
+`themes/*/assets/js/tailwind.js` = **466 KB Tailwind Play CDN**, যা ব্রাউজারে
+runtime-এ CSS তৈরি করে। এর মানে প্রতিটি পেজ লোডে ৪৬৬ KB JS parse হয়, তারপর
+সম্পূর্ণ Tailwind engine চলে DOM scan করে CSS বানায়। এটি FCP, LCP, TBT — সব নষ্ট করে।
+
+একইসাথে `vite.config.js` কার্যত অব্যবহৃত: `resources/css/app.css` = 59 bytes,
+`resources/js/app.js` = 96 bytes।
+
+### তোমার কাজ (CLAUDE-1)
+
+**ধাপ ১: বর্তমান অবস্থা মাপো (before বেঞ্চমার্ক)**
+
+Playwright/chrome-devtools MCP দিয়ে storefront-এর হোমপেজে যাও (URL
+`.ai/PROGRESS.md`-এর Environment সেকশনে)। মোবাইল viewport (412×915) এ:
+- মোট transferred bytes
+- JS bytes, CSS bytes
+- FCP, LCP, TBT, CLS
+- request সংখ্যা
+
+এগুলো `.ai/reports/benchmark.md`-এ "Before (baseline)" শিরোনামে লিখে রাখো।
+এটাই পরে প্রমাণ হবে যে কাজ হয়েছে।
+
+**ধাপ ২: Tailwind build pipeline তৈরি করো**
+
+- `package.json`-এ প্রয়োজনীয় dependency যোগ করো। **নির্দিষ্ট version pin করবে**,
+  open range (`^`) নয়। Tailwind 3.x-এই থাকবে (৪-এ যাবে না — breaking change)।
+- `tailwind.config.js`-এর `content` path-এ theme ফোল্ডার যোগ করো:
+  `./themes/**/views/**/*.blade.php`, `./themes/**/assets/js/**/*.js`,
+  `./resources/views/**/*.blade.php`
+- Gemini-র রিপোর্ট থেকে পাওয়া dynamic class-গুলো `safelist`-এ যোগ করো
+- `vite.config.js` লেখো: storefront ও admin-এর জন্য আলাদা entry, code splitting,
+  manifest, CSS minify
+
+**ধাপ ৩: Play CDN প্রতিস্থাপন — সাবধানে, kill-switch সহ**
+
+`themes/stylique/views/front_end/layouts/app.blade.php:20` এ Play CDN load হয়।
+এটি সরাবে, কিন্তু এভাবে:
+
+```blade
+@if (env('LEGACY_TAILWIND_CDN', false))
+    {{-- kill-switch: .env এ LEGACY_TAILWIND_CDN=true দিলে পুরনো আচরণ ফিরে আসবে --}}
+    <script src="{{ asset('themes/' . $currentTheme . '/assets/js/tailwind.js') }}"></script>
+@else
+    @vite(['resources/css/store.css'])
+@endif
+```
+
+- `.env.example`-এ `LEGACY_TAILWIND_CDN=false` যোগ করো
+- **প্রথমে শুধু `stylique` theme-এ করবে।** বাকি দুই theme পরে, টেস্ট পাস করার পর।
+- `themes/*/assets/js/tailwind.js` ফাইলটি **মুছবে না** — kill-switch-এর জন্য দরকার
+
+**ধাপ ৪: `resources/css/store.css` তৈরি করো**
+
+- Tailwind directive (`@tailwind base/components/utilities`)
+- theme-এর নিজস্ব CSS import করো: `main-style.css`, `responsive.css`, `ltr.css`
+- `all.min.css` (93 KB) — Gemini-র রিপোর্ট দেখে সিদ্ধান্ত নাও এটি bundle-এ
+  ঢোকাবে নাকি আলাদা রাখবে (এটি সম্ভবত font-awesome, তাহলে আলাদা ও deferred)
+
+**ধাপ ৫: build ও যাচাই**
+
+```
+cd C:\laragon\www\ecommercego
+npm install
+npm run build
+```
+build সফল হলে ব্রাউজারে টেস্ট করো।
+
+### 🔴 ভেরিফিকেশন — এটি বাধ্যতামূলক, বাদ দেওয়া যাবে না
+
+Playwright MCP দিয়ে `stylique` storefront-এর এই পেজগুলো মোবাইল viewport-এ
+স্ক্রিনশট নাও এবং **চোখে দেখে যাচাই করো** ডিজাইন অপরিবর্তিত কি না:
+1. হোমপেজ
+2. category listing
+3. product detail
+4. cart
+5. checkout (login করে)
+
+স্ক্রিনশট রাখো `.ai/screenshots/day1/` ফোল্ডারে।
+
+তারপর "After" বেঞ্চমার্ক নাও এবং `.ai/reports/benchmark.md`-এ যোগ করো।
+Before/After তুলনার টেবিল বানাও।
+
+⛔ যদি কোনো পেজের ডিজাইন ভেঙে যায়:
+- ভাঙা class চিহ্নিত করো
+- `safelist`-এ যোগ করো
+- আবার build ও টেস্ট
+- ৩ বার চেষ্টার পরও না হলে → `.env`-এ `LEGACY_TAILWIND_CDN=true` করে
+  পুরনো অবস্থায় ফিরে যাও, `.ai/PROGRESS.md`-এর Blockers-এ লিখো, ব্যবহারকারীকে জানাও
+
+### সম্পন্ন করার পর
+
+১. `.ai/reports/benchmark.md` — before/after তুলনা
+২. `.ai/PROGRESS.md`-এ CLAUDE-1 → ✅ DONE, কমিট hash সহ
+৩. commit:
+git add -A
+git commit -m "perf(vite): replace Tailwind Play CDN with build-time compilation  [CLAUDE-1]"
+৪. ব্যবহারকারীকে বাংলায় জানাও: কত KB কমেছে, Lighthouse কত থেকে কত হলো,
+   কোনো ডিজাইন ভেঙেছে কি না।

@@ -1,0 +1,140 @@
+################################################################
+#  ফাইল: 15-CLAUDE-8.txt
+#  টাস্ক: CLAUDE-8
+#  প্রম্পট ৮ — Day 2 চূড়ান্ত টেস্ট ও merge (Day 2)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/turbo-console-errors.md
+4. .ai/reports/benchmark.md
+
+branch: git checkout day2/turbo-drive
+
+### তোমার কাজ (CLAUDE-8): Day 2 যাচাই ও merge
+
+**ধাপ ১: সব টাস্ক ✅ কি যাচাই করো**
+GEMINI-3, CLAUDE-5, BULK-2/3/4, CLAUDE-6, CLAUDE-7 — সব DONE?
+
+**ধাপ ২: বৃহৎ regression — ২৫টি পেজ**
+
+Turbo সবচেয়ে বেশি ঝুঁকিপূর্ণ, তাই এবার টেস্ট আরও ব্যাপক।
+মোবাইল (412×915) ও ডেস্কটপ — দুইটিতেই।
+
+Admin (login করে):
+1. Dashboard — চার্ট, কার্ড, সংখ্যা
+2. Product list — DataTable সব ফিচার
+3. Product create — পূর্ণ ফর্ম
+4. Product edit — বিদ্যমান ডেটা load
+5. Product attribute/variant পেজ
+6. Category list ও create
+7. Order list → detail → status পরিবর্তন
+8. Customer list → detail
+9. Coupon list → create (modal)
+10. Shipping/tax settings
+11. Report পেজ (chart)
+12. POS পেজ (যদি থাকে)
+13. Store settings
+14. Theme customize পেজ
+15. Plan/subscription পেজ
+16. User/role পেজ
+17. Language/translation পেজ
+18. Email template পেজ
+
+Storefront:
+19. হোমপেজ
+20. category listing + filter
+21. product detail + variant
+22. cart
+23. wishlist
+24. checkout
+25. account dashboard + order history
+
+**প্রতিটি পেজে যাচাই করো:**
+- ভিজ্যুয়াল ঠিক আছে (স্ক্রিনশট দেখে)
+- console-এ কোনো error নেই
+- সেই পেজের প্রধান interaction কাজ করে
+
+**তারপর navigation stress test:**
+- ২০টি এলোমেলো navigation → console error জমছে কি?
+- ব্রাউজার back/forward ১০ বার → অবস্থা ঠিক?
+- একটি পেজে ৫ বার ফিরে আসা → duplicate widget নেই?
+- মোবাইলে sidebar খোলা রেখে navigate → sidebar অবস্থা ঠিক?
+
+**ধাপ ৩: পারফরম্যান্স পরিমাপ**
+
+এবার সবচেয়ে গুরুত্বপূর্ণ সংখ্যা — **navigation speed**:
+- Turbo দিয়ে পেজ পরিবর্তনে কত ms লাগে (cached ও uncached)
+- `TURBO_ENABLED=false` করে একই navigation-এ কত ms
+- তুলনা `.ai/reports/benchmark.md`-এ
+
+লক্ষ্য: cached navigation < 300ms
+
+Lighthouse আবার নাও (storefront + admin, mobile)।
+
+**ধাপ ৪: kill-switch যাচাই — এটি বাদ দিও না**
+
+`.env`-এ `TURBO_ENABLED=false` করো → `php artisan config:clear` →
+৫টি পেজ টেস্ট করো → সব আগের মতো কাজ করছে কি?
+
+এটি প্রমাণ করে যে বিপদে ফেরার পথ আছে। তারপর আবার `true` করো।
+
+**ধাপ ৫: সিদ্ধান্ত**
+
+✅ শূন্য console error + সব ফিচার কাজ করছে + kill-switch কাজ করছে:
+```
+git checkout master
+git merge day2/turbo-drive --no-ff -m "merge: Day 2 Turbo Drive SPA navigation"
+git tag -a day2-complete -m "Day 2: Turbo Drive, script migration, plugin cleanup, form handling"
+```
+
+❌ নয়তো merge করবে না, Blockers-এ লিখো।
+
+### রিপোর্ট
+
+ব্যবহারকারীকে বাংলায়:
+| মেট্রিক | Turbo ছাড়া | Turbo সহ |
+| পেজ navigation সময় | | |
+| প্রতি navigation-এ transferred KB | | |
+| Lighthouse mobile (storefront) | | |
+| Lighthouse mobile (admin) | | |
+
+এবং: ২৫টি পেজের মধ্যে কতটি সম্পূর্ণ ঠিক, কোথায় সমস্যা আছে,
+Day 3-এ যাওয়া নিরাপদ কি না।

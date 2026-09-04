@@ -1,0 +1,164 @@
+################################################################
+#  ফাইল: 17-CLAUDE-10.txt
+#  টাস্ক: CLAUDE-10
+#  প্রম্পট ১০ — Workbox service worker (Day 3)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/pwa-ui.md   ← BULK মডেল তৈরি করেছে (BULK-5), থাকলে
+
+branch: git checkout day3/pwa-workbox
+
+### সমস্যা (P4) — বর্তমান PWA ক্ষতিকর
+
+`serviceWorker.js` (২৬ লাইন) যা করে:
+```js
+const assets = [];                          // খালি precache list
+caches.match(request).then(res => res || fetch(request))   // সব GET cache-first
+```
+
+এর মানে:
+- **প্রতিটি HTML পেজ চিরকালের জন্য cache হয়ে যায়** — ব্যবহারকারী পুরনো
+  product price, পুরনো stock দেখবে
+- cache-এর কোনো version নেই, কোনো expiry নেই, কোনো cleanup নেই
+- নতুন deploy করলেও ব্যবহারকারী পুরনো সাইট দেখতে থাকবে
+- এটি performance বাড়ায় না, শুধু ভুল ডেটা দেখায়
+
+**এটি একটি e-commerce সাইটে গুরুতর সমস্যা** — ভুল দাম দেখানো মানে ব্যবসায়িক ক্ষতি।
+
+`resources/views/front_end/jQueryRoute.blade.php:186-195` এ এটি register হয়,
+এবং `themes/*/views/front_end/layouts/app.blade.php:29-30` এ per-store
+manifest link আছে।
+
+### তোমার কাজ (CLAUDE-10)
+
+**ধাপ ১: Workbox যোগ করো**
+
+`vite-plugin-pwa` অথবা সরাসরি `workbox-build` — তুমি সিদ্ধান্ত নাও কোনটি
+এই প্রজেক্টে ভালো খাটবে। বিবেচনা করো:
+- এটি Laravel Blade, কোনো JS-framework SPA নয় — তাই `injectManifest`
+  মোড সম্ভবত ভালো (আমরা নিজে SW লিখব, Workbox শুধু precache list দেবে)
+- per-store manifest দরকার (৩+ store, প্রতিটির আলাদা নাম/icon)
+- version pin করবে
+
+**ধাপ ২: `resources/js/sw.js` লেখো — caching strategy**
+
+| রিসোর্স | Strategy | কারণ |
+|---|---|---|
+| HTML (navigation) | **NetworkFirst**, timeout 3s, fallback offline page | দাম/stock সবসময় তাজা চাই |
+| Vite build asset (hashed) | **CacheFirst**, ১ বছর | hash আছে, বদলালে নতুন URL |
+| font | CacheFirst, ১ বছর | কখনো বদলায় না |
+| image (product) | **StaleWhileRevalidate**, max ১০০টি, ৩০ দিন | দ্রুত দেখাবে, পটভূমিতে আপডেট |
+| `/api/*` GET | **NetworkFirst**, timeout 5s | Vue island-এর ডেটা |
+| `/api/*` POST/PUT | **NetworkOnly** | cart/order — কখনো cache নয় |
+| admin পেজ | **NetworkOnly** | কখনো stale admin ডেটা নয় |
+| CSRF/session-নির্ভর কিছু | NetworkOnly | নিরাপত্তা |
+
+**🔴 কঠোর নিরাপত্তা নিয়ম — এগুলো ভাঙা যাবে না:**
+- login/logout/register/password রুট → **কখনো cache নয়**
+- checkout/payment রুট → **কখনো cache নয়**
+- cart/order/account রুট → **কখনো cache নয়** (একজনের ডেটা অন্যজন দেখতে পারে)
+- `Set-Cookie` header যুক্ত response → cache নয়
+- 4xx/5xx response → cache নয়
+- শুধু `same-origin` request cache হবে
+
+**ধাপ ৩: version ও cleanup**
+- `skipWaiting` ও `clientsClaim` — কিন্তু সতর্কতার সাথে (form সাবমিটের মধ্যে
+  SW বদলালে সমস্যা হতে পারে; তুমি সিদ্ধান্ত নাও)
+- পুরনো cache মুছে ফেলা (`cleanupOutdatedCaches`)
+- **পুরনো `serviceWorker.js` unregister করার কোড** — কারণ ব্যবহারকারীদের
+  ব্রাউজারে ইতিমধ্যে সেই ভাঙা SW ইনস্টল হয়ে থাকতে পারে। নতুন SW প্রথম
+  চালু হলে সব পুরনো cache মুছবে।
+
+**ধাপ ৪: kill-switch**
+
+`config('app.spa.pwa_enabled')` false হলে:
+- SW register হবে না
+- এবং **ইতিমধ্যে register থাকা SW unregister হবে** — এটিই আসল kill-switch,
+  নয়তো একবার SW বসে গেলে বন্ধ করা কঠিন
+
+`resources/js/sw-register.js` এ এই লজিক লেখো।
+
+**ধাপ ৫: পুরনো কোড প্রতিস্থাপন**
+
+`resources/views/front_end/jQueryRoute.blade.php:186-195` এর পুরনো register
+কোড সরাও, নতুন `@vite(['resources/js/sw-register.js'])` দাও।
+পুরনো `serviceWorker.js` ফাইল **মুছবে না** (ইতিহাসের জন্য), কিন্তু আর ব্যবহার হবে না।
+
+`store->enable_pwa_store == 'on'` শর্তটি বজায় রাখো — এটি per-store PWA
+চালু/বন্ধ করার বিদ্যমান ফিচার।
+
+**ধাপ ৬: offline page route**
+
+BULK মডেল `resources/views/front_end/offline.blade.php` বানিয়েছে (BULK-5)।
+এটির জন্য একটি route দরকার। কিন্তু `routes/web.php` নিষিদ্ধ...
+
+সমাধান: SW-এর precache list-এ offline HTML-টি একটি static ফাইল হিসেবে রাখো।
+build সময়ে blade-টি render করে `public/offline.html` এ লিখে দাও (একটি artisan
+command বা vite plugin দিয়ে)। তাহলে route লাগবে না।
+
+### 🔴 ভেরিফিকেশন — খুব যত্নে, নিরাপত্তা জড়িত
+
+Playwright দিয়ে:
+1. SW register হয়েছে কি (`navigator.serviceWorker.controller`)
+2. DevTools Application → Cache Storage-এ কী কী cache হয়েছে দেখো
+3. **কোনো login/checkout/cart/account URL cache-এ আছে কি? থাকলে গুরুতর বাগ**
+4. product দাম বদলে দাও (admin থেকে) → storefront reload → নতুন দাম দেখায়?
+   (NetworkFirst কাজ করছে প্রমাণ)
+5. offline mode চালু করো → পেজ reload → offline page দেখায়?
+6. offline-এ থাকা অবস্থায় আগে দেখা পেজে যাও → cached version দেখায়?
+7. আবার online → নিজে থেকে reload হয়?
+8. দুইজন আলাদা ব্যবহারকারী হিসেবে login করো → একজনের cart অন্যজন দেখছে না
+   তা নিশ্চিত করো (**সবচেয়ে গুরুত্বপূর্ণ নিরাপত্তা টেস্ট**)
+9. kill-switch: `PWA_ENABLED=false` → SW unregister হচ্ছে?
+10. মোবাইল viewport-এ সব একই টেস্ট
+
+⛔ ৩ ও ৮ নম্বরে সমস্যা পেলে **সাথে সাথে থামো** — এটি ডেটা leak, ব্যবসায়িক
+বিপর্যয়। `PWA_ENABLED=false` করে Blockers-এ লিখো।
+
+### সম্পন্ন করার পর
+
+১. `.ai/reports/pwa-caching.md` — কোন রুট কোন strategy, কী cache হয় না, কেন
+২. `.ai/PROGRESS.md`-এ CLAUDE-10 → ✅ DONE
+৩. commit:
+git add -A
+git commit -m "feat(pwa): replace broken service worker with Workbox strategies  [CLAUDE-10]"
+৪. বাংলায় রিপোর্ট: পুরনো SW কী ক্ষতি করত, এখন কী হয়, নিরাপত্তা টেস্ট পাস করেছে কি

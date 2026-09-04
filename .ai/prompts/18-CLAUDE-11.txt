@@ -1,0 +1,181 @@
+################################################################
+#  ফাইল: 18-CLAUDE-11.txt
+#  টাস্ক: CLAUDE-11
+#  প্রম্পট ১১ — Per-store manifest generator (Day 3)
+#
+#  এই ফাইলের পুরোটা কপি করে মডেলকে দিন (Ctrl+A → Ctrl+C)।
+#  ভেতরে ২টি ধাপ আছে — সবগুলো একসাথে পেস্ট করবেন।
+################################################################
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ১ / ২ — আগে নিজের অবস্থান বুঝে নাও
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি C:\laragon\www\ecommercego প্রজেক্টে কাজ করছ।
+ধরে নাও তোমার কোনো পূর্ব স্মৃতি নেই। কাজ শুরুর আগে এই ৪টি ধাপ করো:
+
+  ১. পড়ো:  .ai/PROJECT_CONTEXT.md
+  ২. পড়ো:  .ai/PROGRESS.md
+  ৩. চালাও: git log --oneline -20
+  ৪. চালাও: git status --short
+
+নিচের টাস্কটি PROGRESS.md-এ কোন অবস্থায় আছে দেখো:
+
+  ⬜ PENDING      → নতুন করে শুরু করো
+  🟨 IN PROGRESS  → আগের সেশনে অসম্পূর্ণ রেখে থেমেছিলে। সেই টাস্কের
+                    .ai/reports/ ফাইলটি পড়ো, কোন ফাইল পর্যন্ত শেষ হয়েছে
+                    দেখো, তার পরের ফাইল থেকে শুরু করো।
+                    ⛔ শেষ হওয়া ফাইল আবার করবে না — দুইবার পরিবর্তন
+                       করলে কোড ভেঙে যাবে।
+  ✅ DONE         → এই টাস্ক শেষ। ব্যবহারকারীকে জানাও, নতুন কিছু করবে না।
+
+git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
+
+শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ধাপ ২ / ২ — তোমার টাস্ক
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+তুমি `C:\laragon\www\ecommercego` প্রজেক্টে কাজ করছ।
+
+প্রথমে পড়ো:
+1. .ai/PROJECT_CONTEXT.md
+2. .ai/PROGRESS.md
+3. .ai/reports/pwa-caching.md
+
+branch: git checkout day3/pwa-workbox
+
+### প্রেক্ষাপট
+
+এটি multi-store SaaS। প্রতিটি দোকানের আলাদা নাম, logo, রঙ। তাই যখন কোনো
+ক্রেতা "Add to Home Screen" করবে, তার ফোনে **সেই দোকানের** নাম ও logo দেখাতে হবে
+— আমাদের প্ল্যাটফর্মের নাম নয়। এটি বিক্রির একটি বড় যুক্তি।
+
+বর্তমান কোড: `themes/*/views/front_end/layouts/app.blade.php:29-30`
+```blade
+<link rel="manifest" href="{{ asset('storage/uploads/customer_app/store_' . $store->id . '/manifest.json') }}" />
+```
+
+অর্থাৎ প্রতিটি store-এর জন্য একটি ফাইল প্রত্যাশিত। কিন্তু:
+- এই ফাইল কে তৈরি করে? আছে কি? যাচাই করো
+- না থাকলে 404 → manifest নেই → PWA installable নয়
+
+### তোমার কাজ (CLAUDE-11)
+
+**ধাপ ১: বর্তমান অবস্থা তদন্ত করো**
+
+- `storage/app/public/uploads/customer_app/` বা `public/storage/uploads/customer_app/`
+  ফোল্ডারে কোনো `store_*/manifest.json` আছে কি?
+- কোনো controller বা command এটি তৈরি করে কি? খোঁজো:
+  `manifest` শব্দ দিয়ে `app/` এবং `packages/` এ search করো
+- `php artisan storage:link` করা আছে কি? (`public/storage` symlink)
+- `Store` model-এ কী কী field আছে যা manifest-এ লাগবে:
+  name, logo, favicon, theme color, slug
+
+`.ai/reports/manifest-audit.md`-এ লিখো।
+
+**ধাপ ২: সমাধানের পথ বাছো**
+
+দুইটি পথ আছে, তুমি বাছবে:
+
+**পথ ক — Static file generation (artisan command)**
+`app/Console/Commands/GenerateStoreManifest.php` নতুন ফাইল।
+প্রতিটি store-এর জন্য JSON লিখবে। store তৈরি/সম্পাদনার সময় চালাতে হবে।
+সুবিধা: দ্রুত (static file)। অসুবিধা: store setting বদলালে পুরনো থেকে যায়।
+
+**পথ খ — Dynamic route**
+`/{slug}/manifest.json` route যা runtime-এ JSON তৈরি করে।
+সুবিধা: সবসময় তাজা। অসুবিধা: `routes/web.php` পরিবর্তন লাগে ❌ (নিষিদ্ধ)।
+
+⚠️ কিন্তু একটি তৃতীয় পথ আছে যা upstream-safe:
+**পথ গ — নতুন module**
+`packages/workdo/PwaManifest/` — একটি নতুন module যার নিজের route ফাইল থাকবে।
+প্রজেক্টের module system ইতিমধ্যে কাজ করছে (`packages/workdo/LandingPage` উদাহরণ)।
+এতে core-এর কোনো ফাইল ছোঁয়া লাগবে না, এবং WorkDo update-এ অক্ষত থাকবে।
+
+**পথ গ বেছে নাও।** এটি একইসাথে ভবিষ্যতের ২০-২৫টি ফিচারের জন্য একটি টেমপ্লেট
+তৈরি করবে — ব্যবহারকারী পরে এই প্যাটার্ন অনুসরণ করে ফিচার যোগ করবেন।
+
+**ধাপ ৩: module তৈরি করো**
+
+`packages/workdo/LandingPage/` এর গঠন হুবহু পড়ো এবং একই প্যাটার্ন অনুসরণ করো:
+- `composer.json`
+- `src/Providers/PwaManifestServiceProvider.php`
+- `Routes/web.php`
+- `src/Http/Controllers/ManifestController.php`
+
+controller যা করবে: store slug নিয়ে, store খুঁজে, একটি JSON response দেবে।
+
+**manifest-এ যা থাকবে:**
+```json
+{
+  "name": "<store name>",
+  "short_name": "<store name, ১২ অক্ষরে ছোট করা>",
+  "start_url": "/<slug>?source=pwa",
+  "scope": "/<slug>",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "<store setting থেকে বা #ffffff>",
+  "theme_color": "<store setting থেকে>",
+  "icons": [ 192x192, 512x512, maskable ],
+  "categories": ["shopping"],
+  "lang": "<store language>",
+  "dir": "ltr বা rtl"
+}
+```
+
+⚠️ **icon সমস্যা:** PWA-র জন্য ঠিক 192×192 ও 512×512 PNG দরকার। দোকানের logo
+যেকোনো সাইজের হতে পারে। সমাধান:
+- Intervention Image বা GD দিয়ে resize করো, অথবা
+- logo না থাকলে/ভুল সাইজ হলে একটি ডিফল্ট icon দাও (কিন্তু নীরবে নয় —
+  admin-কে জানানোর ব্যবস্থা রাখো)
+
+তুমি যা সহজ ও নির্ভরযোগ্য মনে করো করো, কিন্তু **কখনো ভাঙা manifest দেবে না** —
+ভাঙা manifest মানে "install" বোতাম আসবে না।
+
+**ধাপ ৪: layout আপডেট**
+
+`themes/*/views/front_end/layouts/app.blade.php` এ manifest link নতুন
+route-এ পরিবর্তন করো। সাথে যোগ করো (যদি না থাকে):
+```blade
+<meta name="theme-color" content="...">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="...">
+<link rel="apple-touch-icon" href="...">
+```
+iOS Safari manifest-এর icon ব্যবহার করে না, `apple-touch-icon` লাগে।
+
+**ধাপ ৫: BULK মডেলের install prompt যোগ করো**
+
+`resources/views/front_end/partison/pwa-install.blade.php` (BULK-5)
+storefront layout-এ include করো। পুরনো install prompt কোড
+(`jQueryRoute.blade.php:199-260`) সরাও।
+
+### 🔴 ভেরিফিকেশন
+
+Playwright/chrome-devtools দিয়ে:
+1. `/{slug}/manifest.json` ব্রাউজারে খোলো → বৈধ JSON আসছে?
+2. DevTools → Application → Manifest → কোনো error/warning আছে?
+3. "Installability" সেকশনে কী বলছে? — installable হতে হবে
+4. দুইটি আলাদা store-এ যাও → আলাদা নাম ও logo দেখাচ্ছে?
+5. icon URL গুলো ২০০ দিচ্ছে? (404 নয়)
+6. মোবাইল viewport-এ install banner দেখা যাচ্ছে?
+7. banner-এ "পরে" চাপলে ৭ দিন আর আসছে না? (localStorage যাচাই)
+8. `enable_pwa_store = 'off'` করা store-এ manifest link নেই?
+
+স্ক্রিনশট: `.ai/screenshots/day3/`
+
+### সম্পন্ন করার পর
+
+১. `.ai/reports/manifest-audit.md` সম্পূর্ণ করো
+২. **PROJECT_CONTEXT.md আপডেট করো** — নতুন module-এর প্যাটার্ন নথিভুক্ত করো,
+   কারণ ব্যবহারকারী ভবিষ্যতে ২০-২৫টি ফিচার এভাবেই যোগ করবেন
+৩. `.ai/PROGRESS.md`-এ CLAUDE-11 → ✅ DONE
+৪. commit:
+git add -A
+git commit -m "feat(pwa): per-store manifest via new PwaManifest module  [CLAUDE-11]"
+৫. বাংলায় রিপোর্ট: প্রতি দোকানের আলাদা app icon/নাম কাজ করছে কি,
+   এবং ভবিষ্যতে নতুন ফিচার কীভাবে যোগ করতে হবে (module প্যাটার্ন)

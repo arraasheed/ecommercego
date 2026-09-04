@@ -2,6 +2,10 @@
 
 > **প্রতিটি AI মডেল কাজ শুরুর আগে এই ফাইল পড়বে। এটি সবার জন্য একক সত্য (single source of truth)।**
 > **Every AI model MUST read this file before starting any task.**
+>
+> **👤 ব্যবহারকারীর জন্য নয়।** ব্যবহারকারীর গাইড: `.ai/HOW_TO_RUN.md` —
+> ২৭টি ধাপ, কোন প্রম্পট কাকে দেবেন, কীভাবে দেবেন।
+> রেডি প্রম্পট: `.ai/prompts/*.txt` (পুরো ফাইল কপি করে পেস্ট করবেন)।
 
 ---
 
@@ -295,3 +299,51 @@ Nemotron 3.5 Light, বা Claude নিজেই। মডেল বদলা�
 - কোনো মডেল আটকে গেলে: `.ai/PROGRESS.md`-এর `## Blockers` সেকশনে লিখবে, কাজ থামাবে, ব্যবহারকারীকে জানাবে।
 - ব্যবহারকারী সেই বার্তা Claude-কে দেখাবেন, Claude সমাধান দেবে।
 - **কোনো মডেল নিজের টাস্ক নম্বরের বাইরে কাজ করবে না।** স্কোপ ক্রিপ = ঝুঁকি।
+
+---
+
+## 10. ফাইল কাঠামো — কোন ফাইল কার জন্য
+
+```
+.ai/
+├── HOW_TO_RUN.md        👤 ব্যবহারকারীর একমাত্র গাইড — ২৭ ধাপ, কে কী পায়
+├── prompts/             👤 রেডি প্রম্পট, ২৭টি .txt — পুরো ফাইল কপি করে পেস্ট
+│   ├── 01-GEMINI-1.txt
+│   ├── 03-BULK-1.txt
+│   ├── 04-CLAUDE-1.txt
+│   └── ...
+├── PROJECT_CONTEXT.md   🤖 এই ফাইল — নিয়ম ও আর্কিটেকচার
+├── PROGRESS.md          🤖 অবস্থা ট্র্যাকার (মডেল আপডেট করে)
+├── CLAUDE_TASKS.md      🤖 মূল টাস্ক সংজ্ঞা (prompts/-এর উৎস)
+├── GEMINI_TASKS.md      🤖
+├── BULK_TASKS.md        🤖
+├── reports/             🤖 মডেলের লেখা রিপোর্ট
+├── screenshots/         🤖 ব্রাউজার টেস্টের প্রমাণ (git-ignored)
+└── state/               🤖 crash journal (git-ignored)
+
+.agents/
+├── AGENTS.md            Antigravity workspace rule
+├── hooks.json           lifecycle hook নিবন্ধন
+└── scripts/
+    ├── resume-context.cjs   PreInvocation — resume brief inject
+    ├── checkpoint.cjs       PostToolUse — journal লেখে
+    └── split-prompts.cjs    *_TASKS.md → prompts/*.txt রূপান্তর
+```
+
+### `prompts/` কীভাবে তৈরি হয়
+
+`.ai/prompts/*.txt` হলো **generated output** — হাতে সম্পাদনা করবেন না।
+উৎস হলো `*_TASKS.md` ফাইলগুলো। কোনো টাস্ক প্রম্পট বদলালে পুনরায় তৈরি করুন:
+
+```powershell
+cd C:\laragon\www\ecommercego
+node .agents/scripts/split-prompts.cjs
+```
+
+প্রতিটি `.txt` ফাইলে যা থাকে:
+- **ধাপ ১** — বুট নির্দেশনা (git log + PROGRESS.md পড়ে অবস্থান খোঁজা)
+- **ধাপ ২** — শুধু BULK ফাইলে: Flash guardrail + পাইলট + checkpoint নিয়ম
+- **শেষ ধাপ** — আসল টাস্ক প্রম্পট
+
+ফলে ব্যবহারকারীকে আর "কোথা থেকে কতটুকু কপি করব" ভাবতে হয় না — পুরো ফাইল
+কপি করলেই সব নিয়ম সাথে যায়।
