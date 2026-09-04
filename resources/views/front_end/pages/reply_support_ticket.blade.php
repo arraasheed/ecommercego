@@ -91,7 +91,7 @@
                                     <input type="file" class="form-input file-opc {{ $errors->has('reply_attachments') ? ' is-invalid' : '' }}" name="reply_attachments[]" id="file" aria-label="Upload" multiple=""  data-filename="multiple_file_selection" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
                                     {{-- <label class="input-group-text file-opc bg-primary" for="attachments"><i
                                             class="ti ti-circle-plus"></i>{{__('Browse')}}</label> --}}
-                                    <img src="" id="blah" width="20%"/>
+                                    <img src="" id="blah" width="20%" loading="lazy" decoding="async"/>
                                     <div class="invalid-feedback">
                                         {{ $errors->first('reply_attachments.*') }}
                                     </div>
