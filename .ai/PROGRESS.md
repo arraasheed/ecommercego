@@ -174,7 +174,7 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 
 **বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1, GEMINI-2, CLAUDE-1 সম্পন্ন
 **সর্বশেষ আপডেট:** Day 1 (CLAUDE-1 শেষ — Play CDN সরানো, ৫ পেজে pixel-diff শূন্য)
-**সর্বশেষ কমিট:** `a69d27e` — perf(vite): replace Tailwind Play CDN [CLAUDE-1]
+**সর্বশেষ কমিট:** `c69e14a` — fix(vite): storefront bundle loads + renders identically [CLAUDE-1]
 **সক্রিয় branch:** `day1/asset-pipeline`
 
 **Day 1 ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → ~~CLAUDE-1~~ → **CLAUDE-2 এখন চালানো যায়**
@@ -220,7 +220,7 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 |---|---|---|---|---|
 | GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/asset-inventory.md` · Claude যাচাই: সংখ্যা নির্ভুল |
 | GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | `c945b79` | রিপোর্ট → `.ai/reports/tailwind-classes.md` · ⚠️ safelist অসম্পূর্ণ — যাচাই: `.ai/reports/gemini2-verification.md`, CLAUDE-1 এ ৪টি class যোগ করতে হবে |
-| CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` + fix | Play CDN 466KB সরানো · FCP −148ms, LCP −196ms, TBT −66% · ৫ পেজে pixel-diff = 0 · রিপোর্ট → `.ai/reports/benchmark.md` |
+| CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` → `c69e14a` | Play CDN 466KB সরানো · FCP −148ms, LCP −196ms, TBT −66% · ৫ পেজে pixel-diff = 0 · রিপোর্ট → `.ai/reports/benchmark.md` |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ⬜ PENDING | — | |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ⬜ PENDING | — | CLS fix |
