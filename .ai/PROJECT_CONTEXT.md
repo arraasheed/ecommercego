@@ -67,7 +67,7 @@ conversation history ড্যাশবোর্ড থেকে হারিয
 | `.agents/scripts/resume-context.cjs` | **PreInvocation** — প্রতি সেশনের প্রথম model call-এর আগে `PROGRESS.md` + `git log` + journal পড়ে একটি resume brief inject করে |
 | `.agents/scripts/checkpoint.cjs` | **PostToolUse + Stop** — প্রতিটি tool call-এর পর `.ai/state/journal.jsonl`-এ এক লাইন লেখে |
 | `.agents/AGENTS.md` | workspace rule — সব মডেলের জন্য স্বয়ংক্রিয়ভাবে লোড হয় |
-| `AGENTS.md` + `GEMINI.md` (root) | একই rule, root-level discovery-র জন্য |
+| `AGENTS.md` + `GEMINI.md` + `CLAUDE.md` + `.clinerules` (root) | একই নিয়মের pointer, বিভিন্ন টুলের auto-discovery-র জন্য। Antigravity/OpenCode → `AGENTS.md`, Gemini CLI → `GEMINI.md`, Claude Code → `CLAUDE.md`, Cline → `.clinerules`। ফলে মডেল প্রম্পট পড়ার আগেই মূল নিয়ম জেনে যায় |
 
 **কেন JSONL (ডেটাবেস নয়):** append-only ফাইলে বিদ্যুৎ গেলে শুধু শেষ লাইনটি
 ছিঁড়ে যায়, reader সেটি skip করে। আগের সব লাইন অক্ষত থাকে। ডেটাবেস হলে পুরো
@@ -353,7 +353,27 @@ Nemotron 3.5 Light, বা Claude নিজেই। মডেল বদলা�
     ├── resume-context.cjs   PreInvocation — resume brief inject
     ├── checkpoint.cjs       PostToolUse — journal লেখে
     └── split-prompts.cjs    *_TASKS.md → prompts/*.txt রূপান্তর
+
+প্রজেক্ট রুট — টুল auto-discovery (সব একই নিয়মের pointer):
+├── AGENTS.md            Antigravity, OpenCode
+├── GEMINI.md            Gemini CLI
+├── CLAUDE.md            Claude Code
+└── .clinerules          Cline (VS Code)
 ```
+
+### কেন রুটে চারটি একই ফাইল
+
+প্রতিটি টুল আলাদা নামে workspace rule খোঁজে। একটি ফাইল রাখলে বাকি টুলগুলো
+কিছুই পড়ে না, ফলে মডেল নিষিদ্ধ ফোল্ডারে হাত দিতে পারে বা `git push` করে
+ফেলতে পারে। চারটি রাখলে **যে টুলেই মডেল চলুক**, প্রম্পট পড়ার আগেই সে
+জেনে যায়:
+
+- `app/ routes/ database/ vendor/ packages/` — নিষিদ্ধ
+- `git push` — কখনো নয়
+- প্রতি টাস্কে PROGRESS.md আপডেট + commit
+- আটকে গেলে ৩ চেষ্টা, তারপর Blockers-এ লিখে থামো
+
+`AGENTS.md` পূর্ণ নিয়ম; বাকি তিনটি সংক্ষিপ্ত pointer যা `AGENTS.md`-এ পাঠায়।
 
 ### `prompts/` কীভাবে তৈরি হয়
 

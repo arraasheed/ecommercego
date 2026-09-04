@@ -206,8 +206,8 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 
 | টাস্ক | মডেল | অবস্থা | কমিট | নোট |
 |---|---|---|---|---|
-| GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ⬜ PENDING | — | রিপোর্ট → `.ai/reports/asset-inventory.md` |
-| GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ⬜ PENDING | — | রিপোর্ট → `.ai/reports/tailwind-classes.md` |
+| GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/asset-inventory.md` |
+| GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/tailwind-classes.md` |
 | CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ⬜ PENDING | — | Play CDN 466KB সরানো |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ⬜ PENDING | — | |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
