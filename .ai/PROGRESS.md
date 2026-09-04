@@ -235,13 +235,13 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ✅ DONE | `9d4d831` | CSS requests 20→2 (−90%), CSS bytes 994→755.7 KB (−24%), LCP −80ms · 4 variants (RTL/dark) · kill-switch `LEGACY_ADMIN_CSS` · রিপোর্ট → `.ai/reports/admin-css-map.md` · benchmark updated |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ✅ DONE | `78f421b` | ২১ ফাইল / ৪২ জায়গা · disk-cache 0→31 (৩২টির মধ্যে) · helper: `asset_v()`, `get_file_v()`, `asset_version()` · `.htaccess` Cache-Control · kill-switch `LEGACY_ASSET_TIME_BUSTER` · pixel-diff 0 · রিপোর্ট → `.ai/reports/cache-buster-map.md` |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ✅ DONE | `f9e6f11` | ৪৫ img: ২৬ lazy + ৯ eager(LCP) + ৮ আগে থেকে · ব্যতিক্রম ২ (FB pixel, commented) · রিপোর্ট → `.ai/reports/img-lazy-report.md` · missing dims → `.ai/reports/img-missing-dimensions.md` |
-| CLAUDE-4  Day 1 ব্রাউজার টেস্ট + Lighthouse | Claude | ⬜ PENDING | — | before/after সংখ্যা |
+| CLAUDE-4  Day 1 ব্রাউজার টেস্ট + Lighthouse | Claude | ⬜ PENDING | — | before/after সংখ্যা · ➕ অতিরিক্ত: `script-inventory.md` পুনর্নির্মাণ (GEMINI-3 ভাঙা) |
 
 ### Day 2 — Turbo Drive (branch: `day2/turbo-drive`)
 
 | টাস্ক | মডেল | অবস্থা | কমিট | নোট |
 |---|---|---|---|---|
-| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/script-inventory.md` |
+| GEMINI-3  ১৭০টি inline script ইনভেন্টরি | Gemini | ❌ REDO → Claude | `0c8033c` | ⚠️ রিপোর্ট ব্যবহারযোগ্য নয় — পূর্ণ তালিকা নেই (শুধু ২-৩টি নমুনা সারি), ১০টি লাইন রেফারেন্সের ৯টি ভুল, সংখ্যা মেলে না। যাচাই → `.ai/reports/gemini3-verification.md` · CLAUDE-4-এর পর Claude পুনর্নির্মাণ করবে |
 | CLAUDE-5  Turbo ইনস্টল + bootstrap + kill-switch | Claude | ⬜ PENDING | — | |
 | BULK-2  script → `turbo:load` (batch 1: ৬০টি) | BULK মডেল | ⬜ PENDING | — | recipe অনুসরণ |
 | BULK-3  script → `turbo:load` (batch 2: ৬০টি) | BULK মডেল | ⬜ PENDING | — | |
