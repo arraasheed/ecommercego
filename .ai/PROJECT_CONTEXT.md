@@ -196,6 +196,31 @@ day3/pwa-workbox
 day4/mobile-polish
 ```
 
+### remote
+
+```
+origin = https://github.com/arraasheed/ecommercego.git   (public)
+```
+
+| কাজ | অনুমতি |
+|---|---|
+| `git commit` (লোকাল) | ✅ প্রতি টাস্কে বাধ্যতামূলক |
+| `git push origin <branch>` | ⚠️ শুধু ব্যবহারকারী স্পষ্ট বললে |
+| `git push origin master` | ⛔ কখনো নিজে থেকে নয় |
+| `git push --force` / `--force-with-lease` | ⛔ কখনো নয় |
+| `git pull` / `git fetch` | ✅ নিরাপদ |
+
+**কেন push স্বয়ংক্রিয় নয়:** repo public। ভুলে কোনো গোপন তথ্য commit হলে
+push-এর আগে ধরা পড়লে সংশোধনযোগ্য; push হয়ে গেলে GitHub-এর ইতিহাসে স্থায়ী।
+তাই প্রতিটি push ব্যবহারকারীর সিদ্ধান্ত। মডেল শুধু commit করবে।
+
+**push করার আগে যা দেখতে হবে:**
+```powershell
+git status --short                 # অপ্রত্যাশিত ফাইল আছে কি
+git log --oneline origin/master..  # কী কী যাচ্ছে
+git ls-files | Select-String '\.env$|\.sql$|\.pem$|\.key$'   # ফলাফল খালি হতে হবে
+```
+
 ### `.gitignore` কী বাদ দেয় (Day 0-এ যাচাই করা)
 
 | বাদ | কারণ | ফেরানোর উপায় |

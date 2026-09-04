@@ -31,6 +31,14 @@
 
 git log আর PROGRESS.md না মিললে git-কে সত্য ধরবে। কমিট মিথ্যা বলে না।
 
+⛔ git সম্পর্কে দুইটি কঠোর নিয়ম:
+
+  • `git push` কখনো চালাবে না। remote (github.com/arraasheed/ecommercego)
+    একটি PUBLIC repo। push শুধু ব্যবহারকারী নিজে সিদ্ধান্ত নেবেন।
+    তোমার কাজ শুধু লোকাল `git commit`।
+  • `git reset --hard`, `git clean`, `git checkout <file>`,
+    `git push --force` — এগুলোও কখনো নয়। এতে কাজ মুছে যায়।
+
 শুরু করার আগে আমাকে এক লাইনে জানাও: কোন টাস্কে আছ, কোথা থেকে শুরু করছ।
 
 

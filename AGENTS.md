@@ -94,6 +94,18 @@ Example: `perf(vite): bundle 28 admin css into one file  [CLAUDE-2]`
 Then update the task's row in `.ai/PROGRESS.md` (status + commit hash).
 **A task without a commit and a PROGRESS.md update is a task that will be lost.**
 
+### Never push on your own
+
+```
+origin = https://github.com/arraasheed/ecommercego.git   (PUBLIC)
+```
+
+Commit freely, locally. But `git push` only when the user explicitly asks.
+The repo is public: a secret that is committed can still be fixed, a secret
+that is pushed lives in GitHub's history forever.
+
+`git push --force`, `git reset --hard`, and `git clean` are never yours to run.
+
 ## 5. When you are stuck
 
 Three attempts maximum. Then:

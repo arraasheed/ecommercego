@@ -109,6 +109,29 @@ git log আর PROGRESS.md না মিললে git-কে সত্য ধর
 | Playwright Chromium | `chromium-1234`, `chromium-1243` ইনস্টল ✅ |
 | git branch | `master` |
 | git baseline tag | `baseline-v0` → commit `17a47e9` |
+| **git remote** | `origin` → `https://github.com/arraasheed/ecommercego.git` (public) |
+
+### git remote নিয়ম
+
+| কাজ | অনুমতি |
+|---|---|
+| `git commit` (লোকাল) | ✅ সব মডেল, প্রতি টাস্কে বাধ্যতামূলক |
+| `git push origin <branch>` | ⚠️ শুধু ব্যবহারকারী স্পষ্ট বললে |
+| `git push origin master` | ⛔ কখনো নিজে থেকে নয় |
+| `git push --force` | ⛔ কখনো নয় |
+
+**কেন push স্বয়ংক্রিয় নয়:** এটি একটি **public** repo। কোনো টাস্কে ভুলে কোনো
+গোপন তথ্য commit হয়ে গেলে, push করার আগে ধরা পড়লে ঠিক করা যায় — push হয়ে গেলে
+GitHub-এর ইতিহাসে থেকে যায়। তাই প্রতিটি push ব্যবহারকারীর সিদ্ধান্ত।
+
+**push করার সময় যা যাচাই করা আছে (Day 0):**
+- `.env` ট্র্যাক করা **নেই** — শুধু `.env.example`, তার সব মান খালি বা `null`
+- `vendor/` (177 MB), `node_modules/` (39 MB), uploads, debugbar — সব ignored
+- ট্র্যাক করা: 3082 ফাইল / ~156 MB
+
+⚠️ remote-এ `main` ডিফল্ট ব্রাঞ্চ হিসেবে সেট করা আছে কিন্তু repo **খালি**।
+আমাদের লোকাল ব্রাঞ্চ `master`। প্রথম push-এ `master` যাবে; ব্যবহারকারী চাইলে
+GitHub সেটিংসে ডিফল্ট `master` করতে পারেন, অথবা আমরা `main`-এ push করতে পারি।
 
 ### টেস্ট ক্রেডেনশিয়াল
 ```
