@@ -15,7 +15,7 @@
                             <div class="setting-card">
                                 <div class="logo-content mt-4">
                                     <a href="#" target="_blank">
-                                        <img src="{{ !empty($setting['logo_dark']) ? get_file($setting['logo_dark']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/')) . '/logo-dark.png' . '?timestamp=' . time() }}"
+                                        <img src="{{ !empty($setting['logo_dark']) ? get_file_v($setting['logo_dark']) : get_file_v(asset(Storage::url('uploads/logo/')) . '/logo-dark.png') }}"
                                             class="img_setting" id="before">
                                     </a>
                                 </div>
@@ -49,7 +49,7 @@
                             <div class=" setting-card">
                                 <div class="logo-content mt-4">
                                     <a href="#" target="_blank">
-                                        <img src="{{ !empty($setting['logo_light']) ? get_file($setting['logo_light']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/')) . '/logo-light.png' . '?timestamp=' . time() }}"
+                                        <img src="{{ !empty($setting['logo_light']) ? get_file_v($setting['logo_light']) : get_file_v(asset(Storage::url('uploads/logo/')) . '/logo-light.png') }}"
                                             class=" img_setting" id="logo-light">
                                     </a>
                                 </div>
@@ -83,7 +83,7 @@
                             <div class=" setting-card">
                                 <div class="logo-content mt-4">
                                     <a href="#" target="_blank">
-                                        <img src="{{ !empty($setting['favicon']) ? get_file($setting['favicon'])  . '?timestamp=' . time() : asset(Storage::url('uploads/logo/')) . '/favicon.png' . '?timestamp=' . time() }}"
+                                        <img src="{{ !empty($setting['favicon']) ? get_file_v($setting['favicon']) : get_file_v(asset(Storage::url('uploads/logo/')) . '/favicon.png') }}"
                                             width="60px" height="40px" class=" img_setting favicon" id="faviCon">
                                     </a>
                                 </div>

@@ -85,14 +85,14 @@
     <meta property="og:url" content="{{ env('APP_URL') }}">
     <meta property="og:title" content="{{ isset($SuperadminData['metatitle']) ? $SuperadminData['metatitle'] : 'EcommerceGo' }}">
     <meta property="og:description" content="{{ isset($SuperadminData['metadesc']) ? $SuperadminData['metadesc'] : 'Discover the efficiency of EcommerceGo, a user-friendly web application by Workdo.io.'}} ">
-    <meta property="og:image" content="{{ get_file(isset($SuperadminData['metaimage']) ? $SuperadminData['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png')  }}{{'?'.time() }}">
+    <meta property="og:image" content="{{ get_file_v(isset($SuperadminData['metaimage']) ? $SuperadminData['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png') }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ env('APP_URL') }}">
     <meta property="twitter:title" content="{{ isset($SuperadminData['metatitle']) ? $SuperadminData['metatitle'] : 'EcommerceGo' }}">
     <meta property="twitter:description" content="{{ isset($SuperadminData['metadesc']) ? $SuperadminData['metadesc'] : 'Discover the efficiency of EcommerceGo, a user-friendly web application by Workdo.io.'}} ">
-    <meta property="twitter:image" content="{{ get_file(isset($SuperadminData['metaimage']) ? $SuperadminData['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png')  }}{{'?'.time() }}">
+    <meta property="twitter:image" content="{{ get_file_v(isset($SuperadminData['metaimage']) ? $SuperadminData['metaimage'] : 'storage/uploads/ecommercego-saas-preview.png') }}">
 
     <title>{{ isset($setting['title_text']) ? $setting['title_text'] : ( env('APP_NAME') ?? 'Ecommercego saas') }} - @yield('page-title') </title>
 
@@ -100,7 +100,7 @@
         {{-- Kill-switch: Use legacy 28 separate CSS links instead of bundled Vite entry. --}}
         <link rel="stylesheet" href="{{ asset('assets/css/plugins/select2.min.css') }}">
         <!-- Favicon icon -->
-        <link rel="icon" href="{{ isset($setting['favicon']) ? get_file($setting['favicon']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/favicon.png')) . '?timestamp=' . time() }}" type="image/x-icon" />
+        <link rel="icon" href="{{ isset($setting['favicon']) ? get_file_v($setting['favicon']) : get_file_v(asset(Storage::url('uploads/logo/favicon.png'))) }}" type="image/x-icon" />
 
         <!-- notification css -->
         <link rel="stylesheet" href="{{ asset('assets/css/plugins/notifier.css') }}">
@@ -119,20 +119,20 @@
 
         @if (isset($setting['cust_darklayout']) && isset($setting['SITE_RTL']) && $setting['cust_darklayout'] == 'on' && $setting['SITE_RTL'] == 'on')
             <link rel="stylesheet" href="{{ asset('public/assets/css/rtl-style-dark.css') }}" id="main-style-link">
-            <link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-            <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}" >
+            <link rel="stylesheet" href="{{ asset_v('css/rtl-custom.css') }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset_v('css/rtl-loader.css') }}" >
         @elseif(isset($setting['cust_darklayout']) && $setting['cust_darklayout'] == 'on')
             <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
-            <link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-            <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
+            <link rel="stylesheet" href="{{ asset_v('css/custom.css') }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}" >
         @elseif(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on')
             <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" id="main-style-link">
-            <link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-            <link rel="stylesheet" href="{{ asset('css/rtl-loader.css') }}{{ '?v=' . time() }}" >
+            <link rel="stylesheet" href="{{ asset_v('css/rtl-custom.css') }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset_v('css/rtl-loader.css') }}" >
         @else
             <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
-            <link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
-            <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
+            <link rel="stylesheet" href="{{ asset_v('css/custom.css') }}"  id="main-style-custom-link">
+            <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}" >
         @endif
 
         <link rel="stylesheet" href="{{ asset('assets/css/plugins/flatpickr.min.css') }}">
@@ -147,7 +147,7 @@
     @else
         {{-- New (P3): Bundle all admin CSS into 4 variants (RTL/LTR × dark/light) --}}
         <!-- Favicon icon -->
-        <link rel="icon" href="{{ isset($setting['favicon']) ? get_file($setting['favicon']) . '?timestamp=' . time() : asset(Storage::url('uploads/logo/favicon.png')) . '?timestamp=' . time() }}" type="image/x-icon" />
+        <link rel="icon" href="{{ isset($setting['favicon']) ? get_file_v($setting['favicon']) : get_file_v(asset(Storage::url('uploads/logo/favicon.png'))) }}" type="image/x-icon" />
 
         @vite(['resources/css/' . $adminCssVariant . '.css'])
 

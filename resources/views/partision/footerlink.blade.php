@@ -37,11 +37,11 @@
 <script src="{{ asset('assets/js/plugins/notifier.js') }}"></script>
 <script src="{{ asset('assets/js/pages/ac-notification.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/choices.min.js') }}{{ "?".time() }}"></script>
+<script src="{{ asset_v('assets/js/plugins/choices.min.js') }}"></script>
 <script src="{{ asset('assets/css/summernote/summernote-bs4.js')}}"></script>
 <script src="{{ asset('assets/js/plugins/flatpickr.min.js') }}"></script>
 <script src="{{ asset('js/socialSharing.js') }}"></script>
-<script src="{{ asset('js/custom.js') }}{{ "?".time() }}"></script>
+<script src="{{ asset_v('js/custom.js') }}"></script>
 <script src="{{ asset('js/jquery.form.js') }}"></script>
 <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
 <script src="{{ asset('public/assets/js/plugins/dropzone.min.js') }}"></script>

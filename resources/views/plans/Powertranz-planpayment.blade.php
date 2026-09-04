@@ -4,16 +4,16 @@
 <link rel="icon" href="{{ asset('assets/images/powertranz_payment_images/powertranz.png') }}">
 @if (isset($setting['cust_darklayout']) && isset($setting['SITE_RTL']) && $setting['cust_darklayout'] == 'on' && $setting['SITE_RTL'] == 'on')
 <link rel="stylesheet" href="{{ asset('public/assets/css/rtl-style-dark.css') }}" id="main-style-link">
-<link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+<link rel="stylesheet" href="{{ asset_v('css/rtl-custom.css') }}"  id="main-style-custom-link">
 @elseif(isset($setting['cust_darklayout']) && $setting['cust_darklayout'] == 'on')
 <link rel="stylesheet" href="{{ asset('assets/css/style-dark.css') }}" id="main-style-link">
-<link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+<link rel="stylesheet" href="{{ asset_v('css/custom.css') }}"  id="main-style-custom-link">
 @elseif(isset($setting['SITE_RTL']) && $setting['SITE_RTL'] == 'on')
 <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" id="main-style-link">
-<link rel="stylesheet" href="{{ asset('css/rtl-custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+<link rel="stylesheet" href="{{ asset_v('css/rtl-custom.css') }}"  id="main-style-custom-link">
 @else
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link">
-<link rel="stylesheet" href="{{ asset('css/custom.css') }}{{ '?v=' . time() }}"  id="main-style-custom-link">
+<link rel="stylesheet" href="{{ asset_v('css/custom.css') }}"  id="main-style-custom-link">
 @endif
 <style>
     .payment-info-form{

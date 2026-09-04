@@ -21,7 +21,7 @@ $company_logo = get_file($company_logo);
             <div class="m-header">
                 <a href="{{ route('dashboard') }}" class="b-brand">
                     <!-- ========   change your logo hear   ============ -->
-                    <img src="{{ isset($company_logo) && !empty($company_logo) ? $company_logo . '?timestamp=' . time() : $logo . '/logo-dark.svg' . '?timestamp=' . time() }}"
+                    <img src="{{ isset($company_logo) && !empty($company_logo) ? get_file_v($company_logo) : get_file_v($logo . '/logo-dark.svg') }}"
                         alt="" class="logo logo-lg" />
                 </a>
             </div>

@@ -1,7 +1,7 @@
 
    
-    <link rel="stylesheet" href="{{ asset('css/loader.css') }}{{ '?v=' . time() }}" >
-     <link rel="stylesheet" href="{{ asset('assets/css/plugins/notifier.css') }}{{ '?v=' . time() }}" >
+    <link rel="stylesheet" href="{{ asset_v('css/loader.css') }}" >
+     <link rel="stylesheet" href="{{ asset_v('assets/css/plugins/notifier.css') }}" >
      
         @if((isset($loader_show) && $loader_show != 'no') || !isset($loader_show))
         <div id="loader" class="loader-wrapper" style="display: none;">

@@ -16,14 +16,14 @@
     <meta property="og:url" content="{{ env('APP_URL') }}">
     <meta property="og:title" content="{{ !empty($admin_settings['meta_title']) ? $admin_settings['meta_title'] : 'EcommerceGo' }}">
     <meta property="og:description" content="{{ !empty($admin_settings['meta_description']) ? $admin_settings['meta_description'] : 'Discover the efficiency of Dash, a user-friendly web application by WorkDo.io Apps.'}} ">
-    <meta property="og:image" content="{{ get_file( (!empty($admin_settings['meta_image'])) ? (check_file($admin_settings['meta_image'])) ?  $admin_settings['meta_image'] : 'uploads/meta/meta_image.png' : 'uploads/meta/meta_image.png'  ) }}{{'?'.time() }}">
+    <meta property="og:image" content="{{ get_file_v( (!empty($admin_settings['meta_image'])) ? (check_file($admin_settings['meta_image'])) ?  $admin_settings['meta_image'] : 'uploads/meta/meta_image.png' : 'uploads/meta/meta_image.png'  ) }}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ env('APP_URL') }}">
     <meta property="twitter:title" content="{{ !empty($admin_settings['meta_title']) ? $admin_settings['meta_title'] : 'EcommerceGo' }}">
     <meta property="twitter:description" content="{{ !empty($admin_settings['meta_description']) ? $admin_settings['meta_description'] : 'Discover the efficiency of Dash, a user-friendly web application by WorkDo.io Apps.'}} ">
-    <meta property="twitter:image" content="{{ get_file( (!empty($admin_settings['meta_image'])) ? (check_file($admin_settings['meta_image'])) ?  $admin_settings['meta_image'] : 'uploads/meta/meta_image.png' : 'uploads/meta/meta_image.png'  ) }}{{'?'.time() }}">
+    <meta property="twitter:image" content="{{ get_file_v( (!empty($admin_settings['meta_image'])) ? (check_file($admin_settings['meta_image'])) ?  $admin_settings['meta_image'] : 'uploads/meta/meta_image.png' : 'uploads/meta/meta_image.png'  ) }}">
 
     <meta name="author" content="Workdo.io">
 
@@ -31,7 +31,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
-    <link rel="icon" href="{{ (!empty($admin_settings['favicon']) && check_file($admin_settings['favicon'])) ? get_file($admin_settings['favicon']) : get_file('uploads/logo/favicon.png')}}{{'?'.time()}}" type="image/x-icon" />
+    <link rel="icon" href="{{ (!empty($admin_settings['favicon']) && check_file($admin_settings['favicon'])) ? get_file_v($admin_settings['favicon']) : get_file_v('uploads/logo/favicon.png')}}" type="image/x-icon" />
 
 
     <link
@@ -60,7 +60,7 @@
                 <div class="navigationbar-row d-flex align-items-center justify-content-between">
                     <div class="logo-col">
                         <a href="{{ route('start') }}">
-                            <img src="{{ get_file(sidebar_logo()) }}{{'?'.time()}}">
+                            <img src="{{ get_file_v(sidebar_logo()) }}">
                         </a>
                     </div>
                     <div class="menu-items-col">
@@ -116,7 +116,7 @@
             <div class="footer-top">
                 <div class="footer-logo">
                     <a href="{{ route('start') }}">
-                        <img src="{{ get_file(light_logo()) }}{{'?'.time()}}" alt="">
+                        <img src="{{ get_file_v(light_logo()) }}" alt="">
                     </a>
                 </div>
                 <div class="divider-line"></div>

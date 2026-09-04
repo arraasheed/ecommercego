@@ -153,6 +153,33 @@ The brand settings page has live preview toggles for dark mode and RTL. The foot
 
 This preserves all functionality without modifying `footerlink.blade.php`.
 
+## Cache-buster: `time()` → mtime (P5 — CLAUDE-3)
+
+`?v=time()` মানে প্রতি সেকেন্ডে নতুন URL, তাই ব্রাউজার কোনো ফাইলই cache করতে
+পারত না। `asset_v()` / `get_file_v()` helper এখন `filemtime()` ব্যবহার করে —
+ফাইল বদলালেই URL বদলায়, নাহলে নয়।
+
+| মেট্রিক | BEFORE (`time()`) | AFTER (mtime) |
+|---|---|---|
+| দ্বিতীয় লোডে disk-cache থেকে আসা resource | 0 / 32 | **31 / 32** (বাকি ১টি 304) |
+| versioned URL ২ সেকেন্ড পর একই থাকে? | ❌ প্রতিবার নতুন | ✅ স্থির |
+| `custom.css` (84 KB) প্রতি পেজে | পুনরায় ডাউনলোড | disk cache |
+| `html2pdf.bundle.min.js` (469 KB) | পুনরায় ডাউনলোড | disk cache |
+| `choices.min.js` (173 KB) | পুনরায় ডাউনলোড | disk cache |
+| Workbox precache সম্ভব? | ❌ | ✅ |
+
+`Cache-Control` header (`.htaccess`, `mod_headers`): `/build/**` →
+`31536000, immutable` · font → `31536000` · image → `2592000` ·
+অন্য css/js → `604800` · HTML → Laravel-এর `no-cache, private` অপরিবর্তিত।
+
+pixel-diff (kill-switch on vs off, ৪ পেজ): dashboard **0**, login **0**,
+settings ও storefront ১ পিক্সেল = anti-aliasing noise (পরপর দুইবার তোলা
+বেসলাইন স্ক্রিনশটেও একই ১ পিক্সেল)। ApexCharts animation অঞ্চল mask করা।
+
+kill-switch: `LEGACY_ASSET_TIME_BUSTER=true` — তিনটি helper একসাথে পুরোনো
+`time()` আচরণে ফিরে যায়, কোনো blade ছোঁয়া লাগে না। বিস্তারিত:
+`.ai/reports/cache-buster-map.md`
+
 ## পরিবর্তিত ফাইল (সব দিন)
 
 | ফাইল | কী হলো | ডে |
@@ -168,9 +195,12 @@ This preserves all functionality without modifying `footerlink.blade.php`.
 | `resources/css/admin-rtl-light.css` 🆕 | Admin RTL + light theme bundle entry | ১ |
 | `resources/css/admin-rtl-dark.css` 🆕 | Admin RTL + dark theme bundle entry | ১ |
 | `vite.config.js` | 4 admin entries added (P3 bundling) | ১ |
-| `.env.example` | `LEGACY_TAILWIND_CDN=false`, `LEGACY_ADMIN_CSS=false` | ১ |
+| `.env.example` | `LEGACY_TAILWIND_CDN=false`, `LEGACY_ADMIN_CSS=false`, `LEGACY_ASSET_TIME_BUSTER=false` | ১ |
 | `resources/views/layouts/app.blade.php` | Compute `$adminCssVariant`, add `@if LEGACY_ADMIN_CSS` kill-switch, use `@vite`, add placeholder links | ১ |
 | `.htaccess` | rewrite whitelist-এ `build` যোগ (উপরে বাগ ১) | ১ |
+| `.htaccess` | `Cache-Control` block যোগ (P5, BEGIN/END কমেন্ট = kill-switch) | ১ |
+| `app/Helper/helper.php` | ৩টি নতুন function append: `asset_version()`, `asset_v()`, `get_file_v()` — বিদ্যমান কোড অপরিবর্তিত | ১ |
+| ২১টি blade (`layouts/`, `partision/`, `plans/`, `marketplace/`, `setting/`, `order/`, `support/`, `vendor/installer/`) | ৪২টি `time()` cache-buster → helper call | ১ |
 | `themes/stylique/views/front_end/layouts/app.blade.php` | kill-switch: `@if (env('LEGACY_TAILWIND_CDN', false))` | ১ |
 | `themes/stylique/assets/js/custom.js` | `window.tailwind = window.tailwind \|\| {}` guard | ১ |
 
@@ -194,8 +224,14 @@ public/build/assets/app-Cs0QkU1O.js       78.50 kB │ gzip: 29.14 kB
 ```env
 LEGACY_TAILWIND_CDN=false   # Vite (ডিফল্ট)
 LEGACY_TAILWIND_CDN=true    # Play CDN ফিরে আসে
+
+LEGACY_ADMIN_CSS=false      # ৪টি bundle (ডিফল্ট)
+LEGACY_ADMIN_CSS=true       # ২৮টি আলাদা link ফিরে আসে
+
+LEGACY_ASSET_TIME_BUSTER=false  # mtime versioning (ডিফল্ট)
+LEGACY_ASSET_TIME_BUSTER=true   # ?v=time() ফিরে আসে
 ```
-দুই দিকেই পরীক্ষিত — `php artisan config:clear` দিয়ে সাথে সাথে কাজ করে।
+তিনটিই দুই দিকে পরীক্ষিত — `php artisan config:clear` দিয়ে সাথে সাথে কাজ করে।
 
 ---
 

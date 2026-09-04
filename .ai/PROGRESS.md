@@ -172,13 +172,24 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 
 ## 📊 সামগ্রিক অবস্থা
 
-**বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1, GEMINI-2, CLAUDE-1 সম্পন্ন
-**সর্বশেষ আপডেট:** Day 1 (CLAUDE-1 শেষ — Play CDN সরানো, ৫ পেজে pixel-diff শূন্য)
-**সর্বশেষ কমিট:** `c69e14a` — fix(vite): storefront bundle loads + renders identically [CLAUDE-1]
+**বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1, GEMINI-2, CLAUDE-1, CLAUDE-2, BULK-1, CLAUDE-3 সম্পন্ন
+**সর্বশেষ আপডেট:** Day 1 (CLAUDE-3 শেষ — cache-buster mtime-ভিত্তিক, ৩২টি resource-এর ৩১টি এখন disk cache থেকে আসে)
+**সর্বশেষ কমিট:** `4e1ab1f` — perf(cache): replace time() cache-busters with mtime-based versioning [CLAUDE-3]
 **সক্রিয় branch:** `day1/asset-pipeline`
 
-**Day 1 ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → ~~CLAUDE-1~~ → **CLAUDE-2 এখন চালানো যায়**
-BULK-1 স্বাধীন, যেকোনো সময় চালানো যায়।
+**Day 1 ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → ~~CLAUDE-1~~ → ~~CLAUDE-2~~ → ~~BULK-1~~ → ~~CLAUDE-3~~ → **CLAUDE-4 (Day 1 ব্রাউজার টেস্ট + Lighthouse) এখন চালানো যায়**
+
+⚠️ **CLAUDE-4-এর জন্য গুরুত্বপূর্ণ (CLAUDE-3 থেকে):**
+- Lighthouse/benchmark নেওয়ার আগে **cache warm করতে হবে** — প্রথম লোডে সব
+  200 আসবে, দ্বিতীয় লোড থেকেই mtime-caching-এর লাভ দেখা যাবে। "cache
+  disabled" মোডে মাপলে P5-এর উন্নতি সংখ্যায় ধরা পড়বে না।
+- Admin dashboard-এর ApexCharts radial chart (`Storage Status`) প্রতি
+  render-এ ভিন্ন animation frame-এ ধরা পড়ে। pixel-diff করলে ওই অঞ্চল
+  (`80,3390 – 340,3700` @ 407px viewport) mask করতে হবে, নাহলে ~1000 px
+  মিথ্যা diff আসবে।
+- `partision/head.blade.php:52`-এ `css/custome.css` — বানান ভুল, ফাইল নেই,
+  404 দেয়। CLAUDE-3-এ ইচ্ছাকৃতভাবে ছোঁয়া হয়নি (সংশোধন করলে হঠাৎ নতুন CSS
+  চালু হয়ে ডিজাইন বদলাতে পারে)। CLAUDE-4-এ সিদ্ধান্ত নিতে হবে।
 
 ⚠️ **CLAUDE-2-এর জন্য গুরুত্বপূর্ণ (CLAUDE-1 থেকে শেখা):**
 - root `.htaccess`-এর rewrite whitelist-এ `build` যোগ করা আছে। ওই লাইন
@@ -222,7 +233,7 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 | GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | `c945b79` | রিপোর্ট → `.ai/reports/tailwind-classes.md` · ⚠️ safelist অসম্পূর্ণ — যাচাই: `.ai/reports/gemini2-verification.md`, CLAUDE-1 এ ৪টি class যোগ করতে হবে |
 | CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` → `c69e14a` | Play CDN 466KB সরানো · FCP −148ms, LCP −196ms, TBT −66% · ৫ পেজে pixel-diff = 0 · রিপোর্ট → `.ai/reports/benchmark.md` |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ✅ DONE | `9d4d831` | CSS requests 20→2 (−90%), CSS bytes 994→755.7 KB (−24%), LCP −80ms · 4 variants (RTL/dark) · kill-switch `LEGACY_ADMIN_CSS` · রিপোর্ট → `.ai/reports/admin-css-map.md` · benchmark updated |
-| CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
+| CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ✅ DONE | `4e1ab1f` | ২১ ফাইল / ৪২ জায়গা · disk-cache 0→31 (৩২টির মধ্যে) · helper: `asset_v()`, `get_file_v()`, `asset_version()` · `.htaccess` Cache-Control · kill-switch `LEGACY_ASSET_TIME_BUSTER` · pixel-diff 0 · রিপোর্ট → `.ai/reports/cache-buster-map.md` |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ✅ DONE | `f9e6f11` | ৪৫ img: ২৬ lazy + ৯ eager(LCP) + ৮ আগে থেকে · ব্যতিক্রম ২ (FB pixel, commented) · রিপোর্ট → `.ai/reports/img-lazy-report.md` · missing dims → `.ai/reports/img-missing-dimensions.md` |
 | CLAUDE-4  Day 1 ব্রাউজার টেস্ট + Lighthouse | Claude | ⬜ PENDING | — | before/after সংখ্যা |
 

@@ -2480,3 +2480,152 @@ if (!function_exists('getAiModelName')) {
         ];
     }
 }
+
+if (!function_exists('asset_version')) {
+    /**
+     * Stable cache-busting token for a locally served asset URL.
+     *
+     * Returns the file's mtime, or null when the file cannot be located on
+     * disk - a remote storage disk (S3 / Wasabi / CDN), a wrong path, or a
+     * file that lives outside the document root. Callers decide what to do
+     * with null, because the safe fallback differs per asset type.
+     *
+     * @param  string  $url  Absolute or root-relative URL
+     * @return string|null
+     */
+    function asset_version($url)
+    {
+        static $cache = [];
+
+        if (array_key_exists($url, $cache)) {
+            return $cache[$url];
+        }
+
+        // Memoised as "unknown" first: several layouts ask for the same file
+        // more than once per request and there is no reason to stat it twice.
+        $cache[$url] = null;
+
+        try {
+            $path = parse_url($url, PHP_URL_PATH);
+
+            if (!is_string($path) || $path === '') {
+                return null;
+            }
+
+            // A different host means the file is on a remote disk, so there is
+            // nothing local to stat.
+            $host = parse_url($url, PHP_URL_HOST);
+            $appHost = parse_url(asset('/'), PHP_URL_HOST);
+
+            if (!empty($host) && !empty($appHost) && $host !== $appHost) {
+                return null;
+            }
+
+            // Strip the install's base path so sub-directory installs
+            // (http://host/shop/css/x.css) resolve too.
+            $base = rtrim((string) parse_url(asset('/'), PHP_URL_PATH), '/');
+            $relative = $path;
+
+            if ($base !== '' && str_starts_with($relative, $base . '/')) {
+                $relative = substr($relative, strlen($base));
+            }
+
+            $relative = ltrim(rawurldecode($relative), '/');
+
+            if ($relative === '') {
+                return null;
+            }
+
+            // The document root is the project root and the root .htaccess
+            // rewrites /css/... to /public/css/..., so public_path() is the
+            // first candidate. base_path() covers the handful of call sites
+            // that point at project-root folders instead.
+            $candidates = [public_path($relative), base_path($relative)];
+
+            if (str_starts_with($relative, 'public/')) {
+                array_unshift($candidates, public_path(substr($relative, 7)));
+            }
+
+            foreach ($candidates as $file) {
+                if (is_file($file)) {
+                    $cache[$url] = (string) filemtime($file);
+                    break;
+                }
+            }
+        } catch (\Throwable $th) {
+            // Any failure keeps the memoised null; the caller falls back.
+        }
+
+        return $cache[$url];
+    }
+}
+
+if (!function_exists('asset_v')) {
+    /**
+     * Asset URL with a stable cache-busting version based on file mtime.
+     *
+     * Replaces the `asset('x.css') . '?v=' . time()` pattern (P5). time()
+     * minted a brand new URL every second, so no browser - and no service
+     * worker - could ever reuse a cached copy. filemtime() only changes when
+     * the file itself changes, so the URL stays stable while still
+     * guaranteeing a fresh fetch right after an edit.
+     *
+     * Falls back to '1' when the file is missing: an absent file is a deploy
+     * mistake, and time() there would reintroduce the very problem this fixes.
+     *
+     * Kill-switch: LEGACY_ASSET_TIME_BUSTER=true in .env restores the old
+     * time() behaviour without touching a single blade file.
+     *
+     * @param  string  $path  Public-relative path, e.g. 'css/custom.css'
+     * @return string
+     */
+    function asset_v($path)
+    {
+        $url = asset($path);
+        $separator = str_contains($url, '?') ? '&' : '?';
+
+        if (env('LEGACY_ASSET_TIME_BUSTER', false)) {
+            return $url . $separator . 'v=' . time();
+        }
+
+        return $url . $separator . 'v=' . (asset_version($url) ?? '1');
+    }
+}
+
+if (!function_exists('get_file_v')) {
+    /**
+     * Versioned URL for a settings-driven / uploaded file (logo, favicon).
+     *
+     * Same idea as asset_v(), but for files that come from get_file() and can
+     * therefore live on a remote disk. Accepts either a storage path or an
+     * already-built absolute URL.
+     *
+     * Falls back to time() rather than '1' when the file cannot be located:
+     * for an uploaded logo a frozen URL would mean the admin keeps seeing the
+     * old image after replacing it, which is a functional regression. Local
+     * installs always resolve, so they get real caching.
+     *
+     * @param  string  $path  Storage path or absolute URL
+     * @return string
+     */
+    function get_file_v($path)
+    {
+        if (empty($path)) {
+            return $path;
+        }
+
+        $url = preg_match('#^(https?:)?//#i', (string) $path) ? (string) $path : get_file($path);
+
+        if (empty($url)) {
+            return $url;
+        }
+
+        $separator = str_contains($url, '?') ? '&' : '?';
+
+        if (env('LEGACY_ASSET_TIME_BUSTER', false)) {
+            return $url . $separator . 'timestamp=' . time();
+        }
+
+        return $url . $separator . 'timestamp=' . (asset_version($url) ?? time());
+    }
+}

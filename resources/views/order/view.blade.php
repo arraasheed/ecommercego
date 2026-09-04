@@ -578,7 +578,7 @@
 @endsection
 
 @push('custom-script')
-    <script src="{{ asset('js/html2pdf.bundle.min.js') }}{{ '?' . time() }}"></script>
+    <script src="{{ asset_v('js/html2pdf.bundle.min.js') }}"></script>
     <script>
         var filename = $('#filesname').val();
 
