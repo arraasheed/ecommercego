@@ -98,16 +98,18 @@ git log আর PROGRESS.md না মিললে git-কে সত্য ধর
 |---|---|
 | প্রজেক্ট পাথ | `C:\laragon\www\ecommercego` |
 | APP_URL (`.env`) | `http://ecommercego.dev` |
-| Storefront URL | `http://ecommercego.dev/{store-slug}` |
+| Storefront URL | `http://ecommercego.dev/{store-slug}/home` ⚠️ `/home` লাগে — শুধু slug দিলে 404 |
 | Admin URL | `http://ecommercego.dev/login` |
-| ⚠️ URL যাচাই | Day 0-এ `ecommercego.dev`, `ecommercego.test`, `localhost/ecommercego` — **তিনটিই unreachable**। Laragon বন্ধ ছিল। প্রথম ব্রাউজার টেস্টের আগে Laragon চালু করতে হবে এবং সঠিক URL এখানে লিখতে হবে। |
-| DB | MySQL — `ecommercego` |
+| ✅ URL যাচাই | Day 1-এ Laragon চালু, `http://ecommercego.dev` কাজ করছে। টেস্টে ব্যবহৃত: `http://ecommercego.dev/stylique/home` |
+| টেস্ট store | `id=2`, slug `stylique`. ⚠️ `theme_id` ছিল `greentic` — CLAUDE-1-এ `stylique` করা হয়েছে (DB আপডেট, কোড নয়) |
+| ⚠️ DB-তে ডেটা | `products` টেবিল **খালি** (0 row), `categories` খালি। তাই cart/checkout flow টেস্ট করা যায় না |
+| DB | MySQL — `ecommercego` · CLI: `C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysql.exe -uroot ecommercego` |
 | CACHE_DRIVER / CACHE_STORE | `file` ⚠️ (Redis-এ বদলানো হবে — CLAUDE-9) |
 | SESSION_DRIVER | `file` ⚠️ |
-| Server | Laragon (Apache) |
+| Server | Laragon (Apache) — **docroot প্রজেক্ট root, `public/` নয়**। root `.htaccess` whitelist দিয়ে rewrite করে |
 | Node / npm | `v26.4.0` / `11.17.0` ✅ |
 | Playwright Chromium | `chromium-1234`, `chromium-1243` ইনস্টল ✅ |
-| git branch | `master` |
+| git branch | `day1/asset-pipeline` |
 | git baseline tag | `baseline-v0` → commit `17a47e9` |
 | **git remote** | `origin` → `https://github.com/arraasheed/ecommercego.git` (public) |
 
@@ -135,11 +137,10 @@ GitHub সেটিংসে ডিফল্ট `master` করতে পার�
 
 ### টেস্ট ক্রেডেনশিয়াল
 ```
-Admin  : (ব্যবহারকারী দেবেন — এখনো দেওয়া হয়নি)
-Store  : (ব্যবহারকারী দেবেন)
-Slug   : (ব্যবহারকারী দেবেন)
+Super Admin : superadmin@example.com / 1234
+Store Admin : admin@example.com / 1234
+Store slug  : stylique   (URL: http://ecommercego.dev/stylique/home)
 ```
-> Claude প্রথম ব্রাউজার টেস্টের আগে এগুলো চাইবে।
 
 ---
 
@@ -171,18 +172,23 @@ self-contained, আর অবস্থা git + PROGRESS.md + reports-এ লে
 
 ## 📊 সামগ্রিক অবস্থা
 
-**বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1 ও GEMINI-2 সম্পন্ন
-**সর্বশেষ আপডেট:** Day 1 (Gemini-র দুইটি অডিট শেষ, Claude যাচাই করেছে)
-**সর্বশেষ কমিট:** `c945b79` — tailwind class scan [GEMINI-2]
+**বর্তমান পর্যায়:** Day 1 চলছে — GEMINI-1, GEMINI-2, CLAUDE-1 সম্পন্ন
+**সর্বশেষ আপডেট:** Day 1 (CLAUDE-1 শেষ — Play CDN সরানো, ৫ পেজে pixel-diff শূন্য)
+**সর্বশেষ কমিট:** `a69d27e` — perf(vite): replace Tailwind Play CDN [CLAUDE-1]
 **সক্রিয় branch:** `day1/asset-pipeline`
 
-**Day 1 শুরুর ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → **CLAUDE-1 এখন চালানো যায়**
+**Day 1 ক্রম:** ~~GEMINI-1~~ → ~~GEMINI-2~~ → ~~CLAUDE-1~~ → **CLAUDE-2 এখন চালানো যায়**
 BULK-1 স্বাধীন, যেকোনো সময় চালানো যায়।
 
-⚠️ **CLAUDE-1 শুরুর আগে ব্যবহারকারীর কাছ থেকে দরকার:**
-- Laragon চালু (Day 0-এ তিনটি URL unreachable ছিল)
-- Admin login (email + password) ও একটি store slug
-এগুলো ছাড়া before/after বেঞ্চমার্ক নেওয়া যাবে না।
+⚠️ **CLAUDE-2-এর জন্য গুরুত্বপূর্ণ (CLAUDE-1 থেকে শেখা):**
+- root `.htaccess`-এর rewrite whitelist-এ `build` যোগ করা আছে। ওই লাইন
+  না থাকলে Vite-এর সব আউটপুট 404 দেয় এবং পেজ সম্পূর্ণ unstyled হয়।
+- admin bundle-এ `tailwind.config.js` (forms plugin সহ) ব্যবহার করবে;
+  storefront-এর `tailwind.store.config.js` ছোঁবে না।
+- Vite bundle-এ CSS import করার আগে দেখো ভেতরে relative `url()` আছে কি না
+  (যেমন `all.min.css`-এ `../webfonts/`) — থাকলে আলাদা `<link>`-এ রাখো।
+- বিল্ডের পর **শুধু "build সফল" দেখে থামবে না** — ব্রাউজারে computed style
+  যাচাই করো (`getComputedStyle`), না হলে ভাঙা CSS ধরা পড়বে না।
 
 ---
 
@@ -214,7 +220,7 @@ BULK-1 স্বাধীন, যেকোনো সময় চালানো
 |---|---|---|---|---|
 | GEMINI-1  Asset inventory (`public/` 31MB অডিট) | Gemini | ✅ DONE | — | রিপোর্ট → `.ai/reports/asset-inventory.md` · Claude যাচাই: সংখ্যা নির্ভুল |
 | GEMINI-2  Tailwind class scan (Play CDN বাদ দিতে) | Gemini | ✅ DONE | `c945b79` | রিপোর্ট → `.ai/reports/tailwind-classes.md` · ⚠️ safelist অসম্পূর্ণ — যাচাই: `.ai/reports/gemini2-verification.md`, CLAUDE-1 এ ৪টি class যোগ করতে হবে |
-| CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` | Play CDN 466KB সরানো — LCP -271ms (29.6%), CLS 0.0 ✅ |
+| CLAUDE-1  Vite config + Tailwind build (P1 fix) | Claude | ✅ DONE | `a69d27e` + fix | Play CDN 466KB সরানো · FCP −148ms, LCP −196ms, TBT −66% · ৫ পেজে pixel-diff = 0 · রিপোর্ট → `.ai/reports/benchmark.md` |
 | CLAUDE-2  Admin ২৮ CSS → bundle (P3 fix) | Claude | ⬜ PENDING | — | |
 | CLAUDE-3  `?v=time()` সরানো (P5 fix) | Claude | ⬜ PENDING | — | ৭টি ফাইল |
 | BULK-1  Image → lazy + width/height | BULK মডেল | ⬜ PENDING | — | CLS fix |

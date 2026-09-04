@@ -1,18 +1,30 @@
-/* Store CSS - Tailwind JIT build for storefront */
-/* Replaces 466 KB Play CDN with build-time compilation */
-
-/* Theme-specific CSS files - using asset() helper path resolution */
+/*
+ * Storefront CSS bundle - replaces the 466 KB Tailwind Play CDN (P1).
+ *
+ * @import must come first: CSS requires @import to precede every other at-rule
+ * except @charset and @layer. With @config above them, postcss-import silently
+ * dropped both files and the bundle shipped without any theme CSS.
+ *
+ * NOT imported on purpose:
+ *   all.min.css   - Font Awesome, 93 KB, has relative url(../webfonts/*)
+ *                   references that would break once the file is fingerprinted
+ *                   into /build/assets/. Stays a separate <link>.
+ *   responsive.css - its media queries are already duplicated inside
+ *                   main-style.css; importing it would double them.
+ *   ltr.css / rtl.css - not loaded by the front-end layout today. Importing
+ *                   would introduce styles the Play CDN build never had.
+ */
 @import url('../../themes/stylique/assets/css/swiper-bundle.min.css');
 @import url('../../themes/stylique/assets/css/main-style.css');
 
-/* Tailwind layers */
+/*
+ * Uses tailwind.store.config.js rather than the root tailwind.config.js so the
+ * @tailwindcss/forms plugin stays OFF here. The Play CDN never loaded that
+ * plugin, and enabling it visibly changes every storefront input.
+ * Details: .ai/reports/benchmark.md
+ */
+@config "../../tailwind.store.config.js";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Override base font to match Play CDN config */
-@layer base {
-  html {
-    @apply font-sans;
-  }
-}
